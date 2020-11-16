@@ -1,7 +1,7 @@
 # Проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Михаил](https://up.htmlacademy.ru/ecmascript/13/user/40316).
-* Наставник: `Неизвестно`.
+* Наставник: `Иван Шалагин`.
 
 ---
 
