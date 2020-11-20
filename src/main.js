@@ -4,12 +4,8 @@ import {createTripFilter} from "./view/trip-filter";
 import {createLoading} from "./view/loading";
 import {createList} from "./view/list";
 import {createListEmpty} from "./view/list-empty";
-import {createListFilter} from "./view/list-filter";
-import {createListSort} from "./view/list-sort";
 import {createTripSort} from "./view/trip-sort";
-import {createAddNewPoint} from './view/add-new-point';
-import {createAddNewPointWithoutOffers} from './view/add-new-point-without-offers';
-import {createAddNewPointWithoutDesctination} from './view/add-new-point-without-destination';
+import {createPoint} from './view/point';
 import {createEditPoint} from './view/edit-point';
 
 const render = (container, template, place) => {
@@ -25,12 +21,8 @@ render(siteTripMainElement, createTripInfo(), `afterbegin`);
 render(siteTripControlsElement, createTripTabs(), `afterbegin`);
 render(siteTripControlsElement, createTripFilter(), `beforeend`);
 render(siteTripEventsElement, createTripSort(), `afterbegin`);
-render(siteTripEventsElement, createAddNewPoint(), `beforeend`);
-render(siteTripEventsElement, createAddNewPointWithoutOffers(), `beforeend`);
-render(siteTripEventsElement, createAddNewPointWithoutDesctination(), `beforeend`);
+render(siteTripEventsElement, createPoint(), `beforeend`);
 render(siteTripEventsElement, createEditPoint(), `beforeend`);
 render(siteTripEventsElement, createList(), `beforeend`);
-render(siteTripEventsElement, createListFilter(), `beforeend`);
-render(siteTripEventsElement, createListSort(), `beforeend`);
 render(siteTripEventsElement, createListEmpty(), `beforeend`);
 render(siteTripEventsElement, createLoading(), `beforeend`);
