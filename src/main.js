@@ -8,8 +8,11 @@ import {createTripSort} from './view/trip-sort';
 import {createNewPoint} from './view/new-point';
 import {createEditPoint} from './view/edit-point';
 import {createPoint} from './view/point';
+import {generateEvent} from '../mock/event';
 
-const POINT_COUNT = 3;
+const EVENT_COUNT = 3;
+
+const tasks = new Array(EVENT_COUNT).fill().map(generateEvent);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -31,9 +34,11 @@ const siteTripEventsListElement = siteTripEventsElement.querySelector(`.trip-eve
 render(siteTripEventsListElement, createEditPoint(), `afterbegin`);
 render(siteTripEventsListElement, createNewPoint(), `beforeend`);
 
-for (let i = 0; i < POINT_COUNT; i++) {
-  render(siteTripEventsListElement, createPoint(), `beforeend`);
+for (let i = 0; i < EVENT_COUNT; i++) {
+  render(siteTripEventsListElement, createPoint(tasks[i]), `beforeend`);
 }
+
+console.log(tasks);
 
 render(siteTripEventsListElement, createListEmpty(), `beforeend`);
 render(siteTripEventsListElement, createLoading(), `beforeend`);
