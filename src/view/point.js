@@ -3,13 +3,17 @@ import dayjs from "dayjs";
 export const createPoint = (point) => {
   const {
     cities,
+    eventType,
     dueDate,
     time,
     travelTime,
     price,
     isFavorite,
-    fullPrice
+    fullPrice,
+    order
   } = point;
+
+  const eventTypeImage = eventType.toLowerCase();
 
   const date = dueDate !== null
     ? dayjs(dueDate).format(`D MMM`)
@@ -24,9 +28,9 @@ export const createPoint = (point) => {
     <div class="event">
       <time class="event__date" datetime="2019-03-18">${date}</time>
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/drive.png" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${eventTypeImage}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">Drive ${cities}</h3>
+      <h3 class="event__title">${eventType} ${cities}</h3>
       <div class="event__schedule">
         <p class="event__time">
           <time class="event__start-time" datetime="2019-03-18T14:30">${time.start}</time>
@@ -41,7 +45,7 @@ export const createPoint = (point) => {
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
         <li class="event__offer">
-          <span class="event__offer-title">Rent a car</span>
+          <span class="event__offer-title">${order}</span>
           &plus;&euro;&nbsp;
           <span class="event__offer-price">${price}</span>
         </li>
