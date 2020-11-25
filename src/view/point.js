@@ -9,7 +9,7 @@ export const createPoint = (point) => {
     travelTime,
     price,
     isFavorite,
-    fullPrice,
+    // fullPrice,
     order
   } = point;
 
@@ -40,7 +40,7 @@ export const createPoint = (point) => {
         <p class="event__duration">${travelTime}</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">${fullPrice}</span>
+        &euro;&nbsp;<span class="event__price-value">300</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">

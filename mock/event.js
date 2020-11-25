@@ -51,7 +51,7 @@ const generateEventType = () => {
   return type[randomIndex];
 };
 
-const generateDectination = () => {
+const generateDestination = () => {
   const text = [
     `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,
     `Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
@@ -77,22 +77,32 @@ const generateOrderTitle = () => {
   return title[randomIndex];
 };
 
-export const generateEvent = () => {
-  const date = generateDate();
+const generatePhotos = () => {
+  const photos = [];
+  const randomIndex = getRandomInteger(0, 5);
 
+  for (let i = 0; i < randomIndex; i++) {
+    photos.unshift(`http://picsum.photos/248/152?r=${Math.random()}`);
+  }
+
+  return photos;
+};
+
+export const generateEvent = () => {
   return {
-    date,
+    date: generateDate(),
     cities: generateCities(),
     eventType: generateEventType(),
     price: Math.floor(Math.random() * 1001),
-    fullPrice: `300`,
+    // fullPrice: `300`,
     time: {
       start: `13:00`,
       end: `16:00`
     },
     travelTime: `3H`,
     isFavorite: Boolean(getRandomInteger(0, 1)),
-    destination: generateDectination(),
+    destination: generateDestination(),
+    photos: generatePhotos(),
     order: generateOrderTitle(),
   };
 };

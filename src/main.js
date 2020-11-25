@@ -10,7 +10,7 @@ import {createEditPoint} from './view/edit-point';
 import {createPoint} from './view/point';
 import {generateEvent} from '../mock/event';
 
-const EVENT_COUNT = 3;
+const EVENT_COUNT = 20;
 
 const tasks = new Array(EVENT_COUNT).fill().map(generateEvent);
 
@@ -37,8 +37,6 @@ render(siteTripEventsListElement, createNewPoint(), `beforeend`);
 for (let i = 0; i < EVENT_COUNT; i++) {
   render(siteTripEventsListElement, createPoint(tasks[i]), `beforeend`);
 }
-
-console.log(tasks);
 
 render(siteTripEventsListElement, createListEmpty(), `beforeend`);
 render(siteTripEventsListElement, createLoading(), `beforeend`);
