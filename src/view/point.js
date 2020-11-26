@@ -9,7 +9,6 @@ export const createPoint = (point) => {
     travelTime,
     price,
     isFavorite,
-    // fullPrice,
     order
   } = point;
 

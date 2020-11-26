@@ -31,10 +31,10 @@ render(siteTripEventsElement, createList(), `beforeend`);
 
 const siteTripEventsListElement = siteTripEventsElement.querySelector(`.trip-events__list`);
 
-render(siteTripEventsListElement, createEditPoint(), `afterbegin`);
+render(siteTripEventsListElement, createEditPoint(tasks[0]), `afterbegin`);
 render(siteTripEventsListElement, createNewPoint(), `beforeend`);
 
-for (let i = 0; i < EVENT_COUNT; i++) {
+for (let i = 1; i < EVENT_COUNT; i++) {
   render(siteTripEventsListElement, createPoint(tasks[i]), `beforeend`);
 }
 

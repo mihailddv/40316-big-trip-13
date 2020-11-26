@@ -88,6 +88,43 @@ const generatePhotos = () => {
   return photos;
 };
 
+const generateOffers = () => {
+  const offers = [
+    {
+      id: 1,
+      name: `Add luggage`,
+      offerPrice: `80`,
+      isChecked: true,
+    },
+    {
+      id: 2,
+      name: `Switch to comfort`,
+      offerPrice: `15`,
+      isChecked: true,
+    },
+    {
+      id: 3,
+      name: `Add meal`,
+      offerPrice: `5`,
+      isChecked: false,
+    },
+    {
+      id: 4,
+      name: `Choose seats`,
+      offerPrice: `40`,
+      isChecked: false,
+    },
+    {
+      id: 5,
+      name: `Travel by train`,
+      offerPrice: `45`,
+      isChecked: false,
+    },
+  ];
+
+  return offers;
+};
+
 export const generateEvent = () => {
   return {
     date: generateDate(),
@@ -104,5 +141,6 @@ export const generateEvent = () => {
     destination: generateDestination(),
     photos: generatePhotos(),
     order: generateOrderTitle(),
+    offers: generateOffers(),
   };
 };
