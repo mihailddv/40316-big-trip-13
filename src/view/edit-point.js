@@ -13,6 +13,17 @@ export const createEditPoint = (point = {}) => {
     offers,
   } = point;
 
+  const createDetailsSection = () => {
+    return `
+    ${(offers.length || destination.length) ? `
+      <section class="event__details">
+        ${offersSection}
+        ${destinationSection}
+      </section>
+    ` : ``}
+    `;
+  };
+
   const createOffersSection = () => {
     return `
     ${offers.length ? `<section class="event__section  event__section--offers">
@@ -22,31 +33,45 @@ export const createEditPoint = (point = {}) => {
         ${offersTemplate}
       </div>
     </section>
-    ` : null}
+    ` : ``}
+    `;
+  };
+
+  const createDesctinationSection = () => {
+    return `
+    ${destination.length ? `<section class="event__section  event__section--destination">
+      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+      <p class="event__destination-description">${destination}</p>
+    </section>
+    ` : ``}
     `;
   };
 
   const createOffers = () => {
     return /* html */`
       ${offers.map(({id, name, offerPrice, isChecked}) => /* html */`
-        <input
-          class="event__offer-checkbox visually-hidden"
-          id="event-offer-${id}"
-          type="checkbox"
-          name="event-offer-${id}"
-          ${isChecked ? `checked` : ``}
-        >
-        <label class="event__offer-label" for="event-offer-${id}">
-          <span class="event__offer-title">${name}</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">${offerPrice}</span>
-        </label>
+        <div class="event__offer-selector">
+          <input
+            class="event__offer-checkbox visually-hidden"
+            id="event-offer-${id}"
+            type="checkbox"
+            name="event-offer-${id}"
+            ${isChecked ? `checked` : ``}
+          >
+          <label class="event__offer-label" for="event-offer-${id}">
+            <span class="event__offer-title">${name}</span>
+            &plus;&euro;&nbsp;
+            <span class="event__offer-price">${offerPrice}</span>
+          </label>
+        </div>
       `).join(``)}
     `;
   };
 
   const offersTemplate = createOffers(offers);
   const offersSection = createOffersSection();
+  const destinationSection = createDesctinationSection();
+  const detailsSection = createDetailsSection();
 
   return /* html*/ `
   <li class="trip-events__item">
@@ -156,14 +181,9 @@ export const createEditPoint = (point = {}) => {
           <span class="visually-hidden">Open event</span>
         </button>
       </header>
-      <section class="event__details">
-        ${offersSection}
 
-        <section class="event__section  event__section--destination">
-          <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">${destination}</p>
-        </section>
-      </section>
+      ${detailsSection}
+
     </form>
   </li>
   `;
