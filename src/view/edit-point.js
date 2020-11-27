@@ -11,6 +11,7 @@ export const createEditPoint = (point = {}) => {
     // order,
     destination,
     offers,
+    photos,
   } = point;
 
   const createDetailsSection = () => {
@@ -43,6 +44,21 @@ export const createEditPoint = (point = {}) => {
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">${destination}</p>
     </section>
+    ` : ``}
+    `;
+  };
+
+  // TODO: Не рендерится
+  const createPhotosSection = () => {
+    return `
+    ${photos.length ? `
+      <div class="event__photos-container">
+        <div class="event__photos-tape">
+          ${photos.map(({photoPath}) => `
+            <img class="event__photo" src="${photoPath}" alt="Event photo">
+          `).join(``)}
+        </div>
+      </div>
     ` : ``}
     `;
   };

@@ -82,7 +82,7 @@ const generatePhotos = () => {
   const randomIndex = getRandomInteger(0, 5);
 
   for (let i = 0; i < randomIndex; i++) {
-    photos.unshift(`http://picsum.photos/248/152?r=${Math.random()}`);
+    photos.unshift({photoPath: `http://picsum.photos/248/152?r=${Math.random()}`});
   }
 
   return photos;
