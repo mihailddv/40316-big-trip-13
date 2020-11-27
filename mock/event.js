@@ -1,11 +1,7 @@
 import dayjs from "dayjs";
 
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
+import {getRandomInteger} from '../src/utils';
+import {EVENT_TYPE} from '../src/const';
 
 const generateCities = () => {
   const cities = [
@@ -33,22 +29,9 @@ const generateDate = () => {
 };
 
 const generateEventType = () => {
-  const type = [
-    `taxi`,
-    `bus`,
-    `train`,
-    `ship`,
-    `transport`,
-    `drive`,
-    `flight`,
-    // `checkIn`,
-    `sightseeing`,
-    `restaurant`,
-  ];
+  const randomIndex = getRandomInteger(0, EVENT_TYPE.length - 1);
 
-  const randomIndex = getRandomInteger(0, type.length - 1);
-
-  return type[randomIndex];
+  return EVENT_TYPE[randomIndex];
 };
 
 const generateDestination = () => {
