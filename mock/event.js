@@ -46,18 +46,33 @@ const generateDestination = () => {
   return text[randomIndex];
 };
 
-const generateOrderTitle = () => {
-  const title = [
-    `Add luggage`,
-    `Book tickets`,
-    `Lunch in city`,
-    `Rent a car`,
-    `Order Uber`,
+const generateOrdersList = () => {
+  const orders = [
+    {
+      name: `Add luggage`,
+      price: 10,
+    },
+    {
+      name: `Book tickets`,
+      price: 20,
+    },
+    {
+      name: `Lunch in city`,
+      price: 30,
+    },
+    {
+      name: `Rent a car`,
+      price: 50,
+    },
+    {
+      name: `Order Uber`,
+      price: 40,
+    },
   ];
 
-  const randomIndex = getRandomInteger(0, title.length - 1);
+  const randomIndex = getRandomInteger(0, orders.length - 1);
 
-  return title[randomIndex];
+  return orders[randomIndex];
 };
 
 const generatePhotos = () => {
@@ -123,7 +138,7 @@ export const generateEvent = () => {
     isFavorite: Boolean(getRandomInteger(0, 1)),
     destination: generateDestination(),
     photos: generatePhotos(),
-    order: generateOrderTitle(),
+    orders: generateOrdersList(),
     offers: generateOffers(),
   };
 };

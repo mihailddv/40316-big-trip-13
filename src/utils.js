@@ -4,3 +4,22 @@ export const getRandomInteger = (a = 0, b = 1) => {
 
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
+
+export const calculateTotal = () => {
+  const eventPrice = document.querySelectorAll(`.event__price-value`);
+  const offerPrice = document.querySelectorAll(`.event__offer-price`);
+  const fullPrice = document.querySelector(`.trip-info__cost-value`);
+  const list = [];
+  const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+  function calculateType(type) {
+    type.forEach((item) => {
+      const value = Number(item.innerHTML);
+      list.unshift(value);
+    });
+  }
+
+  calculateType(eventPrice);
+  calculateType(offerPrice);
+  fullPrice.innerHTML = list.reduce(reducer);
+};

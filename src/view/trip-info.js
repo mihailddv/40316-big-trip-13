@@ -7,7 +7,7 @@ export const createTripInfo = () => {
     </div>
 
     <p class="trip-info__cost">
-      Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
+      Total: &euro;&nbsp;<span class="trip-info__cost-value"></span>
     </p>
   </section>`;
 };

@@ -9,7 +9,7 @@ export const createPoint = (point) => {
     travelTime,
     price,
     isFavorite,
-    order
+    orders
   } = point;
 
   const date = dueDate !== null
@@ -37,14 +37,14 @@ export const createPoint = (point) => {
         <p class="event__duration">${travelTime}</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">300</span>
+        &euro;&nbsp;<span class="event__price-value">${price}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
         <li class="event__offer">
-          <span class="event__offer-title">${order}</span>
+          <span class="event__offer-title">${orders.name}</span>
           &plus;&euro;&nbsp;
-          <span class="event__offer-price">${price}</span>
+          <span class="event__offer-price">${orders.price}</span>
         </li>
       </ul>
       <button class="event__favorite-btn  ${favoriteClassName}" type="button">

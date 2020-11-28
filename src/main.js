@@ -9,6 +9,7 @@ import {createTripSort} from './view/trip-sort';
 import {createEditPoint} from './view/edit-point';
 import {createPoint} from './view/point';
 import {generateEvent} from '../mock/event';
+import {calculateTotal} from './utils';
 
 const EVENT_COUNT = 20;
 
@@ -40,3 +41,5 @@ for (let i = 1; i < EVENT_COUNT; i++) {
 
 render(siteTripEventsListElement, createListEmpty(), `beforeend`);
 render(siteTripEventsListElement, createLoading(), `beforeend`);
+
+calculateTotal();
