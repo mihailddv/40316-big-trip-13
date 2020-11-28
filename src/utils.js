@@ -20,9 +20,10 @@ export const humanizeEditPointTime = (dueDate) => {
 };
 
 export const calculateTotal = () => {
-  const eventPrice = document.querySelectorAll(`.event__price-value`);
-  const offerPrice = document.querySelectorAll(`.event__offer-price`);
-  const fullPrice = document.querySelector(`.trip-info__cost-value`);
+  const page = document.querySelector(`.page-body`);
+  const eventPrice = page.querySelectorAll(`.event__price-value`);
+  const offerPrice = page.querySelectorAll(`.event__offer-price`);
+  const fullPrice = page.querySelector(`.trip-info__cost-value`);
   const list = [];
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
