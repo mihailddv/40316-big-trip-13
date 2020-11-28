@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 import {getRandomInteger} from '../src/utils';
 import {EVENT_TYPE} from '../src/const';
 
@@ -16,16 +14,9 @@ const generateCities = () => {
 };
 
 const generateDate = () => {
-  const isDate = Boolean(getRandomInteger(0, 1));
+  const randomDate = new Date(+(new Date()) - Math.floor(Math.random() * 10000000000));
 
-  if (!isDate) {
-    return null;
-  }
-
-  const maxDaysGap = 31;
-  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
-
-  return dayjs().add(daysGap, `day`).toDate();
+  return randomDate;
 };
 
 const generateEventType = () => {
@@ -129,7 +120,6 @@ export const generateEvent = () => {
     cities: generateCities(),
     eventType: generateEventType(),
     price: Math.floor(Math.random() * 1001),
-    // fullPrice: `300`,
     time: {
       start: `13:00`,
       end: `16:00`

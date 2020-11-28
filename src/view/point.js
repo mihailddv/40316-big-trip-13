@@ -1,20 +1,17 @@
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
+import {humanizePointDate} from "../utils";
 
 export const createPoint = (point) => {
   const {
     cities,
     eventType,
-    dueDate,
+    date,
     time,
     travelTime,
     price,
     isFavorite,
     orders
   } = point;
-
-  const date = dueDate !== null
-    ? dayjs(dueDate).format(`D MMM`)
-    : ``;
 
   const favoriteClassName = isFavorite
     ? `event__favorite-btn--active`
@@ -23,7 +20,7 @@ export const createPoint = (point) => {
   return /* html */ `
   <li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="2019-03-18">${date}</time>
+      <time class="event__date" datetime="${date}">${humanizePointDate(date)}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${eventType.image}.png" alt="Event type icon">
       </div>
