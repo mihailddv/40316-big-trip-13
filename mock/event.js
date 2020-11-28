@@ -14,7 +14,7 @@ const generateCities = () => {
 };
 
 const generateDate = () => {
-  const randomDate = new Date(+(new Date()) - Math.floor(Math.random() * 10000000000));
+  const randomDate = new Date(+(new Date()) + Math.floor(Math.random() * 1000000000));
 
   return randomDate;
 };
