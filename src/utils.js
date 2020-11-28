@@ -15,6 +15,10 @@ export const humanizeEventTime = (dueDate) => {
   return dayjs(dueDate).format(`HH:mm`);
 };
 
+export const humanizeEditPointTime = (dueDate) => {
+  return dayjs(dueDate).format(`DD/MM/YY HH:mm`);
+};
+
 export const calculateTotal = () => {
   const eventPrice = document.querySelectorAll(`.event__price-value`);
   const offerPrice = document.querySelectorAll(`.event__offer-price`);

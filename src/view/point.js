@@ -1,4 +1,3 @@
-// import dayjs from "dayjs";
 import {humanizePointDate, humanizeEventTime} from "../utils";
 
 export const createPoint = (point) => {
