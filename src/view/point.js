@@ -22,7 +22,7 @@ export const createPoint = (point) => {
     ? `event__favorite-btn--active`
     : ``;
 
-  return /* html*/ `
+  return /* html */ `
   <li class="trip-events__item">
     <div class="event">
       <time class="event__date" datetime="2019-03-18">${date}</time>

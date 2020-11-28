@@ -48,7 +48,6 @@ export const createEditPoint = (point = {}) => {
     `;
   };
 
-  // TODO: Не рендерится
   const createPhotosSection = () => {
     return `
     ${photos.length ? `
@@ -88,8 +87,9 @@ export const createEditPoint = (point = {}) => {
   const offersSection = createOffersSection();
   const destinationSection = createDesctinationSection();
   const detailsSection = createDetailsSection();
+  const photosSection = createPhotosSection();
 
-  return /* html*/ `
+  return /* html */ `
   <li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
@@ -199,6 +199,8 @@ export const createEditPoint = (point = {}) => {
       </header>
 
       ${detailsSection}
+
+      ${photosSection}
 
     </form>
   </li>

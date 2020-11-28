@@ -5,7 +5,7 @@ import {createLoading} from './view/loading';
 import {createList} from './view/list';
 import {createListEmpty} from './view/list-empty';
 import {createTripSort} from './view/trip-sort';
-import {createNewPoint} from './view/new-point';
+// import {createNewPoint} from './view/new-point';
 import {createEditPoint} from './view/edit-point';
 import {createPoint} from './view/point';
 import {generateEvent} from '../mock/event';
@@ -32,7 +32,7 @@ render(siteTripEventsElement, createList(), `beforeend`);
 const siteTripEventsListElement = siteTripEventsElement.querySelector(`.trip-events__list`);
 
 render(siteTripEventsListElement, createEditPoint(tasks[0]), `afterbegin`);
-render(siteTripEventsListElement, createNewPoint(), `beforeend`);
+// render(siteTripEventsListElement, createNewPoint(), `beforeend`);
 
 for (let i = 1; i < EVENT_COUNT; i++) {
   render(siteTripEventsListElement, createPoint(tasks[i]), `beforeend`);
