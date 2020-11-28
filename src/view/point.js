@@ -1,13 +1,13 @@
 // import dayjs from "dayjs";
-import {humanizePointDate} from "../utils";
+import {humanizePointDate, humanizeEventTime} from "../utils";
 
 export const createPoint = (point) => {
   const {
-    cities,
+    city,
     eventType,
-    date,
-    time,
-    travelTime,
+    dateStart,
+    dateEnd,
+    travelHours,
     price,
     isFavorite,
     orders
@@ -20,18 +20,18 @@ export const createPoint = (point) => {
   return /* html */ `
   <li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="${date}">${humanizePointDate(date)}</time>
+      <time class="event__date" datetime="${dateStart}">${humanizePointDate(dateStart)}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${eventType.image}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${eventType.name} ${cities}</h3>
+      <h3 class="event__title">${eventType.name} ${city}</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T14:30">${time.start}</time>
+          <time class="event__start-time" datetime="${dateStart}">${humanizeEventTime(dateStart)}</time>
           &mdash;
-          <time class="event__end-time" datetime="2019-03-18T16:05">${time.end}</time>
+          <time class="event__end-time" datetime="${dateEnd}">${humanizeEventTime(dateEnd)}</time>
         </p>
-        <p class="event__duration">${travelTime}</p>
+        <p class="event__duration">${travelHours}H</p>
       </div>
       <p class="event__price">
         &euro;&nbsp;<span class="event__price-value">${price}</span>

@@ -13,8 +13,14 @@ const generateCities = () => {
   return cities[randomIndex];
 };
 
-const generateDate = () => {
+const generateStartDate = () => {
   const randomDate = new Date(+(new Date()) + Math.floor(Math.random() * 1000000000));
+
+  return randomDate;
+};
+
+const generateEndDate = (dateStart) => {
+  const randomDate = new Date(+(dateStart) + Math.floor(Math.random() * 100000000));
 
   return randomDate;
 };
@@ -115,20 +121,30 @@ const generateOffers = () => {
 };
 
 export const generateEvent = () => {
+  const dateStart = generateStartDate();
+  const dateEnd = generateEndDate(dateStart);
+  const travelTime = dateEnd - dateStart;
+  const travelHours = Math.floor(travelTime / 3600 / 1000);
+  const city = generateCities();
+  const eventType = generateEventType();
+  const price = Math.floor(Math.random() * 1001);
+  const isFavorite = Boolean(getRandomInteger(0, 1));
+  const destination = generateDestination();
+  const photos = generatePhotos();
+  const orders = generateOrdersList();
+  const offers = generateOffers();
+
   return {
-    date: generateDate(),
-    cities: generateCities(),
-    eventType: generateEventType(),
-    price: Math.floor(Math.random() * 1001),
-    time: {
-      start: `13:00`,
-      end: `16:00`
-    },
-    travelTime: `3H`,
-    isFavorite: Boolean(getRandomInteger(0, 1)),
-    destination: generateDestination(),
-    photos: generatePhotos(),
-    orders: generateOrdersList(),
-    offers: generateOffers(),
+    dateStart,
+    dateEnd,
+    travelHours,
+    city,
+    eventType,
+    price,
+    isFavorite,
+    destination,
+    photos,
+    orders,
+    offers,
   };
 };
