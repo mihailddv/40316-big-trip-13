@@ -40,16 +40,25 @@ const renderEvent = (eventListElement, event) => {
 
   eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
     replaceCardToForm();
+    document.addEventListener(`keydown`, onEscKeyDown);
   });
 
   eventEditComponent.getElement().querySelector(`.event--edit`).addEventListener(`submit`, (evt) => {
     evt.preventDefault();
     replaceFormToCard();
+    document.removeEventListener(`keydown`, onEscKeyDown);
   });
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      replaceFormToCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
 
   render(eventListElement, eventComponent.getElement(), RenderPosition.BEFOREEND);
 };
-
 
 render(siteTripMainElement, new TripInfoView().getElement(), RenderPosition.AFTERBEGIN);
 render(siteTripControlsElement, new TripTabsView().getElement(), RenderPosition.AFTERBEGIN);
