@@ -1,14 +1,19 @@
+import {
+  calculateTotal,
+  renderElement,
+  RenderPosition
+} from './utils';
+
 import TripInfoView from './view/trip-info';
 import TripTabsView from './view/trip-tabs';
 import TripFilterView from './view/trip-filter';
-// import {createLoading} from './view/loading';
 import ListView from './view/list';
-// import {createListEmpty} from './view/list-empty';
-import {createTripSort} from './view/trip-sort';
+import TripSortView from './view/trip-sort';
 import PointEditView from './view/edit-point';
 import PointView from './view/point';
 import {generateEvent} from '../mock/event';
-import {renderTemplate, calculateTotal, renderElement, RenderPosition} from './utils';
+// import {createListEmpty} from './view/list-empty';
+// import {createLoading} from './view/loading';
 // import {generateFilter} from '../mock/filter';
 
 const EVENT_COUNT = 20;
@@ -24,7 +29,7 @@ const eventListComponent = new ListView();
 renderElement(siteTripMainElement, new TripInfoView().getElement(), RenderPosition.AFTERBEGIN);
 renderElement(siteTripControlsElement, new TripTabsView().getElement(), RenderPosition.AFTERBEGIN);
 renderElement(siteTripControlsElement, new TripFilterView().getElement(), RenderPosition.BEFOREEND);
-renderTemplate(siteTripEventsElement, createTripSort(), `afterbegin`);
+renderElement(siteTripEventsElement, new TripSortView().getElement(), RenderPosition.AFTERBEGIN);
 renderElement(siteTripEventsElement, eventListComponent.getElement(), RenderPosition.BEFOREEND);
 renderElement(eventListComponent.getElement(), new PointEditView(events[0]).getElement(), RenderPosition.BEFOREEND);
 
