@@ -63,5 +63,8 @@ export const calculateTotal = () => {
 
   calculateType(eventPrice);
   calculateType(offerPrice);
-  fullPrice.innerHTML = list.reduce(reducer);
+
+  if (list.length) {
+    fullPrice.innerHTML = list.reduce(reducer);
+  }
 };

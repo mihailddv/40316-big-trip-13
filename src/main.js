@@ -17,8 +17,8 @@ import {generateEvent} from '../mock/event';
 // import {generateFilter} from '../mock/filter';
 
 const EVENT_COUNT = 20;
-
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
+
 
 const siteMainElement = document.querySelector(`.page-body`);
 const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);
@@ -26,15 +26,23 @@ const siteTripControlsElement = siteTripMainElement.querySelector(`.trip-control
 const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
 const eventListComponent = new ListView();
 
+const renderEvent = (eventListElement, event) => {
+  const eventComponent = new PointView(event);
+  const eventEditComponent = new PointEditView(event);
+
+  render(eventListElement, eventComponent.getElement(), RenderPosition.BEFOREEND);
+};
+
+
 render(siteTripMainElement, new TripInfoView().getElement(), RenderPosition.AFTERBEGIN);
 render(siteTripControlsElement, new TripTabsView().getElement(), RenderPosition.AFTERBEGIN);
 render(siteTripControlsElement, new TripFilterView().getElement(), RenderPosition.BEFOREEND);
 render(siteTripEventsElement, new TripSortView().getElement(), RenderPosition.AFTERBEGIN);
 render(siteTripEventsElement, eventListComponent.getElement(), RenderPosition.BEFOREEND);
-render(eventListComponent.getElement(), new PointEditView(events[0]).getElement(), RenderPosition.BEFOREEND);
+// render(eventListComponent.getElement(), new PointEditView(events[0]).getElement(), RenderPosition.BEFOREEND);
 
-for (let i = 1; i < EVENT_COUNT; i++) {
-  render(eventListComponent.getElement(), new PointView(events[i]).getElement(), RenderPosition.BEFOREEND);
+for (let i = 0; i < EVENT_COUNT; i++) {
+  renderEvent(eventListComponent.getElement(), events[i]);
 }
 
 // render(siteTripEventsListElement, createListEmpty(), `beforeend`);
