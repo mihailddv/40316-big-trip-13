@@ -1,6 +1,6 @@
 import {
   calculateTotal,
-  renderElement,
+  render,
   RenderPosition
 } from './utils';
 
@@ -26,15 +26,15 @@ const siteTripControlsElement = siteTripMainElement.querySelector(`.trip-control
 const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
 const eventListComponent = new ListView();
 
-renderElement(siteTripMainElement, new TripInfoView().getElement(), RenderPosition.AFTERBEGIN);
-renderElement(siteTripControlsElement, new TripTabsView().getElement(), RenderPosition.AFTERBEGIN);
-renderElement(siteTripControlsElement, new TripFilterView().getElement(), RenderPosition.BEFOREEND);
-renderElement(siteTripEventsElement, new TripSortView().getElement(), RenderPosition.AFTERBEGIN);
-renderElement(siteTripEventsElement, eventListComponent.getElement(), RenderPosition.BEFOREEND);
-renderElement(eventListComponent.getElement(), new PointEditView(events[0]).getElement(), RenderPosition.BEFOREEND);
+render(siteTripMainElement, new TripInfoView().getElement(), RenderPosition.AFTERBEGIN);
+render(siteTripControlsElement, new TripTabsView().getElement(), RenderPosition.AFTERBEGIN);
+render(siteTripControlsElement, new TripFilterView().getElement(), RenderPosition.BEFOREEND);
+render(siteTripEventsElement, new TripSortView().getElement(), RenderPosition.AFTERBEGIN);
+render(siteTripEventsElement, eventListComponent.getElement(), RenderPosition.BEFOREEND);
+render(eventListComponent.getElement(), new PointEditView(events[0]).getElement(), RenderPosition.BEFOREEND);
 
 for (let i = 1; i < EVENT_COUNT; i++) {
-  renderElement(eventListComponent.getElement(), new PointView(events[i]).getElement(), RenderPosition.BEFOREEND);
+  render(eventListComponent.getElement(), new PointView(events[i]).getElement(), RenderPosition.BEFOREEND);
 }
 
 // render(siteTripEventsListElement, createListEmpty(), `beforeend`);
