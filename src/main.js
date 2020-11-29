@@ -8,11 +8,11 @@ import TripInfoView from './view/trip-info';
 import TripTabsView from './view/trip-tabs';
 import TripFilterView from './view/trip-filter';
 import ListView from './view/list';
+import ListEmptyView from './view/list-empty';
 import TripSortView from './view/trip-sort';
 import PointEditView from './view/edit-point';
 import PointView from './view/point';
 import {generateEvent} from '../mock/event';
-// import {createListEmpty} from './view/list-empty';
 // import {createLoading} from './view/loading';
 // import {generateFilter} from '../mock/filter';
 
@@ -65,13 +65,15 @@ render(siteTripControlsElement, new TripTabsView().getElement(), RenderPosition.
 render(siteTripControlsElement, new TripFilterView().getElement(), RenderPosition.BEFOREEND);
 render(siteTripEventsElement, new TripSortView().getElement(), RenderPosition.AFTERBEGIN);
 render(siteTripEventsElement, eventListComponent.getElement(), RenderPosition.BEFOREEND);
-// render(eventListComponent.getElement(), new PointEditView(events[0]).getElement(), RenderPosition.BEFOREEND);
 
-for (let i = 0; i < EVENT_COUNT; i++) {
-  renderEvent(eventListComponent.getElement(), events[i]);
+if (events.length) {
+  for (let i = 0; i < EVENT_COUNT; i++) {
+    renderEvent(eventListComponent.getElement(), events[i]);
+  }
+} else {
+  render(siteTripEventsElement, new ListEmptyView().getElement(), RenderPosition.BEFOREEND);
 }
 
-// render(siteTripEventsListElement, createListEmpty(), `beforeend`);
 // render(siteTripEventsListElement, createLoading(), `beforeend`);
 
 calculateTotal();
