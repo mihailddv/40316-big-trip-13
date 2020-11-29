@@ -1,5 +1,5 @@
 export const createList = () => {
-  return /* html*/ `
+  return /* html */ `
     <ul class="trip-events__list"></ul>
   `;
 };
