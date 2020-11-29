@@ -9,37 +9,31 @@ import {createTripSort} from './view/trip-sort';
 import {createEditPoint} from './view/edit-point';
 import {createPoint} from './view/point';
 import {generateEvent} from '../mock/event';
-import {calculateTotal} from './utils';
+import {renderTemplate, calculateTotal} from './utils';
 // import {generateFilter} from '../mock/filter';
 
 const EVENT_COUNT = 20;
 
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
 
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
-// const filters = generateFilter(events);
-
 const siteMainElement = document.querySelector(`.page-body`);
 const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);
 const siteTripControlsElement = siteTripMainElement.querySelector(`.trip-controls`);
 const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
 
-render(siteTripMainElement, createTripInfo(), `afterbegin`);
-render(siteTripControlsElement, createTripTabs(), `afterbegin`);
-render(siteTripControlsElement, createTripFilter(), `beforeend`);
-render(siteTripEventsElement, createTripSort(), `afterbegin`);
-render(siteTripEventsElement, createList(), `beforeend`);
+renderTemplate(siteTripMainElement, createTripInfo(), `afterbegin`);
+renderTemplate(siteTripControlsElement, createTripTabs(), `afterbegin`);
+renderTemplate(siteTripControlsElement, createTripFilter(), `beforeend`);
+renderTemplate(siteTripEventsElement, createTripSort(), `afterbegin`);
+renderTemplate(siteTripEventsElement, createList(), `beforeend`);
 
 const siteTripEventsListElement = siteTripEventsElement.querySelector(`.trip-events__list`);
 
-render(siteTripEventsListElement, createEditPoint(events[0]), `afterbegin`);
+renderTemplate(siteTripEventsListElement, createEditPoint(events[0]), `afterbegin`);
 // render(siteTripEventsListElement, createNewPoint(), `beforeend`);
 
 for (let i = 1; i < EVENT_COUNT; i++) {
-  render(siteTripEventsListElement, createPoint(events[i]), `beforeend`);
+  renderTemplate(siteTripEventsListElement, createPoint(events[i]), `beforeend`);
 }
 
 // render(siteTripEventsListElement, createListEmpty(), `beforeend`);
