@@ -1,6 +1,6 @@
-import {humanizePointDate, humanizeEventTime} from "../utils";
+import {humanizePointDate, humanizeEventTime, createElement} from "../utils";
 
-export const createPoint = (point) => {
+const createPointTemplate = (point) => {
   const {
     city,
     eventType,
@@ -16,8 +16,7 @@ export const createPoint = (point) => {
     ? `event__favorite-btn--active`
     : ``;
 
-  return /* html */ `
-  <li class="trip-events__item">
+  return /* html */ `<li class="trip-events__item">
     <div class="event">
       <time class="event__date" datetime="${dateStart}">${humanizePointDate(dateStart)}</time>
       <div class="event__type">
@@ -56,3 +55,25 @@ export const createPoint = (point) => {
   </li>
   `;
 };
+export default class Point {
+  constructor(point) {
+    this.point = point;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPointTemplate(this.point);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
