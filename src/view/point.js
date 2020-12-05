@@ -1,5 +1,5 @@
 import AbstractView from "./abstract.js";
-import {humanizePointDate, humanizeEventTime} from "../utils";
+import {humanizePointDate, humanizeEventTime} from "../utils/point";
 
 const createPointTemplate = (point) => {
   const {

@@ -1,6 +1,6 @@
 import AbstractView from "./abstract.js";
 import {EVENT_TYPE} from '../const';
-import {humanizeEditPointTime} from '../utils';
+import {humanizeEditPointTime} from '../utils/point';
 
 export const createEditPointTemplate = (point = {}) => {
 

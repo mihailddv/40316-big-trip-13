@@ -1,4 +1,4 @@
-import {getRandomInteger} from '../src/utils';
+import {getRandomInteger} from '../src/utils/common';
 import {EVENT_TYPE} from '../src/const';
 
 const generateCities = () => {
