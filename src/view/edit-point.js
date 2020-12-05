@@ -1,5 +1,6 @@
+import AbstractView from "./abstract.js";
 import {EVENT_TYPE} from '../const';
-import {humanizeEditPointTime, createElement} from '../utils';
+import {humanizeEditPointTime} from '../utils';
 
 export const createEditPointTemplate = (point = {}) => {
 
@@ -192,25 +193,13 @@ export const createEditPointTemplate = (point = {}) => {
   </li>
   `;
 };
-export default class PointEdit {
+export default class PointEdit extends AbstractView {
   constructor(point) {
+    super();
     this._point = point;
-    this._element = null;
   }
 
   getTemplate() {
     return createEditPointTemplate(this._point);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
