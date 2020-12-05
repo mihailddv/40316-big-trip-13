@@ -38,12 +38,11 @@ const renderEvent = (eventListElement, event) => {
     eventListElement.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
   };
 
-  eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  eventComponent.setEditClickHandler(() => {
     replaceCardToForm();
   });
 
-  eventEditComponent.getElement().querySelector(`.event--edit`).addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  eventEditComponent.setFormSubmitHandler(() => {
     replaceFormToCard();
   });
 
