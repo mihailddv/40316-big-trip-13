@@ -214,4 +214,9 @@ export default class PointEdit extends AbstractView {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
+
+  setCardArrowHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`.event--edit .event__rollup-btn`).addEventListener(`click`, this._formSubmitHandler);
+  }
 }
