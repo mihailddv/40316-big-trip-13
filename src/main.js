@@ -77,9 +77,9 @@ const renderPage = () => {
   render(siteTripEventsElement, eventListComponent, RenderPosition.BEFOREEND);
 
   if (events.length) {
-    for (let i = 0; i < EVENT_COUNT; i++) {
-      renderEvent(eventListComponent, events[i]);
-    }
+    events.forEach((event) => {
+      renderEvent(eventListComponent, event);
+    });
   } else {
     render(siteTripEventsElement, new ListEmptyView(), RenderPosition.BEFOREEND);
   }
