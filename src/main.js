@@ -19,7 +19,7 @@ import TripSortView from './view/trip-sort';
 import PointEditView from './view/edit-point';
 import PointView from './view/point';
 
-const EVENT_COUNT = 0;
+const EVENT_COUNT = 20;
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
 
 const siteMainElement = document.querySelector(`.page-body`);
