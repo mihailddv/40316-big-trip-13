@@ -8,16 +8,16 @@ import {
   calculateTotal,
 } from './utils/common';
 
+import {generateEvent} from '../mock/event';
+
 import TripInfoView from './view/trip-info';
 import TripTabsView from './view/trip-tabs';
 import TripFilterView from './view/trip-filter';
 import ListView from './view/list';
+import ListEmptyView from './view/list-empty';
 import TripSortView from './view/trip-sort';
 import PointEditView from './view/edit-point';
 import PointView from './view/point';
-import {generateEvent} from '../mock/event';
-// import {createListEmpty} from './view/list-empty';
-// import {createLoading} from './view/loading';
 
 const EVENT_COUNT = 20;
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
@@ -42,23 +42,47 @@ const renderEvent = (eventListElement, event) => {
 
   eventComponent.setEditClickHandler(() => {
     replaceCardToForm();
+    document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  eventEditComponent.setFormSubmitHandler(() => {
+  const closeCard = (evt) => {
+    evt.preventDefault();
     replaceFormToCard();
-  });
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  };
+
+  eventEditComponent.getElement().querySelector(`.event--edit`).addEventListener(`submit`, closeCard);
+
+  eventEditComponent.getElement().querySelector(`.event--edit .event__rollup-btn`).addEventListener(`click`, closeCard);
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      replaceFormToCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
 
   render(eventListElement, eventComponent, RenderPosition.BEFOREEND);
 };
 
-render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
-render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
-render(siteTripControlsElement, new TripFilterView(), RenderPosition.BEFOREEND);
-render(siteTripEventsElement, new TripSortView(), RenderPosition.AFTERBEGIN);
-render(siteTripEventsElement, eventListComponent, RenderPosition.BEFOREEND);
+const renderPage = () => {
+  render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
+  render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
+  render(siteTripControlsElement, new TripFilterView(), RenderPosition.BEFOREEND);
+  render(siteTripEventsElement, new TripSortView(), RenderPosition.AFTERBEGIN);
+  render(siteTripEventsElement, eventListComponent, RenderPosition.BEFOREEND);
 
-for (let i = 0; i < EVENT_COUNT; i++) {
-  renderEvent(eventListComponent, events[i]);
-}
+  if (events.length) {
+    for (let i = 0; i < EVENT_COUNT; i++) {
+      renderEvent(eventListComponent, events[i]);
+    }
+  } else {
+    render(siteTripEventsElement, new ListEmptyView(), RenderPosition.BEFOREEND);
+  }
 
-calculateTotal();
+  calculateTotal();
+};
+
+renderPage();
+
