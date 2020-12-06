@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import {createElement} from "../utils/common";
 
 export const createListEmptyTemplate = () => {
   return /* html */ `<p class="trip-events__msg">Click New Event to create your first point</p>`;
