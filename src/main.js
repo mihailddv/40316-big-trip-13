@@ -41,11 +41,15 @@ const renderEvent = (eventListElement, event) => {
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  eventEditComponent.getElement().querySelector(`.event--edit`).addEventListener(`submit`, (evt) => {
+  const closeCard = (evt) => {
     evt.preventDefault();
     replaceFormToCard();
     document.removeEventListener(`keydown`, onEscKeyDown);
-  });
+  };
+
+  eventEditComponent.getElement().querySelector(`.event--edit`).addEventListener(`submit`, closeCard);
+
+  eventEditComponent.getElement().querySelector(`.event--edit .event__rollup-btn`).addEventListener(`click`, closeCard);
 
   const onEscKeyDown = (evt) => {
     if (evt.key === `Escape` || evt.key === `Esc`) {
