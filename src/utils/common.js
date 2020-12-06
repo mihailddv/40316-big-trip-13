@@ -10,20 +10,21 @@ export const calculateTotal = () => {
   const eventPrice = page.querySelectorAll(`.event__price-value`);
   const offerPrice = page.querySelectorAll(`.event__offer-price`);
   const fullPrice = page.querySelector(`.trip-info__cost-value`);
-  const list = [];
+
+  const priceList = [];
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-  function calculateType(type) {
+  const calculateType = (type) => {
     type.forEach((item) => {
       const value = Number(item.innerHTML);
-      list.unshift(value);
+      priceList.unshift(value);
     });
-  }
+  };
 
   calculateType(eventPrice);
   calculateType(offerPrice);
 
-  if (list.length) {
-    fullPrice.innerHTML = list.reduce(reducer);
+  if (priceList.length) {
+    fullPrice.textContent = priceList.reduce(reducer);
   }
 };
