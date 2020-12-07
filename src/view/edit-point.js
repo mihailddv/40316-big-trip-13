@@ -1,5 +1,6 @@
+import AbstractView from "./abstract.js";
 import {EVENT_TYPE} from '../const';
-import {humanizeEditPointTime, createElement} from '../utils';
+import {humanizeEditPointTime} from '../utils/point';
 
 export const createEditPointTemplate = (point = {}) => {
 
@@ -192,25 +193,30 @@ export const createEditPointTemplate = (point = {}) => {
   </li>
   `;
 };
-export default class PointEdit {
+export default class PointEdit extends AbstractView {
   constructor(point) {
+    super();
     this._point = point;
-    this._element = null;
+
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   getTemplate() {
     return createEditPointTemplate(this._point);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  setCardArrowHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`.event--edit .event__rollup-btn`).addEventListener(`click`, this._formSubmitHandler);
   }
 }
