@@ -2,17 +2,14 @@ import {
   render,
   RenderPosition,
   replace,
-} from "./utils/render.js";
+} from "../utils/render.js";
 
 import PageView from '../view/trip-events';
-import TripInfoView from './view/trip-info';
-import TripTabsView from './view/trip-tabs';
-import TripFilterView from './view/trip-filter';
-import ListView from './view/list';
-import ListEmptyView from './view/list-empty';
-import TripSortView from './view/trip-sort';
-import PointEditView from './view/edit-point';
-import PointView from './view/point';
+import ListView from '../view/list';
+import ListEmptyView from '../view/list-empty';
+import TripSortView from '../view/trip-sort';
+import PointEditView from '../view/edit-point';
+import PointView from '../view/point';
 
 export default class Page {
   constructor(pageContainer) {
@@ -33,7 +30,7 @@ export default class Page {
     this._renderPage();
   }
 
-  _renderTask(event) {
+  _renderEvent(event) {
     const eventComponent = new PointView(event);
     const eventEditComponent = new PointEditView(event);
 
@@ -75,13 +72,11 @@ export default class Page {
   }
 
   _renderSort() {
-    // Метод для рендеринга сортировки
     render(this._pageComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
   }
 
-  _renderEvents(from, to) {
+  _renderEvents() {
     this._pageEvents
-      .slice(from, to)
       .forEach((pageEvent) => this._renderEvent(pageEvent));
   }
 
@@ -94,7 +89,7 @@ export default class Page {
   }
 
   _renderPage() {
-    if (!this._eventsTasks) {
+    if (!this._pageEvents) {
       this._renderNoEvents();
       return;
     }
