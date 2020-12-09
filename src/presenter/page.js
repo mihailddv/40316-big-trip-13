@@ -28,14 +28,50 @@ export default class Page {
     this._pageEvents = pageEvents.slice();
 
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
-    render(this._pageComponent, this._taskListComponent, RenderPosition.BEFOREEND);
+    render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
     this._renderPage();
   }
 
   _renderTask(event) {
-    // Метод, куда уйдёт логика созданию и рендерингу компонетов задачи,
-    // текущая функция renderTask в main.js
+    const eventComponent = new PointView(event);
+    const eventEditComponent = new PointEditView(event);
+
+    const replaceCardToForm = () => {
+      replace(eventEditComponent, eventComponent);
+    };
+
+    const replaceFormToCard = () => {
+      replace(eventComponent, eventEditComponent);
+    };
+
+    eventComponent.setEditClickHandler(() => {
+      replaceCardToForm();
+      document.addEventListener(`keydown`, onEscKeyDown);
+    });
+
+    const closeCard = () => {
+      replaceFormToCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    };
+
+    eventEditComponent.setFormSubmitHandler(() => {
+      closeCard();
+    });
+
+    eventEditComponent.setCardArrowHandler(() => {
+      closeCard();
+    });
+
+    const onEscKeyDown = (evt) => {
+      if (evt.key === `Escape` || evt.key === `Esc`) {
+        evt.preventDefault();
+        replaceFormToCard();
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      }
+    };
+
+    render(this._eventsListComponent, eventComponent, RenderPosition.BEFOREEND);
   }
 
   _renderSort() {
