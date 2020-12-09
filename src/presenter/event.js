@@ -43,9 +43,9 @@ export default class Event {
     }
   }
 
-  // _handleEditClick() {
-  //   this._replaceCardToForm();
-  // }
+  _handleEditClick() {
+    this._replaceCardToForm();
+  }
 
   _handleFormSubmit() {
     this._replaceFormToCard();
