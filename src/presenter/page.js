@@ -1,15 +1,13 @@
 import {
   render,
   RenderPosition,
-  replace,
 } from "../utils/render.js";
 
+import EventPresenter from './event';
 import PageView from '../view/trip-events';
 import ListView from '../view/list';
 import ListEmptyView from '../view/list-empty';
 import TripSortView from '../view/trip-sort';
-import PointEditView from '../view/edit-point';
-import PointView from '../view/point';
 
 export default class Page {
   constructor(pageContainer) {
@@ -31,44 +29,8 @@ export default class Page {
   }
 
   _renderEvent(event) {
-    const eventComponent = new PointView(event);
-    const eventEditComponent = new PointEditView(event);
-
-    const replaceCardToForm = () => {
-      replace(eventEditComponent, eventComponent);
-    };
-
-    const replaceFormToCard = () => {
-      replace(eventComponent, eventEditComponent);
-    };
-
-    eventComponent.setEditClickHandler(() => {
-      replaceCardToForm();
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-    const closeCard = () => {
-      replaceFormToCard();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    };
-
-    eventEditComponent.setFormSubmitHandler(() => {
-      closeCard();
-    });
-
-    eventEditComponent.setCardArrowHandler(() => {
-      closeCard();
-    });
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        evt.preventDefault();
-        replaceFormToCard();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-
-    render(this._eventsListComponent, eventComponent, RenderPosition.BEFOREEND);
+    const eventPresenter = new EventPresenter(this._eventsListComponent);
+    eventPresenter.init(event);
   }
 
   _renderSort() {
