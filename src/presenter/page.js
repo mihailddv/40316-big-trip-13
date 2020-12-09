@@ -89,12 +89,16 @@ export default class Page {
     render(this._pageComponent, this._noEventsComponent, RenderPosition.AFTERBEGIN);
   }
 
+  _renderEventList() {
+    this._renderEvents(0, Math.min(this._pageEvents.length));
+  }
+
   _renderPage() {
     if (!this._eventsTasks) {
       this._renderNoEvents();
       return;
     }
 
-    this._renderEvents(0, Math.min(this._pageEvents.length));
+    this._renderEventList();
   }
 }
