@@ -33,7 +33,7 @@ export default class Page {
   }
 
   _renderEvent(event) {
-    const eventPresenter = new EventPresenter(this._eventsListComponent);
+    const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleEventChange);
     eventPresenter.init(event);
     this._eventPresenter[event.id] = eventPresenter;
   }
@@ -63,7 +63,7 @@ export default class Page {
   }
 
   _handleEventChange(updatedEvent) {
-    this._boardEvents = updateItem(this._boardTasks, updatedEvent);
+    this._boardEvents = updateItem(this._boardEvents, updatedEvent);
     this._eventPresenter[updatedEvent.id].init(updatedEvent);
   }
 
