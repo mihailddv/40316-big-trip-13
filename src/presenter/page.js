@@ -2,6 +2,7 @@ import {
   render,
   RenderPosition,
 } from "../utils/render.js";
+import {updateItem} from "../utils/common.js";
 
 import EventPresenter from './event';
 import PageView from '../view/trip-events';
@@ -18,6 +19,8 @@ export default class Page {
     this._sortComponent = new TripSortView();
     this._eventsListComponent = new ListView();
     this._noEventsComponent = new ListEmptyView();
+
+    this._handleEventChange = this._handleEventChange.bind(this);
   }
 
   init(pageEvents) {
@@ -57,6 +60,11 @@ export default class Page {
       .values(this._eventPresenter)
       .forEach((presenter) => presenter.destroy());
     this._eventPresenter = {};
+  }
+
+  _handleEventChange(updatedEvent) {
+    this._boardEvents = updateItem(this._boardTasks, updatedEvent);
+    this._eventPresenter[updatedEvent.id].init(updatedEvent);
   }
 
   _renderPage() {
