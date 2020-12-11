@@ -12,6 +12,7 @@ import TripSortView from '../view/trip-sort';
 export default class Page {
   constructor(pageContainer) {
     this._pageContainer = pageContainer;
+    this._eventPresenter = {};
 
     this._pageComponent = new PageView();
     this._sortComponent = new TripSortView();
@@ -31,6 +32,7 @@ export default class Page {
   _renderEvent(event) {
     const eventPresenter = new EventPresenter(this._eventsListComponent);
     eventPresenter.init(event);
+    this._eventPresenter[event.id] = eventPresenter;
   }
 
   _renderSort() {
@@ -48,6 +50,13 @@ export default class Page {
 
   _renderEventList() {
     this._renderEvents(0, Math.min(this._pageEvents.length));
+  }
+
+  _clearEventList() {
+    Object
+      .values(this._eventPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._eventPresenter = {};
   }
 
   _renderPage() {

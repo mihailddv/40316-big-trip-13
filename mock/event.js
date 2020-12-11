@@ -1,5 +1,6 @@
 import {getRandomInteger} from '../src/utils/common';
 import {EVENT_TYPE} from '../src/const';
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
 
 const generateCities = () => {
   const cities = [
@@ -121,6 +122,7 @@ const generateOffers = () => {
 };
 
 export const generateEvent = () => {
+  const id = generateId();
   const dateStart = generateStartDate();
   const dateEnd = generateEndDate(dateStart);
   const travelTime = dateEnd - dateStart;
@@ -135,6 +137,7 @@ export const generateEvent = () => {
   const offers = generateOffers();
 
   return {
+    id,
     dateStart,
     dateEnd,
     travelHours,

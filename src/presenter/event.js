@@ -26,8 +26,6 @@ export default class Event {
     this._eventComponent.setEditClickHandler(this._handleEditClick);
     this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
 
-    render(this._eventListContainer, this._eventComponent, RenderPosition.BEFOREEND);
-
     if (prevEventComponent === null || prevEventEditComponent === null) {
       render(this._eventListContainer, this._eventComponent, RenderPosition.BEFOREEND);
       return;
