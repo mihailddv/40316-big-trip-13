@@ -5,7 +5,6 @@ import {
 import {updateItem} from "../utils/common.js";
 
 import EventPresenter from './event';
-import PageView from '../view/trip-events';
 import ListView from '../view/list';
 import ListEmptyView from '../view/list-empty';
 import TripSortView from '../view/trip-sort';
@@ -15,7 +14,7 @@ export default class Page {
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
 
-    this._pageComponent = new PageView();
+    this._pageComponent = new ListView();
     this._sortComponent = new TripSortView();
     this._eventsListComponent = new ListView();
     this._noEventsComponent = new ListEmptyView();

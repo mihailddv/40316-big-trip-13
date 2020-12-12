@@ -29,7 +29,7 @@ render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
 render(siteTripControlsElement, new TripFilterView(), RenderPosition.BEFOREEND);
 render(siteTripEventsElement, new TripSortView(), RenderPosition.AFTERBEGIN);
 
-const pagePresenter = new PagePresenter(siteMainElement);
+const pagePresenter = new PagePresenter(siteTripEventsElement);
 
 pagePresenter.init(events);
 
