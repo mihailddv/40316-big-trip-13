@@ -11,3 +11,11 @@ export const humanizeEventTime = (dueDate) => {
 export const humanizeEditPointTime = (dueDate) => {
   return dayjs(dueDate).format(`DD/MM/YY HH:mm`);
 };
+
+export const sortTaskUp = (taskA, taskB) => {
+  return dayjs(taskA.dueDate).diff(dayjs(taskB.dueDate));
+};
+
+export const sortTaskDown = (taskA, taskB) => {
+  return dayjs(taskB.dueDate).diff(dayjs(taskA.dueDate));
+};
