@@ -21,6 +21,7 @@ export default class Page {
     this._noEventsComponent = new ListEmptyView();
 
     this._handleEventChange = this._handleEventChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
   }
 
   init(pageEvents) {
@@ -30,12 +31,6 @@ export default class Page {
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
     this._renderPage();
-  }
-
-  _renderEvent(event) {
-    const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleEventChange);
-    eventPresenter.init(event);
-    this._eventPresenter[event.id] = eventPresenter;
   }
 
   _renderSort() {
@@ -65,6 +60,18 @@ export default class Page {
   _handleEventChange(updatedEvent) {
     this._boardEvents = updateItem(this._boardEvents, updatedEvent);
     this._eventPresenter[updatedEvent.id].init(updatedEvent);
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._eventPresenter)
+      .forEach((presenter) => presenter.resetView());
+  }
+
+  _renderEvent(event) {
+    const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleEventChange, this._handleModeChange);
+    eventPresenter.init(event);
+    this._eventPresenter[event.id] = eventPresenter;
   }
 
   _renderPage() {
