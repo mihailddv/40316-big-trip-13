@@ -2,7 +2,7 @@ import AbstractView from "./abstract.js";
 import {EVENT_TYPE} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
 
-export const createEditPointTemplate = (point = {}) => {
+export const createEditPointTemplate = (data) => {
 
   const {
     city,
@@ -13,7 +13,7 @@ export const createEditPointTemplate = (point = {}) => {
     destination,
     offers,
     photos,
-  } = point;
+  } = data;
 
   const createDetailsSection = () => {
     return `
@@ -196,18 +196,18 @@ export const createEditPointTemplate = (point = {}) => {
 export default class PointEdit extends AbstractView {
   constructor(point) {
     super();
-    this._point = point;
+    this._data = point;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   getTemplate() {
-    return createEditPointTemplate(this._point);
+    return createEditPointTemplate(this._data);
   }
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit(this._point);
+    this._callback.formSubmit(this._data);
   }
 
   setFormSubmitHandler(callback) {
