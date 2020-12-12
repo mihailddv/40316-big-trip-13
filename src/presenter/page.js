@@ -58,7 +58,7 @@ export default class Page {
   }
 
   _handleEventChange(updatedEvent) {
-    this._boardEvents = updateItem(this._boardEvents, updatedEvent);
+    this._pageEvents = updateItem(this._pageEvents, updatedEvent);
     this._eventPresenter[updatedEvent.id].init(updatedEvent);
   }
 
