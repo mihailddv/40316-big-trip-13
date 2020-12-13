@@ -200,6 +200,7 @@ export default class PointEdit extends AbstractView {
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
+    this._cityInputHandler = this._cityInputHandler.bind(this);
 
     this._setInnerHandlers();
   }
@@ -247,12 +248,22 @@ export default class PointEdit extends AbstractView {
     this.getElement()
       .querySelector(`.event__input--price`)
       .addEventListener(`input`, this._priceInputHandler);
+    this.getElement()
+      .querySelector(`.event__input--destination`)
+      .addEventListener(`input`, this._cityInputHandler);
   }
 
   _priceInputHandler(evt) {
     evt.preventDefault();
     this.updateData({
       price: evt.target.value
+    }, true);
+  }
+
+  _cityInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      city: evt.target.value
     }, true);
   }
 
