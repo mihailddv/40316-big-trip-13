@@ -213,15 +213,15 @@ export default class PointEdit extends AbstractView {
       return;
     }
 
-    if (justDataUpdating) {
-      return;
-    }
-
     this._data = Object.assign(
         {},
         this._data,
         update
     );
+
+    if (justDataUpdating) {
+      return;
+    }
 
     this.updateElement();
   }
@@ -234,6 +234,8 @@ export default class PointEdit extends AbstractView {
     const newElement = this.getElement();
 
     parent.replaceChild(newElement, prevElement);
+
+    this.restoreHandlers();
   }
 
   restoreHandlers() {
@@ -242,14 +244,12 @@ export default class PointEdit extends AbstractView {
   }
 
   _setInnerHandlers() {
-    console.log('_setInnerHandlers');
     this.getElement()
       .querySelector(`.event__input--price`)
       .addEventListener(`input`, this._priceInputHandler);
   }
 
   _priceInputHandler(evt) {
-    console.log('_priceInputHandler');
     evt.preventDefault();
     this.updateData({
       price: evt.target.value
