@@ -209,6 +209,12 @@ export default class PointEdit extends SmartView {
     this._setInnerHandlers();
   }
 
+  reset(event) {
+    this.updateData(
+        PointEdit.parseEventToData(event)
+    );
+  }
+
   getTemplate() {
     return createEditPointTemplate(this._data);
   }
@@ -274,5 +280,13 @@ export default class PointEdit extends SmartView {
   setCardArrowHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`.event--edit .event__rollup-btn`).addEventListener(`click`, this._formSubmitHandler);
+  }
+
+  static parseEventToData(event) {
+    return Object.assign(
+        {},
+        event,
+        {}
+    );
   }
 }
