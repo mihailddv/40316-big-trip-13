@@ -199,14 +199,21 @@ export default class PointEdit extends AbstractView {
     this._data = point;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._priceInputHandler = this._priceInputHandler.bind(this);
+
+    this._setInnerHandlers();
   }
 
   getTemplate() {
     return createEditPointTemplate(this._data);
   }
 
-  updateData(update) {
+  updateData(update, justDataUpdating) {
     if (!update) {
+      return;
+    }
+
+    if (justDataUpdating) {
       return;
     }
 
@@ -227,6 +234,26 @@ export default class PointEdit extends AbstractView {
     const newElement = this.getElement();
 
     parent.replaceChild(newElement, prevElement);
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this.setFormSubmitHandler(this._callback.formSubmit);
+  }
+
+  _setInnerHandlers() {
+    console.log('_setInnerHandlers');
+    this.getElement()
+      .querySelector(`.event__input--price`)
+      .addEventListener(`input`, this._priceInputHandler);
+  }
+
+  _priceInputHandler(evt) {
+    console.log('_priceInputHandler');
+    evt.preventDefault();
+    this.updateData({
+      price: evt.target.value
+    }, true);
   }
 
   _formSubmitHandler(evt) {
