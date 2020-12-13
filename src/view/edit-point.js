@@ -151,6 +151,7 @@ export const createEditPointTemplate = (data) => {
             id="event-start-time-1"
             type="text"
             name="event-start-time"
+            data-time="start"
             value="${humanizeEditPointTime(dateStart)}"
           >
           &mdash;
@@ -160,6 +161,7 @@ export const createEditPointTemplate = (data) => {
             id="event-end-time-1"
             type="text"
             name="event-end-time"
+            data-time="end"
             value="${humanizeEditPointTime(dateEnd)}"
           >
         </div>
@@ -201,6 +203,8 @@ export default class PointEdit extends AbstractView {
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
     this._cityInputHandler = this._cityInputHandler.bind(this);
+    this._dateStartInputHandler = this._dateStartInputHandler.bind(this);
+    this._dateEndInputHandler = this._dateEndInputHandler.bind(this);
 
     this._setInnerHandlers();
   }
@@ -251,6 +255,12 @@ export default class PointEdit extends AbstractView {
     this.getElement()
       .querySelector(`.event__input--destination`)
       .addEventListener(`input`, this._cityInputHandler);
+    this.getElement()
+      .querySelector(`[data-time="start"]`)
+      .addEventListener(`input`, this._dateStartInputHandler);
+    this.getElement()
+      .querySelector(`[data-time="end"]`)
+      .addEventListener(`input`, this._dateEndInputHandler);
   }
 
   _priceInputHandler(evt) {
@@ -264,6 +274,20 @@ export default class PointEdit extends AbstractView {
     evt.preventDefault();
     this.updateData({
       city: evt.target.value
+    }, true);
+  }
+
+  _dateStartInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      dateStart: evt.target.value
+    }, true);
+  }
+
+  _dateEndInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      dateEnd: evt.target.value
     }, true);
   }
 
