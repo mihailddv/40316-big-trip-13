@@ -1,6 +1,7 @@
 import SmartView from "./smart.js";
 import {EVENT_TYPE} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
+import {calculateTotal} from '../utils/common';
 
 export const createEditPointTemplate = (data) => {
 
@@ -205,6 +206,7 @@ export default class PointEdit extends SmartView {
     this._cityInputHandler = this._cityInputHandler.bind(this);
     this._dateStartInputHandler = this._dateStartInputHandler.bind(this);
     this._dateEndInputHandler = this._dateEndInputHandler.bind(this);
+    this._eventTypeHandler = this._eventTypeHandler.bind(this);
 
     this._setInnerHandlers();
   }
@@ -237,6 +239,9 @@ export default class PointEdit extends SmartView {
     this.getElement()
       .querySelector(`[data-time="end"]`)
       .addEventListener(`input`, this._dateEndInputHandler);
+    this.getElement()
+      .querySelector(`.event__type-group`)
+      .addEventListener(`click`, this._eventTypeHandler);
   }
 
   _priceInputHandler(evt) {
@@ -267,9 +272,24 @@ export default class PointEdit extends SmartView {
     }, true);
   }
 
+  _eventTypeHandler(evt) {
+    evt.preventDefault();
+    const name = evt.target.innerHTML.trim();
+    const image = name.toLowerCase();
+
+    this.updateData({
+      eventType: {
+        name,
+        image,
+        type: name
+      },
+    });
+  }
+
   _formSubmitHandler(evt) {
     evt.preventDefault();
     this._callback.formSubmit(this._data);
+    calculateTotal();
   }
 
   setFormSubmitHandler(callback) {
