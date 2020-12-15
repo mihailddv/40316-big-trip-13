@@ -202,6 +202,7 @@ export default class PointEdit extends SmartView {
     this._data = point;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._cardArrowHandler = this._cardArrowHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
     this._cityInputHandler = this._cityInputHandler.bind(this);
     this._dateStartInputHandler = this._dateStartInputHandler.bind(this);
@@ -292,14 +293,18 @@ export default class PointEdit extends SmartView {
     calculateTotal();
   }
 
+  _cardArrowHandler() {
+    this._callback.arrowClick();
+  }
+
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 
   setCardArrowHandler(callback) {
-    this._callback.formSubmit = callback;
-    this.getElement().querySelector(`.event--edit .event__rollup-btn`).addEventListener(`click`, this._formSubmitHandler);
+    this._callback.arrowClick = callback;
+    this.getElement().querySelector(`.event--edit .event__rollup-btn`).addEventListener(`click`, this._cardArrowHandler);
   }
 
   static parseEventToData(event) {

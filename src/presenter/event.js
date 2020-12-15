@@ -20,6 +20,7 @@ export default class Event {
     this._handleEditClick = this._handleEditClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._handleArrowClick = this._handleArrowClick.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
@@ -34,6 +35,7 @@ export default class Event {
 
     this._eventComponent.setEditClickHandler(this._handleEditClick);
     this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
+    this._eventEditComponent.setCardArrowHandler(this._handleArrowClick);
     this._eventComponent.setFavoriteClickHandler(this._handleFavoriteClick);
 
     if (prevEventComponent === null || prevEventEditComponent === null) {
@@ -103,6 +105,10 @@ export default class Event {
 
   _handleFormSubmit(event) {
     this._changeData(event);
+    this._replaceFormToCard();
+  }
+
+  _handleArrowClick() {
     this._replaceFormToCard();
   }
 }
