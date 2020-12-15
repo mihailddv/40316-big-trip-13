@@ -2,6 +2,9 @@ import SmartView from "./smart.js";
 import {EVENT_TYPE} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
 import {calculateTotal} from '../utils/common';
+import flatpickr from "flatpickr";
+
+import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 export const createEditPointTemplate = (data) => {
 
