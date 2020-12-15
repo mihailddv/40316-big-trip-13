@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import SmartView from "./smart.js";
 import {EVENT_TYPE} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
@@ -203,16 +204,57 @@ export default class PointEdit extends SmartView {
   constructor(point) {
     super();
     this._data = point;
+    this._datepicker = null;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._cardArrowHandler = this._cardArrowHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
     this._cityInputHandler = this._cityInputHandler.bind(this);
-    this._dateStartInputHandler = this._dateStartInputHandler.bind(this);
-    this._dateEndInputHandler = this._dateEndInputHandler.bind(this);
     this._eventTypeHandler = this._eventTypeHandler.bind(this);
+    this._dateStartChangeHandler = this._dateStartChangeHandler.bind(this);
+    this._dateEndChangeHandler = this._dateEndChangeHandler.bind(this);
 
     this._setInnerHandlers();
+    this._setDatepicker();
+  }
+
+  _setDatepicker() {
+    if (this._datepicker) {
+      this._datepicker.destroy();
+      this._datepicker = null;
+    }
+
+    this._datepicker = flatpickr(
+        this.getElement().querySelector(`[data-time="start"]`),
+        {
+          minDate: `today`,
+          dateFormat: `y/m/d H:i`,
+          defaultDate: this._data.dateStart,
+          onChange: this._dateStartChangeHandler // На событие flatpickr передаём наш колбэк
+        }
+    );
+
+    this._datepicker = flatpickr(
+        this.getElement().querySelector(`[data-time="end"]`),
+        {
+          minDate: `today`,
+          dateFormat: `y/m/d H:i`,
+          defaultDate: this._data.dateEnd,
+          onChange: this._dateEndChangeHandler // На событие flatpickr передаём наш колбэк
+        }
+    );
+  }
+
+  _dateStartChangeHandler([userDate]) {
+    this.updateData({
+      dateStart: dayjs(userDate).hour(23).minute(59).second(59).toDate()
+    });
+  }
+
+  _dateEndChangeHandler([userDate]) {
+    this.updateData({
+      dateEnd: dayjs(userDate).hour(23).minute(59).second(59).toDate()
+    });
   }
 
   reset(event) {
@@ -228,6 +270,7 @@ export default class PointEdit extends SmartView {
   restoreHandlers() {
     this._setInnerHandlers();
     this.setFormSubmitHandler(this._callback.formSubmit);
+    this._setDatepicker();
   }
 
   _setInnerHandlers() {
@@ -237,9 +280,9 @@ export default class PointEdit extends SmartView {
     this.getElement()
       .querySelector(`.event__input--destination`)
       .addEventListener(`input`, this._cityInputHandler);
-    this.getElement()
-      .querySelector(`[data-time="start"]`)
-      .addEventListener(`input`, this._dateStartInputHandler);
+    // this.getElement()
+    //   .querySelector(`[data-time="start"]`)
+    //   .addEventListener(`input`, this._dateStartInputHandler);
     this.getElement()
       .querySelector(`[data-time="end"]`)
       .addEventListener(`input`, this._dateEndInputHandler);
@@ -259,20 +302,6 @@ export default class PointEdit extends SmartView {
     evt.preventDefault();
     this.updateData({
       city: evt.target.value
-    }, true);
-  }
-
-  _dateStartInputHandler(evt) {
-    evt.preventDefault();
-    this.updateData({
-      dateStart: evt.target.value
-    }, true);
-  }
-
-  _dateEndInputHandler(evt) {
-    evt.preventDefault();
-    this.updateData({
-      dateEnd: evt.target.value
     }, true);
   }
 
