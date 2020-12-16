@@ -29,7 +29,6 @@ export default class Page {
 
   init(pageEvents) {
     this._pageEvents = pageEvents.slice();
-    this._sourcedBoardTasks = pageEvents.slice();
 
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
