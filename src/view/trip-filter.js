@@ -1,11 +1,10 @@
 import AbstractView from "./abstract.js";
-import {SortType} from "../const.js";
 
 const createTripFilterTemplate = () => {
   return /* html */ `<form class="trip-filters" action="#" method="get">
     <div class="trip-filters__filter">
       <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" checked>
-      <label class="trip-filters__filter-label" for="filter-everything" data-sort-type="${SortType.DATE_DOWN}">Everything</label>
+      <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
     </div>
 
     <div class="trip-filters__filter">
@@ -22,7 +21,7 @@ const createTripFilterTemplate = () => {
   </form>`;
 };
 
-export default class TripInfo extends AbstractView {
+export default class TripFilter extends AbstractView {
   constructor() {
     super();
 
@@ -34,7 +33,6 @@ export default class TripInfo extends AbstractView {
   }
 
   _sortTypeChangeHandler(evt) {
-    console.log('filter');
     if (evt.target.tagName !== `A`) {
       return;
     }
