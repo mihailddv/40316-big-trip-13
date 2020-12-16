@@ -3,7 +3,7 @@ import {
   RenderPosition,
 } from "../utils/render.js";
 import {updateItem} from "../utils/common.js";
-import {sortTaskUp, sortTaskDown} from "../utils/point.js";
+import {sortDate, sortPrice, sortTime} from "../utils/point.js";
 import {SortType} from "../const.js";
 
 import EventPresenter from './event';
@@ -15,7 +15,7 @@ export default class Page {
   constructor(pageContainer) {
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
-    this._currentSortType = SortType.DEFAULT;
+    this._currentSortType = SortType.DATE_DEFAULT;
 
     this._pageComponent = new ListView();
     this._sortComponent = new TripSortView();
@@ -24,7 +24,7 @@ export default class Page {
 
     this._handleEventChange = this._handleEventChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
-    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
+    this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
   }
 
   init(pageEvents) {
@@ -34,44 +34,38 @@ export default class Page {
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
+    this._sortEvents(sortDate);
     this._renderPage();
   }
 
   _sortEvents(sortType) {
-    console.log('_sortEvents');
-    // 2. Этот исходный массив задач необходим,
-    // потому что для сортировки мы будем мутировать
-    // массив в свойстве _boardTasks
     switch (sortType) {
-      case SortType.DATE_UP:
-        this._pageEvents.sort(sortTaskUp);
+      case SortType.TIME:
+        this._pageEvents.sort(sortTime);
         break;
-      case SortType.DATE_DOWN:
-        this._pageEvents.sort(sortTaskDown);
+      case SortType.PRICE:
+        this._pageEvents.sort(sortPrice);
         break;
       default:
-        // 3. А когда пользователь захочет "вернуть всё, как было",
-        // мы просто запишем в _boardTasks исходный массив
-        this._pageEvents = this._sourcedBoardTasks.slice();
+        this._pageEvents.sort(sortDate);
     }
 
     this._currentSortType = sortType;
   }
 
-  _handleSortTypeChange(sortType) {
+  _handlerSortTypeChange(sortType) {
     if (this._currentSortType === sortType) {
       return;
     }
-
     this._sortEvents(sortType);
+
     this._clearEventList();
     this._renderEventList();
   }
 
   _renderSort() {
-    console.log('renderSort');
     render(this._pageComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
-    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
+    this._sortComponent.setSortTypeChangeHandler(this._handlerSortTypeChange);
   }
 
   _renderEvents() {

@@ -12,10 +12,14 @@ export const humanizeEditPointTime = (dueDate) => {
   return dayjs(dueDate).format(`DD/MM/YY HH:mm`);
 };
 
-export const sortTaskUp = (taskA, taskB) => {
-  return dayjs(taskA.dueDate).diff(dayjs(taskB.dueDate));
+export const sortDate = (eventA, eventB) => {
+  return eventA.dateStart - eventB.dateStart;
 };
 
-export const sortTaskDown = (taskA, taskB) => {
-  return dayjs(taskB.dueDate).diff(dayjs(taskA.dueDate));
+export const sortPrice = (eventA, eventB) => {
+  return eventB.price - eventA.price;
+};
+
+export const sortTime = (eventA, eventB) => {
+  return eventB.travelHours - eventA.travelHours;
 };
