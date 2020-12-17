@@ -10,7 +10,8 @@ import ListEmptyView from '../view/list-empty';
 import TripSortView from '../view/trip-sort';
 
 export default class Page {
-  constructor(pageContainer) {
+  constructor(pageContainer, eventsModel) {
+    this._eventsModel = eventsModel;
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
 
@@ -30,6 +31,10 @@ export default class Page {
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
     this._renderPage();
+  }
+
+  _getEvents() {
+    return this._eventsModel.getEvents();
   }
 
   _renderSort() {
