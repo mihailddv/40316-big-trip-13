@@ -11,3 +11,15 @@ export const humanizeEventTime = (dueDate) => {
 export const humanizeEditPointTime = (dueDate) => {
   return dayjs(dueDate).format(`DD/MM/YY HH:mm`);
 };
+
+export const sortDate = (eventA, eventB) => {
+  return eventA.dateStart - eventB.dateStart;
+};
+
+export const sortPrice = (eventA, eventB) => {
+  return eventB.price - eventA.price;
+};
+
+export const sortTime = (eventA, eventB) => {
+  return eventB.travelHours - eventA.travelHours;
+};
