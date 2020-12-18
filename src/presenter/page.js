@@ -3,6 +3,8 @@ import {
   RenderPosition,
 } from "../utils/render.js";
 import {updateItem} from "../utils/common.js";
+import {sortDate, sortPrice, sortTime} from "../utils/point.js";
+import {SortType} from "../const.js";
 
 import EventPresenter from './event';
 import ListView from '../view/list';
@@ -14,6 +16,7 @@ export default class Page {
     this._eventsModel = eventsModel;
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
+    this._currentSortType = SortType.DATE_DEFAULT;
 
     this._pageComponent = new ListView();
     this._sortComponent = new TripSortView();
@@ -22,6 +25,7 @@ export default class Page {
 
     this._handleEventChange = this._handleEventChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
+    this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
   }
 
   init(pageEvents) {
@@ -30,6 +34,7 @@ export default class Page {
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
+    this._sortEvents(sortDate);
     this._renderPage();
   }
 
@@ -37,8 +42,34 @@ export default class Page {
     return this._eventsModel.getEvents();
   }
 
+  _sortEvents(sortType) {
+    switch (sortType) {
+      case SortType.TIME:
+        this._pageEvents.sort(sortTime);
+        break;
+      case SortType.PRICE:
+        this._pageEvents.sort(sortPrice);
+        break;
+      default:
+        this._pageEvents.sort(sortDate);
+    }
+
+    this._currentSortType = sortType;
+  }
+
+  _handlerSortTypeChange(sortType) {
+    if (this._currentSortType === sortType) {
+      return;
+    }
+    this._sortEvents(sortType);
+
+    this._clearEventList();
+    this._renderEventList();
+  }
+
   _renderSort() {
     render(this._pageComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
+    this._sortComponent.setSortTypeChangeHandler(this._handlerSortTypeChange);
   }
 
   _renderEvents() {
@@ -84,6 +115,7 @@ export default class Page {
       return;
     }
 
+    this._renderSort();
     this._renderEventList();
   }
 }

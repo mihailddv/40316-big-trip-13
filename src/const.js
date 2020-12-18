@@ -60,3 +60,9 @@ export const EVENT_TYPE = [
     image: `restaurant`,
   },
 ];
+
+export const SortType = {
+  DATE_DEFAULT: `date`,
+  TIME: `time`,
+  PRICE: `price`
+};
