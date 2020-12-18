@@ -33,6 +33,6 @@ render(siteTripControlsElement, new TripFilterView(), RenderPosition.BEFOREEND);
 
 const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel);
 
-pagePresenter.init(events);
+pagePresenter.init();
 
 calculateTotal();

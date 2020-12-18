@@ -28,9 +28,7 @@ export default class Page {
     this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
   }
 
-  init(pageEvents) {
-    this._pageEvents = pageEvents.slice();
-
+  init() {
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
@@ -39,22 +37,16 @@ export default class Page {
   }
 
   _getEvents() {
-    return this._eventsModel.getEvents();
-  }
-
-  _sortEvents(sortType) {
-    switch (sortType) {
+    switch (this._currentSortType) {
       case SortType.TIME:
-        this._pageEvents.sort(sortTime);
-        break;
+        return this._eventsModel.getTasks().slice().sort(sortTime);
       case SortType.PRICE:
-        this._pageEvents.sort(sortPrice);
-        break;
-      default:
-        this._pageEvents.sort(sortDate);
+        return this._eventsModel.getTasks().slice().sort(sortPrice);
+      case SortType.DATE:
+        return this._eventsModel.getTasks().slice().sort(sortDate);
     }
 
-    this._currentSortType = sortType;
+    return this._eventsModel.getEvents();
   }
 
   _handlerSortTypeChange(sortType) {
@@ -72,9 +64,8 @@ export default class Page {
     this._sortComponent.setSortTypeChangeHandler(this._handlerSortTypeChange);
   }
 
-  _renderEvents() {
-    this._pageEvents
-      .forEach((pageEvent) => this._renderEvent(pageEvent));
+  _renderEvents(events) {
+    events.forEach((event) => this._renderEvent(event));
   }
 
   _renderNoEvents() {
@@ -93,7 +84,7 @@ export default class Page {
   }
 
   _handleEventChange(updatedEvent) {
-    this._pageEvents = updateItem(this._pageEvents, updatedEvent);
+    // this._pageEvents = updateItem(this._pageEvents, updatedEvent);
     this._eventPresenter[updatedEvent.id].init(updatedEvent);
   }
 
@@ -110,7 +101,7 @@ export default class Page {
   }
 
   _renderPage() {
-    if (!this._pageEvents) {
+    if (!this._getEvents()) {
       this._renderNoEvents();
       return;
     }
