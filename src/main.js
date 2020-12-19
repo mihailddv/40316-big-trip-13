@@ -21,6 +21,7 @@ const events = new Array(EVENT_COUNT).fill().map(generateEvent);
 
 const eventsModel = new EventsModel();
 eventsModel.setEvents(events);
+console.log(eventsModel);
 
 const siteMainElement = document.querySelector(`.page-body`);
 const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);

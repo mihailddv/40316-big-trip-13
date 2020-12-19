@@ -1,6 +1,7 @@
 import {
   render,
   RenderPosition,
+  remove,
 } from "../utils/render.js";
 // import {updateItem} from "../utils/common.js";
 import {sortDate, sortPrice, sortTime} from "../utils/point.js";
@@ -19,8 +20,10 @@ export default class Page {
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE_DEFAULT;
 
+    this._sortComponent = null;
+
     this._pageComponent = new ListView();
-    this._sortComponent = new TripSortView();
+    // this._sortComponent = new TripSortView();
     this._eventsListComponent = new ListView();
     this._noEventsComponent = new ListEmptyView();
 
@@ -30,14 +33,14 @@ export default class Page {
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
 
-    this._eventModel.addObserver(this._handleModelEvent);
+    this._eventsModel.addObserver(this._handleModelEvent);
   }
 
   init() {
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
-    this._sortEvents(sortDate);
+    // this._sortEvents(sortDate);
     this._renderPage();
   }
 
@@ -60,13 +63,20 @@ export default class Page {
     }
     this._sortEvents(sortType);
 
+    // this._clearEventList();
+    // this._renderEventList();
     this._clearEventList();
     this._renderEventList();
   }
 
   _renderSort() {
-    render(this._pageComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
+    if (this._sortComponent !== null) {
+      this._sortComponent = null;
+    }
+
+    this._sortComponent = new TripSortView(this._currentSortType);
     this._sortComponent.setSortTypeChangeHandler(this._handlerSortTypeChange);
+    render(this._pageComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
   }
 
   _renderEvents(events) {
@@ -81,11 +91,21 @@ export default class Page {
     this._renderEvents(0, Math.min(this._pageEvents.length));
   }
 
-  _clearEventList() {
+  _clearEventList({resetSortType = false} = {}) {
+    // const taskCount = this._getEvents().length;
+
     Object
       .values(this._eventPresenter)
       .forEach((presenter) => presenter.destroy());
     this._eventPresenter = {};
+
+
+    remove(this._sortComponent);
+    // remove(this._noTaskComponent);
+
+    if (resetSortType) {
+      this._currentSortType = SortType.DEFAULT;
+    }
   }
 
   // _handleEventChange(updatedEvent) {
@@ -110,14 +130,15 @@ export default class Page {
   _handleModelEvent(updateType, data) {
     switch (updateType) {
       case UpdateType.PATCH:
-        // - обновить часть списка (например, когда поменялось описание)
         this._eventPresenter[data.id].init(data);
         break;
       case UpdateType.MINOR:
-        // - обновить список (например, когда задача ушла в архив)
+        this._clearPage();
+        this._renderPage();
         break;
       case UpdateType.MAJOR:
-        // - обновить всю доску (например, при переключении фильтра)
+        this._clearPage({resetSortType: true});
+        this._renderPage();
         break;
     }
   }
@@ -135,12 +156,16 @@ export default class Page {
   }
 
   _renderPage() {
-    if (!this._getEvents()) {
+    const events = this._getEvents();
+    const eventCount = events.length;
+
+    if (!events) {
       this._renderNoEvents();
       return;
     }
 
     this._renderSort();
-    this._renderEventList();
+    // this._renderEventList();
+    this._renderEvents(events.slice(0, Math.min(eventCount, this._renderedEventCount)));
   }
 }
