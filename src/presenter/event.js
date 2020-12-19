@@ -1,6 +1,7 @@
 import PointView from "../view/point";
 import PointEditView from "../view/edit-point";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
+import {UserAction, UpdateType} from "../const.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
@@ -89,6 +90,8 @@ export default class Event {
 
   _handleFavoriteClick() {
     this._changeData(
+        UserAction.UPDATE_EVENTS,
+        UpdateType.MINOR,
         Object.assign(
             {},
             this._event,
@@ -104,7 +107,11 @@ export default class Event {
   }
 
   _handleFormSubmit(event) {
-    this._changeData(event);
+    this._changeData(
+        UserAction.UPDATE_EVENTS,
+        UpdateType.MINOR,
+        event
+    );
     this._replaceFormToCard();
   }
 
