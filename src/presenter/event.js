@@ -1,6 +1,7 @@
 import PointView from "../view/point";
 import PointEditView from "../view/edit-point";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
+import {UserAction, UpdateType} from "../const.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
@@ -66,6 +67,47 @@ export default class Event {
     }
   }
 
+
+  updateTask(updateType, update) {
+    const index = this._tasks.findIndex((task) => task.id === update.id);
+
+    if (index === -1) {
+      throw new Error(`Can't update unexisting task`);
+    }
+
+    this._tasks = [
+      ...this._tasks.slice(0, index),
+      update,
+      ...this._tasks.slice(index + 1)
+    ];
+
+    this._notify(updateType, update);
+  }
+
+  addTask(updateType, update) {
+    this._tasks = [
+      update,
+      ...this._tasks
+    ];
+
+    this._notify(updateType, update);
+  }
+
+  deleteTask(updateType, update) {
+    const index = this._tasks.findIndex((task) => task.id === update.id);
+
+    if (index === -1) {
+      throw new Error(`Can't delete unexisting task`);
+    }
+
+    this._tasks = [
+      ...this._tasks.slice(0, index),
+      ...this._tasks.slice(index + 1)
+    ];
+
+    this._notify(updateType);
+  }
+
   _replaceCardToForm() {
     replace(this._eventEditComponent, this._eventComponent);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
@@ -89,6 +131,8 @@ export default class Event {
 
   _handleFavoriteClick() {
     this._changeData(
+        UserAction.UPDATE_TASK,
+        UpdateType.MINOR,
         Object.assign(
             {},
             this._event,
@@ -104,7 +148,12 @@ export default class Event {
   }
 
   _handleFormSubmit(event) {
-    this._changeData(event);
+    this._changeData(
+        UserAction.UPDATE_TASK,
+        UpdateType.MINOR,
+        event
+    );
+    // this._changeData(event);
     this._replaceFormToCard();
   }
 
