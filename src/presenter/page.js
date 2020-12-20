@@ -27,14 +27,19 @@ export default class Page {
     this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
   }
 
-  init(pageEvents) {
+  init(pageEvents, tasksModel) {
     this._pageEvents = pageEvents.slice();
+    this._tasksModel = tasksModel;
 
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
     this._sortEvents(sortDate);
     this._renderPage();
+  }
+
+  _getTasks() {
+    return this._tasksModel.getTasks();
   }
 
   _sortEvents(sortType) {
