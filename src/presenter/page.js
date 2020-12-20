@@ -42,7 +42,8 @@ export default class Page {
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
     // this._sortEvents(sortDate);
-    this._renderPage();
+    // this._renderPage();
+    this._renderBoard();
   }
 
   _handleViewAction(actionType, updateType, update) {
@@ -63,7 +64,7 @@ export default class Page {
     switch (updateType) {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
-        this._taskPresenter[data.id].init(data);
+        this._eventPresenter[data.id].init(data);
         break;
       case UpdateType.MINOR:
         this._clearBoard();
@@ -135,9 +136,9 @@ export default class Page {
     const taskCount = this._getTasks().length;
 
     Object
-      .values(this._taskPresenter)
+      .values(this._eventPresenter)
       .forEach((presenter) => presenter.destroy());
-    this._taskPresenter = {};
+    this._eventPresenter = {};
 
     remove(this._sortComponent);
     remove(this._noTaskComponent);
@@ -173,20 +174,20 @@ export default class Page {
     render(this._pageComponent, this._noEventsComponent, RenderPosition.AFTERBEGIN);
   }
 
-  _renderEventList() {
-    const taskCount = this._getTasks().length;
-    const tasks = this._getTasks().slice(0, Math.min(taskCount));
+  // _renderEventList() {
+  //   const taskCount = this._getTasks().length;
+  //   const tasks = this._getTasks().slice(0, Math.min(taskCount));
 
-    this._renderTasks(tasks);
-    this._renderEvents(0, Math.min(this._tasksModel.length));
-  }
+  //   this._renderTasks(tasks);
+  //   this._renderEvents(0, Math.min(this._tasksModel.length));
+  // }
 
-  _clearEventList() {
-    Object
-      .values(this._eventPresenter)
-      .forEach((presenter) => presenter.destroy());
-    this._eventPresenter = {};
-  }
+  // _clearEventList() {
+  //   Object
+  //     .values(this._eventPresenter)
+  //     .forEach((presenter) => presenter.destroy());
+  //   this._eventPresenter = {};
+  // }
 
   _handleEventChange(updatedEvent) {
     this._pageEvents = updateItem(this._pageEvents, updatedEvent);
@@ -209,7 +210,7 @@ export default class Page {
   //   this._renderEventList();
   // }
 
-  _renderPage() {
+  _renderBoard() {
     const tasks = this._getTasks();
     const taskCount = tasks.length;
 
