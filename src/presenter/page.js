@@ -1,6 +1,7 @@
 import {
   render,
   RenderPosition,
+  remove,
 } from "../utils/render.js";
 import {updateItem} from "../utils/common.js";
 import {sortDate, sortPrice, sortTime} from "../utils/point.js";
@@ -9,7 +10,7 @@ import {SortType, UpdateType, UserAction} from "../const.js";
 import EventPresenter from './event';
 import ListView from '../view/list';
 import ListEmptyView from '../view/list-empty';
-import TripSortView from '../view/trip-sort';
+import SortView from '../view/trip-sort';
 
 export default class Page {
   constructor(pageContainer, tasksModel) {
@@ -18,8 +19,10 @@ export default class Page {
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE_DEFAULT;
 
+    this._sortComponent = null;
+
     this._pageComponent = new ListView();
-    this._sortComponent = new TripSortView();
+    // this._sortComponent = new TripSortView();
     this._eventsListComponent = new ListView();
     this._noEventsComponent = new ListEmptyView();
 
@@ -63,10 +66,12 @@ export default class Page {
         this._taskPresenter[data.id].init(data);
         break;
       case UpdateType.MINOR:
-        // - обновить список (например, когда задача ушла в архив)
+        this._clearBoard();
+        this._renderBoard();
         break;
       case UpdateType.MAJOR:
-        // - обновить всю доску (например, при переключении фильтра)
+        this._clearBoard({resetRenderedTaskCount: true, resetSortType: true});
+        this._renderBoard();
         break;
     }
   }
@@ -83,6 +88,7 @@ export default class Page {
   }
 
   _renderTasks(tasks) {
+    console.log('_renderTasks', tasks);
     tasks.forEach((task) => this._renderEvent(task));
   }
 
@@ -108,13 +114,47 @@ export default class Page {
     // this._sortEvents(sortType);
     this._currentSortType = sortType;
 
-    this._clearEventList();
-    this._renderEventList();
+    // this._clearEventList();
+    // this._renderEventList();
+    this._clearBoard({resetRenderedTaskCount: true});
+    this._renderBoard();
   }
 
   _renderSort() {
+    if (this._sortComponent !== null) {
+      this._sortComponent = null;
+    }
+
+    this._sortComponent = new SortView(this._currentSortType);
+    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
+
     render(this._pageComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
-    this._sortComponent.setSortTypeChangeHandler(this._handlerSortTypeChange);
+  }
+
+  _clearBoard({resetRenderedTaskCount = false, resetSortType = false} = {}) {
+    const taskCount = this._getTasks().length;
+
+    Object
+      .values(this._taskPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._taskPresenter = {};
+
+    remove(this._sortComponent);
+    remove(this._noTaskComponent);
+    remove(this._loadMoreButtonComponent);
+
+    if (resetRenderedTaskCount) {
+      this._renderedTaskCount = TASK_COUNT_PER_STEP;
+    } else {
+      // На случай, если перерисовка доски вызвана
+      // уменьшением количества задач (например, удаление или перенос в архив)
+      // нужно скорректировать число показанных задач
+      this._renderedTaskCount = Math.min(taskCount, this._renderedTaskCount);
+    }
+
+    if (resetSortType) {
+      this._currentSortType = SortType.DEFAULT;
+    }
   }
 
   _renderEvents() {
@@ -159,13 +199,26 @@ export default class Page {
       .forEach((presenter) => presenter.resetView());
   }
 
+  // _renderPage() {
+  //   if (!this._getTasks()) {
+  //     this._renderNoEvents();
+  //     return;
+  //   }
+
+  //   this._renderSort();
+  //   this._renderEventList();
+  // }
+
   _renderPage() {
-    if (!this._getTasks()) {
-      this._renderNoEvents();
+    const tasks = this._getTasks();
+    const taskCount = tasks.length;
+
+    if (taskCount === 0) {
+      this._renderNoTasks();
       return;
     }
 
     this._renderSort();
-    this._renderEventList();
+    this._renderTasks(tasks.slice(0, taskCount));
   }
 }
