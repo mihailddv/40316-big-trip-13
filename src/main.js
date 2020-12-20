@@ -8,6 +8,7 @@ import {
 } from './utils/common';
 
 import PagePresenter from "./presenter/page.js";
+import FilterPresenter from "./presenter/filter.js";
 import TasksModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
 
@@ -15,20 +16,11 @@ import {generateEvent} from '../mock/event';
 
 import TripInfoView from './view/trip-info';
 import TripTabsView from './view/trip-tabs';
-import TripFilterView from './view/filter';
 
 const EVENT_COUNT = 20;
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
 const tasksModel = new TasksModel();
 tasksModel.setTasks(events);
-
-const filters = [
-  {
-    type: `all`,
-    name: `ALL`,
-    count: 0
-  }
-];
 
 const filterModel = new FilterModel();
 
@@ -39,10 +31,13 @@ const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
 
 render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
 render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
-render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
+// render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
+
 
 const pagePresenter = new PagePresenter(siteTripEventsElement, tasksModel);
+const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, tasksModel);
 
-pagePresenter.init(events);
+filterPresenter.init();
+pagePresenter.init();
 
 calculateTotal();
