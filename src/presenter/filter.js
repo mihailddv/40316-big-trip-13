@@ -50,6 +50,7 @@ export default class Filter {
   }
 
   _getFilters() {
+    console.log('_getFilters');
     const tasks = this._tasksModel.getTasks();
 
     return [
@@ -68,21 +69,21 @@ export default class Filter {
       //   name: `Today`,
       //   count: filter[FilterType.TODAY](tasks).length
       // },
-      {
-        type: FilterType.FAVORITES,
-        name: `Favorites`,
-        count: filter[FilterType.FAVORITES](tasks).length
-      },
+      // {
+      //   type: FilterType.FAVORITES,
+      //   name: `Favorites`,
+      //   count: filter[FilterType.FAVORITES](tasks).length
+      // },
       // {
       //   type: FilterType.REPEATING,
       //   name: `Repeating`,
       //   count: filter[FilterType.REPEATING](tasks).length
       // },
-      {
-        type: FilterType.ARCHIVE,
-        name: `Archive`,
-        count: filter[FilterType.ARCHIVE](tasks).length
-      }
+      // {
+      //   type: FilterType.ARCHIVE,
+      //   name: `Archive`,
+      //   count: filter[FilterType.ARCHIVE](tasks).length
+      // }
     ];
   }
 }
