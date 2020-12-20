@@ -15,12 +15,20 @@ import {generateEvent} from '../mock/event';
 
 import TripInfoView from './view/trip-info';
 import TripTabsView from './view/trip-tabs';
-import TripFilterView from './view/trip-filter';
+import TripFilterView from './view/filter';
 
 const EVENT_COUNT = 20;
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
 const tasksModel = new TasksModel();
 tasksModel.setTasks(events);
+
+const filters = [
+  {
+    type: `all`,
+    name: `ALL`,
+    count: 0
+  }
+];
 
 const filterModel = new FilterModel();
 
@@ -31,7 +39,7 @@ const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
 
 render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
 render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
-render(siteTripControlsElement, new TripFilterView(), RenderPosition.BEFOREEND);
+render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
 
 const pagePresenter = new PagePresenter(siteTripEventsElement, tasksModel);
 
