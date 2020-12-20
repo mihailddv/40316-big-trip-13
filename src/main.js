@@ -34,7 +34,7 @@ render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
 // render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
 
 
-const pagePresenter = new PagePresenter(siteTripEventsElement, tasksModel);
+const pagePresenter = new PagePresenter(siteTripEventsElement, tasksModel, filterModel);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, tasksModel);
 
 filterPresenter.init();

@@ -6,6 +6,7 @@ import {
 import {updateItem} from "../utils/common.js";
 import {sortDate, sortPrice, sortTime} from "../utils/point.js";
 import {SortType, UpdateType, UserAction} from "../const.js";
+import {filter} from "../utils/filter.js";
 
 import EventPresenter from './event';
 import ListView from '../view/list';
@@ -13,8 +14,9 @@ import ListEmptyView from '../view/list-empty';
 import SortView from '../view/trip-sort';
 
 export default class Page {
-  constructor(pageContainer, tasksModel) {
+  constructor(pageContainer, tasksModel, filterModel) {
     this._tasksModel = tasksModel;
+    this._filterModel = filterModel;
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE_DEFAULT;
@@ -33,6 +35,7 @@ export default class Page {
     this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
 
     this._tasksModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -78,14 +81,21 @@ export default class Page {
   }
 
   _getTasks() {
+    const filterType = this._filterModel.getFilter();
+    const tasks = this._tasksModel.getTasks();
+    const filtredTasks = filter[filterType](tasks);
+
     switch (this._currentSortType) {
       case SortType.DATE_UP:
-        return this._tasksModel.getTasks().slice().sort(sortTaskUp);
+        // return this._tasksModel.getTasks().slice().sort(sortTaskUp);
+        return filtredTasks.sort(sortDate);
       case SortType.DATE_DOWN:
-        return this._tasksModel.getTasks().slice().sort(sortTaskDown);
+        // return this._tasksModel.getTasks().slice().sort(sortTaskDown);
+        return filtredTasks.sort(sortDate);
     }
 
-    return this._tasksModel.getTasks();
+    // return this._tasksModel.getTasks();
+    return filtredTasks;
   }
 
   _renderTasks(tasks) {
