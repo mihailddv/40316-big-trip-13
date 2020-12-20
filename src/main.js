@@ -9,6 +9,7 @@ import {
 
 import PagePresenter from "./presenter/page.js";
 import TasksModel from "./model/events.js";
+import FilterModel from "./model/filter.js";
 
 import {generateEvent} from '../mock/event';
 
@@ -20,6 +21,8 @@ const EVENT_COUNT = 20;
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
 const tasksModel = new TasksModel();
 tasksModel.setTasks(events);
+
+const filterModel = new FilterModel();
 
 const siteMainElement = document.querySelector(`.page-body`);
 const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);
