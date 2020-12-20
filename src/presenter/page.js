@@ -12,7 +12,8 @@ import ListEmptyView from '../view/list-empty';
 import TripSortView from '../view/trip-sort';
 
 export default class Page {
-  constructor(pageContainer) {
+  constructor(pageContainer, tasksModel) {
+    this._tasksModel = tasksModel;
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE_DEFAULT;
@@ -27,41 +28,52 @@ export default class Page {
     this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
   }
 
-  init(pageEvents, tasksModel) {
-    this._pageEvents = pageEvents.slice();
-    this._tasksModel = tasksModel;
+  init() {
+    // this._pageEvents = pageEvents.slice();
 
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
-    this._sortEvents(sortDate);
+    // this._sortEvents(sortDate);
     this._renderPage();
   }
 
   _getTasks() {
+    switch (this._currentSortType) {
+      case SortType.DATE_UP:
+        return this._tasksModel.getTasks().slice().sort(sortTaskUp);
+      case SortType.DATE_DOWN:
+        return this._tasksModel.getTasks().slice().sort(sortTaskDown);
+    }
+
     return this._tasksModel.getTasks();
   }
 
-  _sortEvents(sortType) {
-    switch (sortType) {
-      case SortType.TIME:
-        this._pageEvents.sort(sortTime);
-        break;
-      case SortType.PRICE:
-        this._pageEvents.sort(sortPrice);
-        break;
-      default:
-        this._pageEvents.sort(sortDate);
-    }
-
-    this._currentSortType = sortType;
+  _renderTasks(tasks) {
+    tasks.forEach((task) => this._renderEvent(task));
   }
+
+  // _sortEvents(sortType) {
+  //   switch (sortType) {
+  //     case SortType.TIME:
+  //       this._pageEvents.sort(sortTime);
+  //       break;
+  //     case SortType.PRICE:
+  //       this._pageEvents.sort(sortPrice);
+  //       break;
+  //     default:
+  //       this._pageEvents.sort(sortDate);
+  //   }
+
+  //   this._currentSortType = sortType;
+  // }
 
   _handlerSortTypeChange(sortType) {
     if (this._currentSortType === sortType) {
       return;
     }
-    this._sortEvents(sortType);
+    // this._sortEvents(sortType);
+    this._currentSortType = sortType;
 
     this._clearEventList();
     this._renderEventList();
@@ -77,12 +89,22 @@ export default class Page {
       .forEach((pageEvent) => this._renderEvent(pageEvent));
   }
 
+  _renderEvent(event) {
+    const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleEventChange, this._handleModeChange);
+    eventPresenter.init(event);
+    this._eventPresenter[event.id] = eventPresenter;
+  }
+
   _renderNoEvents() {
     render(this._pageComponent, this._noEventsComponent, RenderPosition.AFTERBEGIN);
   }
 
   _renderEventList() {
-    this._renderEvents(0, Math.min(this._pageEvents.length));
+    const taskCount = this._getTasks().length;
+    const tasks = this._getTasks().slice(0, Math.min(taskCount));
+
+    this._renderTasks(tasks);
+    this._renderEvents(0, Math.min(this._tasksModel.length));
   }
 
   _clearEventList() {
@@ -103,14 +125,8 @@ export default class Page {
       .forEach((presenter) => presenter.resetView());
   }
 
-  _renderEvent(event) {
-    const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleEventChange, this._handleModeChange);
-    eventPresenter.init(event);
-    this._eventPresenter[event.id] = eventPresenter;
-  }
-
   _renderPage() {
-    if (!this._pageEvents) {
+    if (!this._getTasks()) {
       this._renderNoEvents();
       return;
     }
