@@ -4,9 +4,18 @@ const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
 
 const generateCities = () => {
   const cities = [
-    `Geneva`,
-    `Chamonix`,
-    `Amsterdam`
+    {
+      name: `Geneva`,
+      text: `Geneva text`,
+    },
+    {
+      name: `Chamonix`,
+      text: `Chamonix text`
+    },
+    {
+      name: `Amsterdam`,
+      text: `Amsterdam text`
+    }
   ];
 
   const randomIndex = getRandomInteger(0, cities.length - 1);
@@ -84,6 +93,41 @@ const generatePhotos = () => {
   return photos;
 };
 
+const generateTypes = () => {
+  const types = [
+    {
+      type: `taxi`,
+      image: `taxi`,
+      offers: [
+        {
+          title: `taxi1`,
+          price: 10,
+        },
+        {
+          title: `taxi2`,
+          price: 20,
+        },
+      ]
+    },
+    {
+      type: `bus`,
+      image: `bus`,
+      offers: [
+        {
+          title: `bus1`,
+          price: 10,
+        },
+        {
+          title: `bus2`,
+          price: 20,
+        },
+      ]
+    },
+  ];
+
+  return types;
+};
+
 const generateOffers = () => {
   const offers = [
     {
@@ -128,7 +172,8 @@ export const generateEvent = () => {
   const travelTime = dateEnd - dateStart;
   const travelHours = Math.floor(travelTime / 3600 / 1000);
   const city = generateCities();
-  const eventType = generateEventType();
+  // const eventType = generateEventType();
+  const eventType = generateTypes();
   const price = Math.floor(Math.random() * 1001);
   const isFavorite = Boolean(getRandomInteger(0, 1));
   const destination = generateDestination();

@@ -16,6 +16,8 @@ export const createEditPointTemplate = (data) => {
     photos,
   } = data;
 
+  console.log(eventType);
+
   const createDetailsSection = () => {
     return `
     ${(offers.length || destination.length) ? `
@@ -42,9 +44,9 @@ export const createEditPointTemplate = (data) => {
 
   const createDesctinationSection = () => {
     return `
-    ${destination.length ? `<section class="event__section  event__section--destination">
+    ${city.text.length ? `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${destination}</p>
+      <p class="event__destination-description">${city.text}</p>
     </section>
     ` : ``}
     `;
@@ -135,9 +137,16 @@ export const createEditPointTemplate = (data) => {
 
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            ${eventType.name}
+            ${eventType}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${city}" list="destination-list-1">
+          <input
+            class="event__input event__input--destination"
+            id="event-destination-1"
+            type="text"
+            name="event-destination"
+            value="${city.name}"
+            list="destination-list-1"
+          >
           <datalist id="destination-list-1">
             <option value="Amsterdam"></option>
             <option value="Geneva"></option>
