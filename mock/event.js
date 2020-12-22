@@ -1,26 +1,11 @@
 import {getRandomInteger} from '../src/utils/common';
-import {EVENT_TYPE} from '../src/const';
+import {EVENT_TYPE, CITIES} from '../src/const';
 const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
 
 const generateCities = () => {
-  const cities = [
-    {
-      name: `Geneva`,
-      text: `Geneva text`,
-    },
-    {
-      name: `Chamonix`,
-      text: `Chamonix text`
-    },
-    {
-      name: `Amsterdam`,
-      text: `Amsterdam text`
-    }
-  ];
+  const randomIndex = getRandomInteger(0, CITIES.length - 1);
 
-  const randomIndex = getRandomInteger(0, cities.length - 1);
-
-  return cities[randomIndex];
+  return CITIES[randomIndex];
 };
 
 const generateStartDate = () => {
@@ -82,16 +67,16 @@ const generateOrdersList = () => {
   return orders[randomIndex];
 };
 
-const generatePhotos = () => {
-  const photos = [];
-  const randomIndex = getRandomInteger(0, 5);
+// const generatePhotos = () => {
+//   const photos = [];
+//   const randomIndex = getRandomInteger(0, 5);
 
-  for (let i = 0; i < randomIndex; i++) {
-    photos.unshift({photoPath: `http://picsum.photos/248/152?r=${Math.random()}`});
-  }
+//   for (let i = 0; i < randomIndex; i++) {
+//     photos.unshift({photoPath: `http://picsum.photos/248/152?r=${Math.random()}`});
+//   }
 
-  return photos;
-};
+//   return photos;
+// };
 
 const generateTypes = () => {
   const types = [
@@ -183,7 +168,7 @@ export const generateEvent = () => {
   const price = Math.floor(Math.random() * 1001);
   const isFavorite = Boolean(getRandomInteger(0, 1));
   const destination = generateDestination();
-  const photos = generatePhotos();
+  // const photos = generatePhotos();
   const orders = generateOrdersList();
   const offers = generateOffers();
 
@@ -197,7 +182,7 @@ export const generateEvent = () => {
     price,
     isFavorite,
     destination,
-    photos,
+    // photos,
     orders,
     offers,
   };

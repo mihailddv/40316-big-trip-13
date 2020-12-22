@@ -16,7 +16,7 @@ export const createEditPointTemplate = (data) => {
     photos,
   } = data;
 
-  console.log('city', city);
+  console.log('city', city.photo);
 
   const createDetailsSection = () => {
     return `
@@ -54,17 +54,20 @@ export const createEditPointTemplate = (data) => {
 
   const createPhotosSection = () => {
     return `
-    ${photos.length ? `
+    ${city.photo ? `
       <div class="event__photos-container">
         <div class="event__photos-tape">
-          ${photos.map(({photoPath}) => `
-            <img class="event__photo" src="${photoPath}" alt="Event photo">
-          `).join(``)}
+        <img class="event__photo" src="${city.photo}" alt="Event photo">
         </div>
       </div>
     ` : ``}
     `;
   };
+
+  // для массива фото
+  // ${city.photo.map(({photo}) => `
+  //   <img class="event__photo" src="${photo}" alt="Event photo">
+  // `).join(``)}
 
   const createOffers = () => {
     return /* html */`
@@ -260,10 +263,8 @@ export default class PointEdit extends SmartView {
 
   _priceInputHandler(evt) {
     evt.preventDefault();
-    console.log('_priceInputHandler');
     this.updateData({
       price: evt.target.value,
-      // destination: evt.target.value,
     });
   }
 
@@ -275,6 +276,7 @@ export default class PointEdit extends SmartView {
         city: {
           name: evt.target.value,
           text: city.text,
+          photo: city.photo,
         }
       });
     }

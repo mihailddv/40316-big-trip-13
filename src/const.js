@@ -65,14 +65,17 @@ export const CITIES = [
   {
     name: `Geneva`,
     text: `Geneva text`,
+    photo: `http://picsum.photos/248/152?r=${Math.random()}`,
   },
   {
     name: `Chamonix`,
-    text: `Chamonix text`
+    text: `Chamonix text`,
+    photo: `http://picsum.photos/248/152?r=${Math.random()}`,
   },
   {
     name: `Amsterdam`,
-    text: `Amsterdam text`
+    text: `Amsterdam text`,
+    photo: `http://picsum.photos/248/152?r=${Math.random()}`,
   }
 ];
 
