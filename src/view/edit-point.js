@@ -1,5 +1,5 @@
 import SmartView from "./smart.js";
-import {EVENT_TYPE} from '../const';
+import {EVENT_TYPE, CITIES} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
 import {calculateTotal} from '../utils/common';
 
@@ -16,7 +16,7 @@ export const createEditPointTemplate = (data) => {
     photos,
   } = data;
 
-  console.log(eventType);
+  console.log('city', city);
 
   const createDetailsSection = () => {
     return `
@@ -68,17 +68,17 @@ export const createEditPointTemplate = (data) => {
 
   const createOffers = () => {
     return /* html */`
-      ${offers.map(({id, name, offerPrice, isChecked}) => /* html */`
+      ${eventType.offers.map(({title, offerPrice, isChecked}) => /* html */`
         <div class="event__offer-selector">
           <input
             class="event__offer-checkbox visually-hidden"
-            id="event-offer-${id}"
+            id="event-offer-${title}"
             type="checkbox"
-            name="event-offer-${id}"
+            name="event-offer-${title}"
             ${isChecked ? `checked` : ``}
           >
-          <label class="event__offer-label" for="event-offer-${id}">
-            <span class="event__offer-title">${name}</span>
+          <label class="event__offer-label" for="event-offer-${title}">
+            <span class="event__offer-title">${title}</span>
             &plus;&euro;&nbsp;
             <span class="event__offer-price">${offerPrice}</span>
           </label>
@@ -137,7 +137,7 @@ export const createEditPointTemplate = (data) => {
 
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            ${eventType}
+            ${eventType.type}
           </label>
           <input
             class="event__input event__input--destination"
@@ -217,6 +217,7 @@ export default class PointEdit extends SmartView {
     this._dateStartInputHandler = this._dateStartInputHandler.bind(this);
     this._dateEndInputHandler = this._dateEndInputHandler.bind(this);
     this._eventTypeHandler = this._eventTypeHandler.bind(this);
+    this._cityInputHandler = this._cityInputHandler.bind(this);
 
     this._setInnerHandlers();
   }
@@ -252,20 +253,31 @@ export default class PointEdit extends SmartView {
     this.getElement()
       .querySelector(`.event__type-group`)
       .addEventListener(`click`, this._eventTypeHandler);
+    this.getElement()
+        .querySelector(`.event__input--destination`)
+        .addEventListener(`change`, this._cityInputHandler);
   }
 
   _priceInputHandler(evt) {
     evt.preventDefault();
+    console.log('_priceInputHandler');
     this.updateData({
-      price: evt.target.value
-    }, true);
+      price: evt.target.value,
+      // destination: evt.target.value,
+    });
   }
 
   _cityInputHandler(evt) {
     evt.preventDefault();
-    this.updateData({
-      city: evt.target.value
-    }, true);
+    const city = CITIES.find((elem) => elem.name === evt.target.value);
+    if (city) {
+      this.updateData({
+        city: {
+          name: evt.target.value,
+          text: city.text,
+        }
+      });
+    }
   }
 
   _dateStartInputHandler(evt) {
@@ -284,14 +296,17 @@ export default class PointEdit extends SmartView {
 
   _eventTypeHandler(evt) {
     evt.preventDefault();
+    console.log('_eventTypeHandler');
     const name = evt.target.innerHTML.trim();
-    const image = name.toLowerCase();
+    // const image = evt.target.innerHTML.trim();
+
+    console.log('_eventTypeHandler image', name);
 
     this.updateData({
       eventType: {
         name,
-        image,
-        type: name
+        // image,
+        // type: name
       },
     });
   }

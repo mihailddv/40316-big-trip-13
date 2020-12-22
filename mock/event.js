@@ -101,11 +101,15 @@ const generateTypes = () => {
       offers: [
         {
           title: `taxi1`,
-          price: 10,
+          offerPrice: 10,
         },
         {
           title: `taxi2`,
-          price: 20,
+          offerPrice: 20,
+        },
+        {
+          title: `taxi3`,
+          offerPrice: 20,
         },
       ]
     },
@@ -115,17 +119,19 @@ const generateTypes = () => {
       offers: [
         {
           title: `bus1`,
-          price: 10,
+          offerPrice: 10,
         },
         {
           title: `bus2`,
-          price: 20,
+          offerPrice: 20,
         },
       ]
     },
   ];
 
-  return types;
+  const randomIndex = getRandomInteger(0, types.length - 1);
+
+  return types[randomIndex];
 };
 
 const generateOffers = () => {

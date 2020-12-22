@@ -61,6 +61,21 @@ export const EVENT_TYPE = [
   },
 ];
 
+export const CITIES = [
+  {
+    name: `Geneva`,
+    text: `Geneva text`,
+  },
+  {
+    name: `Chamonix`,
+    text: `Chamonix text`
+  },
+  {
+    name: `Amsterdam`,
+    text: `Amsterdam text`
+  }
+];
+
 export const SortType = {
   DATE_DEFAULT: `date`,
   TIME: `time`,
