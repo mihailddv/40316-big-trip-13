@@ -15,7 +15,7 @@ export const createEditPointTemplate = (data) => {
     offers,
   } = data;
 
-  console.log(`eventType`, eventType);
+  console.log(`eventType.offers`, eventType.offers);
 
   const createDetailsSection = () => {
     return `
@@ -281,6 +281,27 @@ export default class PointEdit extends SmartView {
     }
   }
 
+  _eventTypeHandler(evt) {
+    evt.preventDefault();
+    const name = evt.target.innerHTML.trim();
+    console.log('_eventTypeHandler', name);
+    const image = evt.target.innerHTML.trim();
+    const offers = EVENT_TYPE.find((elem) => elem.name === evt.target.value);
+    console.log(`test`, offers.offers);
+
+    // console.log('_eventTypeHandler eventType.offers', offers);
+
+    this.updateData({
+      eventType: {
+        type: name,
+        image,
+        offers: offers.offers,
+        // image,
+        // type: name
+      },
+    });
+  }
+
   _dateStartInputHandler(evt) {
     evt.preventDefault();
     this.updateData({
@@ -293,23 +314,6 @@ export default class PointEdit extends SmartView {
     this.updateData({
       dateEnd: evt.target.value
     }, true);
-  }
-
-  _eventTypeHandler(evt) {
-    evt.preventDefault();
-    console.log('_eventTypeHandler');
-    const name = evt.target.innerHTML.trim();
-    // const image = evt.target.innerHTML.trim();
-
-    console.log('_eventTypeHandler image', name);
-
-    this.updateData({
-      eventType: {
-        name,
-        // image,
-        // type: name
-      },
-    });
   }
 
   _formSubmitHandler(evt) {
