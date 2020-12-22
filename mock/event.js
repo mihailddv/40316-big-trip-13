@@ -79,44 +79,9 @@ const generateOrdersList = () => {
 // };
 
 const generateTypes = () => {
-  const types = [
-    {
-      type: `taxi`,
-      image: `taxi`,
-      offers: [
-        {
-          title: `taxi1`,
-          offerPrice: 10,
-        },
-        {
-          title: `taxi2`,
-          offerPrice: 20,
-        },
-        {
-          title: `taxi3`,
-          offerPrice: 20,
-        },
-      ]
-    },
-    {
-      type: `bus`,
-      image: `bus`,
-      offers: [
-        {
-          title: `bus1`,
-          offerPrice: 10,
-        },
-        {
-          title: `bus2`,
-          offerPrice: 20,
-        },
-      ]
-    },
-  ];
-
   const randomIndex = getRandomInteger(0, types.length - 1);
 
-  return types[randomIndex];
+  return EVENT_TYPE[randomIndex];
 };
 
 const generateOffers = () => {
@@ -163,12 +128,10 @@ export const generateEvent = () => {
   const travelTime = dateEnd - dateStart;
   const travelHours = Math.floor(travelTime / 3600 / 1000);
   const city = generateCities();
-  // const eventType = generateEventType();
-  const eventType = generateTypes();
+  const eventType = generateEventType();
   const price = Math.floor(Math.random() * 1001);
   const isFavorite = Boolean(getRandomInteger(0, 1));
   const destination = generateDestination();
-  // const photos = generatePhotos();
   const orders = generateOrdersList();
   const offers = generateOffers();
 
@@ -182,7 +145,6 @@ export const generateEvent = () => {
     price,
     isFavorite,
     destination,
-    // photos,
     orders,
     offers,
   };

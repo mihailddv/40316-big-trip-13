@@ -13,10 +13,9 @@ export const createEditPointTemplate = (data) => {
     price,
     destination,
     offers,
-    photos,
   } = data;
 
-  console.log('city', city.photo);
+  console.log(`eventType`, eventType);
 
   const createDetailsSection = () => {
     return `
@@ -92,20 +91,20 @@ export const createEditPointTemplate = (data) => {
 
   const createEventTypeItems = () => {
     return `
-      ${EVENT_TYPE.map(({id, type, name, image}) => `
+      ${EVENT_TYPE.map(({type, image}) => `
         <div class="event__type-item">
           <input
-            id="event-type-${type}-${id}"
+            id="event-type-${type}"
             class="event__type-input visually-hidden"
             type="radio"
             name="event-type"
-            value="${name}"
+            value="${type}"
           >
           <label
             class="event__type-label event__type-label--${image}"
-            for="event-type-${type}-${id}"
+            for="event-type-${type}"
           >
-            ${name}
+            ${type}
           </label>
         </div>
       `).join(``)}
