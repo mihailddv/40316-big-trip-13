@@ -70,6 +70,7 @@ export const createEditPointTemplate = (data) => {
             id="event-offer-${title}"
             type="checkbox"
             name="event-offer-${title}"
+            data-name="${title}"
             ${isChecked ? `checked` : ``}
           >
           <label class="event__offer-label" for="event-offer-${title}">
@@ -213,6 +214,7 @@ export default class PointEdit extends SmartView {
     this._dateEndInputHandler = this._dateEndInputHandler.bind(this);
     this._eventTypeHandler = this._eventTypeHandler.bind(this);
     this._cityInputHandler = this._cityInputHandler.bind(this);
+    this._onOfferChange = this._onOfferChange.bind(this);
 
     this._setInnerHandlers();
   }
@@ -251,6 +253,19 @@ export default class PointEdit extends SmartView {
     this.getElement()
         .querySelector(`.event__input--destination`)
         .addEventListener(`change`, this._cityInputHandler);
+    this.getElement()
+      .querySelector(`.event__available-offers`)
+      .addEventListener(`change`, this._onOfferChange);
+  }
+
+  _onOfferChange(evt) {
+    const offerCurrent = this._data.eventType.offers.find(({title}) => evt.target.name.includes(title));
+    console.log(`offerCurrent`, offerCurrent);
+    offerCurrent.checked = !offerCurrent.checked;
+    console.log(`offerCurrent.checked`, offerCurrent.checked);
+    // this.updateData({
+    //   offers: {}
+    // });
   }
 
   _priceInputHandler(evt) {
