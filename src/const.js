@@ -39,22 +39,50 @@ export const CITIES = [
   {
     name: `Geneva`,
     text: `Geneva text`,
-    photo: `http://picsum.photos/248/152?r=${Math.random()}`,
+    photos: [
+      {
+        src: `http://picsum.photos/248/152?r=${Math.random()}`,
+      },
+      {
+        src: `http://picsum.photos/248/152?r=${Math.random()}`,
+      },
+    ]
   },
   {
     name: `Chamonix`,
     text: `Chamonix text`,
-    photo: `http://picsum.photos/248/152?r=${Math.random()}`,
+    photos: [
+      {
+        src: `http://picsum.photos/248/152?r=${Math.random()}`,
+      },
+      {
+        src: `http://picsum.photos/248/152?r=${Math.random()}`,
+      },
+    ]
   },
   {
     name: `Amsterdam`,
     text: `Amsterdam text`,
-    photo: `http://picsum.photos/248/152?r=${Math.random()}`,
+    photos: [
+      {
+        src: `http://picsum.photos/248/152?r=${Math.random()}`,
+      },
+      {
+        src: `http://picsum.photos/248/152?r=${Math.random()}`,
+      },
+    ]
   },
   {
     name: `Moscow`,
     text: `Moscow text`,
-    photo: `http://picsum.photos/248/152?r=${Math.random()}`,
+    photos: [
+      {
+        src: `http://picsum.photos/248/152?r=${Math.random()}`,
+      },
+      {
+        src: `http://picsum.photos/248/152?r=${Math.random()}`,
+      },
+    ]
   },
 ];
 

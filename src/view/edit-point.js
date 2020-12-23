@@ -51,20 +51,17 @@ export const createEditPointTemplate = (data) => {
 
   const createPhotosSection = () => {
     return `
-    ${city.photo ? `
+    ${city.photos ? `
       <div class="event__photos-container">
         <div class="event__photos-tape">
-        <img class="event__photo" src="${city.photo}" alt="Event photo">
+        ${city.photos.map(({src}) => `
+          <img class="event__photo" src="${src}" alt="Event photo">
+        `).join(``)}
         </div>
       </div>
     ` : ``}
     `;
   };
-
-  // для массива фото
-  // ${city.photo.map(({photo}) => `
-  //   <img class="event__photo" src="${photo}" alt="Event photo">
-  // `).join(``)}
 
   const createOffers = () => {
     return /* html */`
