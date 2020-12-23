@@ -50,7 +50,12 @@ export const CITIES = [
     name: `Amsterdam`,
     text: `Amsterdam text`,
     photo: `http://picsum.photos/248/152?r=${Math.random()}`,
-  }
+  },
+  {
+    name: `Moscow`,
+    text: `Moscow text`,
+    photo: `http://picsum.photos/248/152?r=${Math.random()}`,
+  },
 ];
 
 export const SortType = {

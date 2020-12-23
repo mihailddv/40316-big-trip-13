@@ -148,9 +148,9 @@ export const createEditPointTemplate = (data) => {
             list="destination-list-1"
           >
           <datalist id="destination-list-1">
-            <option value="Amsterdam"></option>
-            <option value="Geneva"></option>
-            <option value="Chamonix"></option>
+            ${CITIES.map(({name}) => `
+              <option value="${name}"></option>
+            `).join(``)}
           </datalist>
         </div>
 
@@ -267,9 +267,7 @@ export default class PointEdit extends SmartView {
 
   _cityInputHandler(evt) {
     evt.preventDefault();
-    // console.log(`CITIES`, CITIES);
     const city = CITIES.find((elem) => elem.name === evt.target.value);
-    // console.log(`city`, city);
     if (city) {
       this.updateData({
         city: {
