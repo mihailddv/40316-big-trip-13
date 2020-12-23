@@ -1,6 +1,7 @@
 export const EVENT_TYPE = [
   {
-    type: `taxi`,
+    name: `Taxi`,
+    type: `Taxi`,
     image: `taxi`,
     offers: [
       {
@@ -18,7 +19,8 @@ export const EVENT_TYPE = [
     ]
   },
   {
-    type: `bus`,
+    name: `Bus`,
+    type: `Bus`,
     image: `bus`,
     offers: [
       {

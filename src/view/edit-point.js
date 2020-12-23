@@ -15,8 +15,6 @@ export const createEditPointTemplate = (data) => {
     offers,
   } = data;
 
-  console.log(`eventType.offers`, eventType.offers);
-
   const createDetailsSection = () => {
     return `
     ${(offers.length || destination.length) ? `
@@ -41,7 +39,7 @@ export const createEditPointTemplate = (data) => {
     `;
   };
 
-  const createDesctinationSection = () => {
+  const createDestinationSection = () => {
     return `
     ${city.text.length ? `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
@@ -113,7 +111,7 @@ export const createEditPointTemplate = (data) => {
 
   const offersTemplate = createOffers(offers);
   const offersSection = createOffersSection();
-  const destinationSection = createDesctinationSection();
+  const destinationSection = createDestinationSection();
   const detailsSection = createDetailsSection();
   const photosSection = createPhotosSection();
   const eventTypeItems = createEventTypeItems();
@@ -254,7 +252,7 @@ export default class PointEdit extends SmartView {
       .addEventListener(`input`, this._dateEndInputHandler);
     this.getElement()
       .querySelector(`.event__type-group`)
-      .addEventListener(`click`, this._eventTypeHandler);
+      .addEventListener(`change`, this._eventTypeHandler);
     this.getElement()
         .querySelector(`.event__input--destination`)
         .addEventListener(`change`, this._cityInputHandler);
@@ -269,7 +267,9 @@ export default class PointEdit extends SmartView {
 
   _cityInputHandler(evt) {
     evt.preventDefault();
+    // console.log(`CITIES`, CITIES);
     const city = CITIES.find((elem) => elem.name === evt.target.value);
+    // console.log(`city`, city);
     if (city) {
       this.updateData({
         city: {
@@ -283,21 +283,15 @@ export default class PointEdit extends SmartView {
 
   _eventTypeHandler(evt) {
     evt.preventDefault();
-    const name = evt.target.innerHTML.trim();
-    console.log('_eventTypeHandler', name);
-    const image = evt.target.innerHTML.trim();
-    const offers = EVENT_TYPE.find((elem) => elem.name === evt.target.value);
-    console.log(`test`, offers.offers);
-
-    // console.log('_eventTypeHandler eventType.offers', offers);
+    const type = evt.target.value;
+    const image = type.toLowerCase();
+    const offers = EVENT_TYPE.find((elem) => elem.name === evt.target.value).offers;
 
     this.updateData({
       eventType: {
-        type: name,
+        type,
         image,
-        offers: offers.offers,
-        // image,
-        // type: name
+        offers,
       },
     });
   }
