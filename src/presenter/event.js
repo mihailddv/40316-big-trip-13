@@ -104,6 +104,7 @@ export default class Event {
   }
 
   _handleFormSubmit(event) {
+    console.log(`_handleFormSubmit event`, event);
     this._changeData(event);
     this._replaceFormToCard();
   }

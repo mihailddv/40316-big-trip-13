@@ -32,7 +32,127 @@ export const EVENT_TYPE = [
         offerPrice: 20,
       },
     ]
-  }
+  },
+  {
+    name: `Train`,
+    type: `Train`,
+    image: `train`,
+    offers: [
+      {
+        title: `train1`,
+        offerPrice: 10,
+      },
+      {
+        title: `train2`,
+        offerPrice: 20,
+      },
+    ]
+  },
+  {
+    name: `Ship`,
+    type: `Ship`,
+    image: `bus`,
+    offers: [
+      {
+        title: `ship1`,
+        offerPrice: 10,
+      },
+      {
+        title: `ship2`,
+        offerPrice: 20,
+      },
+    ]
+  },
+  {
+    name: `Transport`,
+    type: `Transport`,
+    image: `transport`,
+    offers: [
+      {
+        title: `transport1`,
+        offerPrice: 10,
+      },
+      {
+        title: `transport2`,
+        offerPrice: 20,
+      },
+    ]
+  },
+  {
+    name: `Drive`,
+    type: `Drive`,
+    image: `drive`,
+    offers: [
+      {
+        title: `drive1`,
+        offerPrice: 10,
+      },
+      {
+        title: `drive2`,
+        offerPrice: 20,
+      },
+    ]
+  },
+  {
+    name: `Flight`,
+    type: `Flight`,
+    image: `flight`,
+    offers: [
+      {
+        title: `flight1`,
+        offerPrice: 10,
+      },
+      {
+        title: `flight2`,
+        offerPrice: 20,
+      },
+    ]
+  },
+  {
+    name: `CheckIn`,
+    type: `CheckIn`,
+    image: `check-in`,
+    offers: [
+      {
+        title: `check-in1`,
+        offerPrice: 10,
+      },
+      {
+        title: `check-in2`,
+        offerPrice: 20,
+      },
+    ]
+  },
+  {
+    name: `Sightseeing`,
+    type: `Sightseeing`,
+    image: `sightseeing`,
+    offers: [
+      {
+        title: `sightseeing1`,
+        offerPrice: 10,
+      },
+      {
+        title: `sightseeing2`,
+        offerPrice: 20,
+      },
+    ]
+  },
+  {
+    name: `Restaurant`,
+    type: `Restaurant`,
+    image: `restaurant`,
+    offers: [
+      {
+        title: `restaurant1`,
+        offerPrice: 10,
+      },
+      {
+        title: `restaurant2`,
+        offerPrice: 20,
+      },
+    ]
+  },
 ];
 
 export const CITIES = [

@@ -251,21 +251,20 @@ export default class PointEdit extends SmartView {
       .querySelector(`.event__type-group`)
       .addEventListener(`change`, this._eventTypeHandler);
     this.getElement()
-        .querySelector(`.event__input--destination`)
-        .addEventListener(`change`, this._cityInputHandler);
-    this.getElement()
       .querySelector(`.event__available-offers`)
       .addEventListener(`change`, this._onOfferChange);
   }
 
   _onOfferChange(evt) {
-    const offerCurrent = this._data.eventType.offers.find(({title}) => evt.target.name.includes(title));
-    console.log(`offerCurrent`, offerCurrent);
-    offerCurrent.checked = !offerCurrent.checked;
-    console.log(`offerCurrent.checked`, offerCurrent.checked);
-    // this.updateData({
-    //   offers: {}
-    // });
+    const offerCurrent = this._data.eventType.offers.map((item) => {
+      if (evt.target.name.includes(item.title)) {
+        item.checked = true;
+      }
+      return item;
+    });
+    this.updateData({
+      offers: offerCurrent,
+    }, true);
   }
 
   _priceInputHandler(evt) {
@@ -279,8 +278,13 @@ export default class PointEdit extends SmartView {
     evt.preventDefault();
     const city = CITIES.find((elem) => elem.name === evt.target.value);
     const name = evt.target.value;
-    const photos = city.photos;
-    const text = city.text;
+    let photos = [];
+    let text = ``;
+
+    if (city) {
+      photos = city.photos;
+      text = city.text;
+    }
 
     this.updateData({
       city: {
