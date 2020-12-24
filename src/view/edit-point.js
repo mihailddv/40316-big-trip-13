@@ -63,7 +63,7 @@ export const createEditPointTemplate = (data) => {
 
   const createOffers = () => {
     return /* html */`
-      ${eventType.offers.map(({title, offerPrice, isChecked}) => /* html */`
+      ${eventType.offers.map(({title, offerPrice, checked}) => /* html */`
         <div class="event__offer-selector">
           <input
             class="event__offer-checkbox visually-hidden"
@@ -71,7 +71,7 @@ export const createEditPointTemplate = (data) => {
             type="checkbox"
             name="event-offer-${title}"
             data-name="${title}"
-            ${isChecked ? `checked` : ``}
+            ${checked ? `checked` : ``}
           >
           <label class="event__offer-label" for="event-offer-${title}">
             <span class="event__offer-title">${title}</span>
