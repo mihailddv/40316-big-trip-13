@@ -284,15 +284,15 @@ export default class PointEdit extends SmartView {
     if (city) {
       photos = city.photos;
       text = city.text;
-    }
 
-    this.updateData({
-      city: {
-        name,
-        text,
-        photos,
-      }
-    });
+      this.updateData({
+        city: {
+          name,
+          text,
+          photos,
+        }
+      });
+    }
   }
 
   _eventTypeHandler(evt) {
