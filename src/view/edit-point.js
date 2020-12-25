@@ -216,8 +216,6 @@ export default class PointEdit extends SmartView {
     this._cardArrowHandler = this._cardArrowHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
     this._cityInputHandler = this._cityInputHandler.bind(this);
-    this._dateStartInputHandler = this._dateStartInputHandler.bind(this);
-    this._dateEndInputHandler = this._dateEndInputHandler.bind(this);
     this._eventTypeHandler = this._eventTypeHandler.bind(this);
     this._dateStartChangeHandler = this._dateStartChangeHandler.bind(this);
     this._dateEndChangeHandler = this._dateEndChangeHandler.bind(this);
@@ -240,7 +238,7 @@ export default class PointEdit extends SmartView {
           minDate: `today`,
           dateFormat: `y/m/d H:i`,
           defaultDate: this._data.dateStart,
-          onChange: this._dateStartChangeHandler // На событие flatpickr передаём наш колбэк
+          onChange: this._dateStartChangeHandler,
         }
     );
 
@@ -250,7 +248,7 @@ export default class PointEdit extends SmartView {
           minDate: `today`,
           dateFormat: `y/m/d H:i`,
           defaultDate: this._data.dateEnd,
-          onChange: this._dateEndChangeHandler // На событие flatpickr передаём наш колбэк
+          onChange: this._dateEndChangeHandler,
         }
     );
   }
