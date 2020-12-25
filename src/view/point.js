@@ -10,20 +10,7 @@ const createPointTemplate = (point) => {
     travelHours,
     price,
     isFavorite,
-    orders
   } = point;
-
-  console.log(`eventType`, eventType.offers.title);
-
-  const offerCurrent = eventType.offers.map((item) => {
-    console.log(`item`, item.checked);
-    if (item.checked) {
-      return item;
-    }
-    // return item;
-  });
-
-  console.log(`offerCurrent`, offerCurrent);
 
   const favoriteClassName = isFavorite
     ? `event__favorite-btn--active`
@@ -49,7 +36,7 @@ const createPointTemplate = (point) => {
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        ${eventType.offers.map(({title, offerPrice, checked}) => `
+        ${eventType.offers.map(({title, offerPrice}) => `
           <li class="event__offer">
             <span class="event__offer-title">${title}</span>
             &plus;&euro;&nbsp;
