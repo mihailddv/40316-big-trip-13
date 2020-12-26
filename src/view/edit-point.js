@@ -207,7 +207,7 @@ export const createEditPointTemplate = (data) => {
           <input
             class="event__input event__input--price"
             id="event-price-1"
-            type="text"
+            type="number"
             name="event-price"
             value="${price}"
           >
