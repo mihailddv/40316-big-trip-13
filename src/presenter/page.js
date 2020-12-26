@@ -27,30 +27,30 @@ export default class Page {
     this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
   }
 
-  init(pageEvents) {
-    this._pageEvents = pageEvents.slice();
+  init() {
+    // this._pageEvents = pageEvents.slice();
 
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
-    this._sortEvents(sortDate);
+    // this._sortEvents(sortDate);
     this._renderPage();
   }
 
-  _sortEvents(sortType) {
-    switch (sortType) {
-      case SortType.TIME:
-        this._pageEvents.sort(sortTime);
-        break;
-      case SortType.PRICE:
-        this._pageEvents.sort(sortPrice);
-        break;
-      default:
-        this._pageEvents.sort(sortDate);
-    }
+  // _sortEvents(sortType) {
+  //   switch (sortType) {
+  //     case SortType.TIME:
+  //       this._pageEvents.sort(sortTime);
+  //       break;
+  //     case SortType.PRICE:
+  //       this._pageEvents.sort(sortPrice);
+  //       break;
+  //     default:
+  //       this._pageEvents.sort(sortDate);
+  //   }
 
-    this._currentSortType = sortType;
-  }
+  //   this._currentSortType = sortType;
+  // }
 
   _handlerSortTypeChange(sortType) {
     if (this._currentSortType === sortType) {

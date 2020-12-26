@@ -39,7 +39,7 @@ const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel
 
 filterPresenter.init();
 // pagePresenter.init();
-pagePresenter.init(events);
+pagePresenter.init();
 
 calculateTotal();
 
