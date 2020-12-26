@@ -58,7 +58,22 @@ export default class TripFilter extends AbstractView {
   }
 
   getTemplate() {
+    console.log(`getTemplate`);
     return createFilterTemplate(this._filters, this._currentFilter);
+  }
+
+  _sortTypeChangeHandler(evt) {
+    if (evt.target.tagName !== `A`) {
+      return;
+    }
+
+    evt.preventDefault();
+    this._callback.sortTypeChange(evt.target.dataset.sortType);
+  }
+
+  setSortTypeChangeHandler(callback) {
+    this._callback.sortTypeChange = callback;
+    this.getElement().addEventListener(`click`, this._sortTypeChangeHandler);
   }
 
   _filterTypeChangeHandler(evt) {

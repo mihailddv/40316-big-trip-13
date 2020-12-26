@@ -226,6 +226,9 @@ export const UpdateType = {
 
 export const FilterType = {
   ALL: `all`,
-  OVERDUE: `overdue`,
-  PAST: `past`,
+  // OVERDUE: `overdue`,
+  // TODAY: `today`,
+  FAVORITES: `favorites`,
+  // REPEATING: `repeating`,
+  ARCHIVE: `archive`
 };

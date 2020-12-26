@@ -38,7 +38,6 @@ const pagePresenter = new PagePresenter(siteTripEventsElement, tasksModel, filte
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, tasksModel);
 
 filterPresenter.init();
-// pagePresenter.init();
 pagePresenter.init();
 
 calculateTotal();

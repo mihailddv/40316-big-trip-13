@@ -167,7 +167,7 @@ export const createEditPointTemplate = (data) => {
             id="event-destination-1"
             type="text"
             name="event-destination"
-            value="${he.encode(city.name)}"
+            value="${city.name}"
             list="destination-list-1"
           >
           <datalist id="destination-list-1">
@@ -207,7 +207,7 @@ export const createEditPointTemplate = (data) => {
           <input
             class="event__input event__input--price"
             id="event-price-1"
-            type="number"
+            type="text"
             name="event-price"
             value="${price}"
           >
@@ -377,21 +377,21 @@ export default class PointEdit extends SmartView {
         .querySelector(`.event__input--price`)
         .addEventListener(`input`, this._priceInputHandler);
     }
-    this.getElement()
-      .querySelector(`.event__input--destination`)
-      .addEventListener(`input`, this._cityInputHandler);
-    this.getElement()
-      .querySelector(`[data-time="start"]`)
-      .addEventListener(`input`, this._dateStartInputHandler);
-    this.getElement()
-      .querySelector(`[data-time="end"]`)
-      .addEventListener(`input`, this._dateEndInputHandler);
-    this.getElement()
-      .querySelector(`.event__type-group`)
-      .addEventListener(`change`, this._eventTypeHandler);
-    this.getElement()
-      .querySelector(`.event__available-offers`)
-      .addEventListener(`change`, this._onOfferChange);
+    // this.getElement()
+    //   .querySelector(`.event__input--destination`)
+    //   .addEventListener(`input`, this._cityInputHandler);
+    // this.getElement()
+    //   .querySelector(`[data-time="start"]`)
+    //   .addEventListener(`input`, this._dateStartInputHandler);
+    // this.getElement()
+    //   .querySelector(`[data-time="end"]`)
+    //   .addEventListener(`input`, this._dateEndInputHandler);
+    // this.getElement()
+    //   .querySelector(`.event__type-group`)
+    //   .addEventListener(`change`, this._eventTypeHandler);
+    // this.getElement()
+    //   .querySelector(`.event__available-offers`)
+    //   .addEventListener(`change`, this._onOfferChange);
   }
 
   static parseEventToData(event) {
