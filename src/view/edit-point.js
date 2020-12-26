@@ -1,8 +1,9 @@
+import he from "he";
+
 import SmartView from "./smart.js";
 import {EVENT_TYPE, CITIES} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
 import {calculateTotal} from '../utils/common';
-
 
 const BLANK_TASK = {
   city: [
@@ -60,7 +61,7 @@ export const createEditPointTemplate = (data) => {
     return `
     ${city.text ? `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${city.text}</p>
+      <p class="event__destination-description">${he.encode(city.text)}</p>
     </section>
     ` : ``}
     `;
@@ -166,7 +167,7 @@ export const createEditPointTemplate = (data) => {
             id="event-destination-1"
             type="text"
             name="event-destination"
-            value="${city.name}"
+            value="${he.encode(city.name)}"
             list="destination-list-1"
           >
           <datalist id="destination-list-1">
