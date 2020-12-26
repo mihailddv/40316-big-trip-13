@@ -5,10 +5,11 @@ import {
 } from "../utils/render.js";
 import {updateItem} from "../utils/common.js";
 import {sortDate, sortPrice, sortTime} from "../utils/point.js";
-import {SortType, UpdateType, UserAction} from "../const.js";
+import {SortType, UpdateType, UserAction, FilterType} from "../const.js";
 import {filter} from "../utils/filter.js";
 
 import EventPresenter from './event';
+import TaskNewPresenter from "./event-new.js";
 import ListView from '../view/list';
 import ListEmptyView from '../view/list-empty';
 import SortView from '../view/trip-sort';
@@ -36,6 +37,8 @@ export default class Page {
 
     this._tasksModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
+
+    this._taskNewPresenter = new TaskNewPresenter(this._eventsListComponent, this._handleViewAction);
   }
 
   init() {
@@ -80,6 +83,13 @@ export default class Page {
     }
   }
 
+  createTask() {
+    console.log(`createTask`);
+    this._currentSortType = SortType.DEFAULT;
+    this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
+    this._taskNewPresenter.init();
+  }
+
   _getTasks() {
     const filterType = this._filterModel.getFilter();
     const tasks = this._tasksModel.getTasks();
@@ -99,7 +109,7 @@ export default class Page {
   }
 
   _renderTasks(tasks) {
-    console.log('_renderTasks', tasks);
+    console.log(`_renderTasks`, tasks);
     tasks.forEach((task) => this._renderEvent(task));
   }
 
@@ -145,23 +155,18 @@ export default class Page {
   _clearBoard({resetRenderedTaskCount = false, resetSortType = false} = {}) {
     const taskCount = this._getTasks().length;
 
+    this._taskNewPresenter.destroy();
+
     Object
       .values(this._eventPresenter)
       .forEach((presenter) => presenter.destroy());
     this._eventPresenter = {};
 
     remove(this._sortComponent);
-    remove(this._noTaskComponent);
-    remove(this._loadMoreButtonComponent);
+    remove(this._noEventsComponent);
+    // remove(this._loadMoreButtonComponent);
 
-    if (resetRenderedTaskCount) {
-      this._renderedTaskCount = TASK_COUNT_PER_STEP;
-    } else {
-      // На случай, если перерисовка доски вызвана
-      // уменьшением количества задач (например, удаление или перенос в архив)
-      // нужно скорректировать число показанных задач
-      this._renderedTaskCount = Math.min(taskCount, this._renderedTaskCount);
-    }
+    this._renderedTaskCount = Math.min(taskCount, this._renderedTaskCount);
 
     if (resetSortType) {
       this._currentSortType = SortType.DEFAULT;
@@ -205,6 +210,7 @@ export default class Page {
   }
 
   _handleModeChange() {
+    this._taskNewPresenter.destroy();
     Object
       .values(this._eventPresenter)
       .forEach((presenter) => presenter.resetView());

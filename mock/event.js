@@ -1,6 +1,7 @@
 import {getRandomInteger} from '../src/utils/common';
 import {EVENT_TYPE, CITIES} from '../src/const';
-const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
+export const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
 
 const generateCities = () => {
   const randomIndex = getRandomInteger(0, CITIES.length - 1);
