@@ -50,40 +50,24 @@ export default class Filter {
   }
 
   _getFilters() {
-    console.log('_getFilters');
     const events = this._eventsModel.getEvents();
 
     return [
       {
         type: FilterType.ALL,
-        name: `All`,
+        name: `Everything`,
         count: filter[FilterType.ALL](events).length
       },
-      // {
-      //   type: FilterType.OVERDUE,
-      //   name: `Overdue`,
-      //   count: filter[FilterType.OVERDUE](events).length
-      // },
-      // {
-      //   type: FilterType.TODAY,
-      //   name: `Today`,
-      //   count: filter[FilterType.TODAY](events).length
-      // },
-      // {
-      //   type: FilterType.FAVORITES,
-      //   name: `Favorites`,
-      //   count: filter[FilterType.FAVORITES](events).length
-      // },
-      // {
-      //   type: FilterType.REPEATING,
-      //   name: `Repeating`,
-      //   count: filter[FilterType.REPEATING](events).length
-      // },
-      // {
-      //   type: FilterType.ARCHIVE,
-      //   name: `Archive`,
-      //   count: filter[FilterType.ARCHIVE](events).length
-      // }
+      {
+        type: FilterType.FUTURE,
+        name: `Future`,
+        count: filter[FilterType.FUTURE](events).length
+      },
+      {
+        type: FilterType.PAST,
+        name: `Past`,
+        count: filter[FilterType.PAST](events).length
+      },
     ];
   }
 }
