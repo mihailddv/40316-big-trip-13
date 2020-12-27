@@ -41,8 +41,6 @@ const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);
 const siteTripControlsElement = siteTripMainElement.querySelector(`.trip-controls`);
 const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
 
-render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
-render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
 // render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
 
 const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel);
@@ -60,9 +58,13 @@ api.getTasks()
   .then((tasks) => {
     // console.log(`tasks`, tasks);
     eventsModel.setEvents(UpdateType.INIT, tasks);
+    render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
+    render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
   })
   .catch(() => {
     eventsModel.setEvents(UpdateType.INIT, []);
+    render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
+    render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
   });
 
 calculateTotal();
