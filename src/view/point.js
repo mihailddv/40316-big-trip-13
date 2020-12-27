@@ -9,11 +9,10 @@ const createPointTemplate = (data) => {
     dateEnd,
     price,
     isFavorite,
-    orders
   } = data;
 
-  console.log(`data point`, data);
-  console.log(`data point eventType`, eventType.type);
+  // console.log(`data point`, data);
+  // console.log(`data point eventType`, eventType.offers);
 
   const travelHours = Math.floor((dateEnd - dateStart) / 3600000);
   const image = eventType.type.toLowerCase();
@@ -42,11 +41,13 @@ const createPointTemplate = (data) => {
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        <li class="event__offer">
-          <span class="event__offer-title">${orders.name}</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">${orders.price}</span>
-        </li>
+        ${eventType.offers.map(({title, price}) => /* html */`
+          <li class="event__offer">
+            <span class="event__offer-title">${title}</span>
+            &plus;&euro;&nbsp;
+            <span class="event__offer-price">${price}</span>
+          </li>
+        `).join(``)}
       </ul>
       <button class="event__favorite-btn  ${favoriteClassName}" type="button">
         <span class="visually-hidden">Add to favorite</span>

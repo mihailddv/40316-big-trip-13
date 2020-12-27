@@ -82,6 +82,7 @@ export default class Events extends Observer {
           },
           eventType: {
             type: task.type,
+            offers: task.offers,
           },
           orders: `ff`,
         }

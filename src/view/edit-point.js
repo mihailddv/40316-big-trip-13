@@ -9,7 +9,6 @@ import {EVENT_TYPE, CITIES} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
 import {calculateTotal} from '../utils/common';
 
-
 const BLANK_EVENT = {
   city: [
     {
@@ -90,7 +89,7 @@ export const createEditPointTemplate = (data) => {
 
   const createOffers = () => {
     return /* html */`
-      ${eventType.offers.map(({title, offerPrice, checked}) => /* html */`
+      ${eventType.offers.map(({title, price, checked}) => /* html */`
         <div class="event__offer-selector">
           <input
             class="event__offer-checkbox visually-hidden"
@@ -103,7 +102,7 @@ export const createEditPointTemplate = (data) => {
           <label class="event__offer-label" for="event-offer-${title}">
             <span class="event__offer-title">${title}</span>
             &plus;&euro;&nbsp;
-            <span class="event__offer-price">${offerPrice}</span>
+            <span class="event__offer-price">${price}</span>
           </label>
         </div>
       `).join(``)}

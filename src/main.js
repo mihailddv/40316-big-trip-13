@@ -51,8 +51,6 @@ const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel
 filterPresenter.init();
 pagePresenter.init();
 
-calculateTotal();
-
 document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
   evt.preventDefault();
   pagePresenter.createEvent();
@@ -60,9 +58,11 @@ document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (e
 
 api.getTasks()
   .then((tasks) => {
-    console.log(`tasks`, tasks);
+    // console.log(`tasks`, tasks);
     eventsModel.setEvents(UpdateType.INIT, tasks);
   })
   .catch(() => {
     eventsModel.setEvents(UpdateType.INIT, []);
   });
+
+calculateTotal();
