@@ -84,7 +84,6 @@ export default class Page {
   }
 
   createTask() {
-    console.log(`createTask`);
     this._currentSortType = SortType.DEFAULT;
     this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
     this._taskNewPresenter.init();
@@ -109,7 +108,6 @@ export default class Page {
   }
 
   _renderTasks(tasks) {
-    console.log(`_renderTasks`, tasks);
     tasks.forEach((task) => this._renderEvent(task));
   }
 
@@ -152,7 +150,7 @@ export default class Page {
     render(this._pageComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
   }
 
-  _clearBoard({resetRenderedTaskCount = false, resetSortType = false} = {}) {
+  _clearBoard({resetSortType = false} = {}) {
     const taskCount = this._getTasks().length;
 
     this._taskNewPresenter.destroy();
