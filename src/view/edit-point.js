@@ -10,7 +10,7 @@ import {humanizeEditPointTime} from '../utils/point';
 import {calculateTotal} from '../utils/common';
 
 
-const BLANK_TASK = {
+const BLANK_EVENT = {
   city: [
     {
       name: `gg`,
@@ -232,7 +232,7 @@ export const createEditPointTemplate = (data) => {
   `;
 };
 export default class PointEdit extends SmartView {
-  constructor(event = BLANK_TASK) {
+  constructor(event = BLANK_EVENT) {
     super();
     this._data = event;
     this._datepicker = null;
@@ -408,7 +408,7 @@ export default class PointEdit extends SmartView {
 
   _formDeleteClickHandler(evt) {
     evt.preventDefault();
-    this._callback.deleteClick(PointEdit.parseDataToTask(this._data));
+    this._callback.deleteClick(PointEdit.parseDataToEvent(this._data));
   }
 
   setDeleteClickHandler(callback) {
@@ -447,7 +447,7 @@ export default class PointEdit extends SmartView {
     );
   }
 
-  static parseDataToTask(data) {
+  static parseDataToEvent(data) {
     data = Object.assign({}, data);
 
     return data;

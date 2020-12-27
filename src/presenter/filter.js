@@ -4,10 +4,10 @@ import {filter} from "../utils/filter.js";
 import {FilterType, UpdateType} from "../const.js";
 
 export default class Filter {
-  constructor(filterContainer, filterModel, tasksModel) {
+  constructor(filterContainer, filterModel, eventsModel) {
     this._filterContainer = filterContainer;
     this._filterModel = filterModel;
-    this._tasksModel = tasksModel;
+    this._eventsModel = eventsModel;
     this._currentFilter = null;
 
     this._filterComponent = null;
@@ -15,7 +15,7 @@ export default class Filter {
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleFilterTypeChange = this._handleFilterTypeChange.bind(this);
 
-    this._tasksModel.addObserver(this._handleModelEvent);
+    this._eventsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
   }
 
@@ -51,38 +51,38 @@ export default class Filter {
 
   _getFilters() {
     console.log('_getFilters');
-    const tasks = this._tasksModel.getTasks();
+    const events = this._eventsModel.getEvents();
 
     return [
       {
         type: FilterType.ALL,
         name: `All`,
-        count: filter[FilterType.ALL](tasks).length
+        count: filter[FilterType.ALL](events).length
       },
       // {
       //   type: FilterType.OVERDUE,
       //   name: `Overdue`,
-      //   count: filter[FilterType.OVERDUE](tasks).length
+      //   count: filter[FilterType.OVERDUE](events).length
       // },
       // {
       //   type: FilterType.TODAY,
       //   name: `Today`,
-      //   count: filter[FilterType.TODAY](tasks).length
+      //   count: filter[FilterType.TODAY](events).length
       // },
       // {
       //   type: FilterType.FAVORITES,
       //   name: `Favorites`,
-      //   count: filter[FilterType.FAVORITES](tasks).length
+      //   count: filter[FilterType.FAVORITES](events).length
       // },
       // {
       //   type: FilterType.REPEATING,
       //   name: `Repeating`,
-      //   count: filter[FilterType.REPEATING](tasks).length
+      //   count: filter[FilterType.REPEATING](events).length
       // },
       // {
       //   type: FilterType.ARCHIVE,
       //   name: `Archive`,
-      //   count: filter[FilterType.ARCHIVE](tasks).length
+      //   count: filter[FilterType.ARCHIVE](events).length
       // }
     ];
   }

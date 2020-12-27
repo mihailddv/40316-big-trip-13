@@ -92,7 +92,7 @@ export default class Event {
 
   _handleFavoriteClick() {
     this._changeData(
-        UserAction.UPDATE_TASK,
+        UserAction.UPDATE_EVENT,
         UpdateType.MINOR,
         Object.assign(
             {},
@@ -110,7 +110,7 @@ export default class Event {
 
   _handleFormSubmit(update) {
     this._changeData(
-        UserAction.UPDATE_TASK,
+        UserAction.UPDATE_EVENT,
         UpdateType.MINOR,
         update
     );
@@ -122,11 +122,11 @@ export default class Event {
     // Проверяем, поменялись ли в задаче данные, которые попадают под фильтрацию,
     // а значит требуют перерисовки списка - если таких нет, это PATCH-обновление
     // const isMinorUpdate =
-    //   !isDatesEqual(this._task.dueDate, update.dueDate) ||
-    //   isTaskRepeating(this._task.repeating) !== isTaskRepeating(update.repeating);
+    //   !isDatesEqual(this._event.dueDate, update.dueDate) ||
+    //   isEventRepeating(this._event.repeating) !== isEventRepeating(update.repeating);
 
     this._changeData(
-        UserAction.UPDATE_TASK,
+        UserAction.UPDATE_EVENT,
         UpdateType.PATCH,
         update
     );
@@ -137,11 +137,11 @@ export default class Event {
     this._replaceFormToCard();
   }
 
-  _handleDeleteClick(task) {
+  _handleDeleteClick(event) {
     this._changeData(
-        UserAction.DELETE_TASK,
+        UserAction.DELETE_EVENT,
         UpdateType.MINOR,
-        task
+        event
     );
   }
 }

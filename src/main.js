@@ -9,7 +9,7 @@ import {
 
 import PagePresenter from "./presenter/page.js";
 import FilterPresenter from "./presenter/filter.js";
-import TasksModel from "./model/events.js";
+import EventsModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
 
 import {generateEvent} from '../mock/event';
@@ -19,8 +19,8 @@ import TripTabsView from './view/trip-tabs';
 
 const EVENT_COUNT = 20;
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
-const tasksModel = new TasksModel();
-tasksModel.setTasks(events);
+const eventsModel = new EventsModel();
+eventsModel.setEvents(events);
 
 const filterModel = new FilterModel();
 
@@ -34,8 +34,8 @@ render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
 // render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
 
 
-const pagePresenter = new PagePresenter(siteTripEventsElement, tasksModel, filterModel);
-const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, tasksModel);
+const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel);
+const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
 
 filterPresenter.init();
 pagePresenter.init();
@@ -44,5 +44,5 @@ calculateTotal();
 
 document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  pagePresenter.createTask();
+  pagePresenter.createEvent();
 });

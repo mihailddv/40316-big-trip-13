@@ -1,54 +1,54 @@
 import Observer from "../utils/observer.js";
 
-export default class Tasks extends Observer {
+export default class Events extends Observer {
   constructor() {
     super();
-    this._tasks = [];
+    this._events = [];
   }
 
-  setTasks(tasks) {
-    this._tasks = tasks.slice();
+  setEvents(events) {
+    this._events = events.slice();
   }
 
-  getTasks() {
-    return this._tasks;
+  getEvents() {
+    return this._events;
   }
 
-  updateTask(updateType, update) {
-    const index = this._tasks.findIndex((task) => task.id === update.id);
+  updateEvent(updateType, update) {
+    const index = this._events.findIndex((event) => event.id === update.id);
 
     if (index === -1) {
-      throw new Error(`Can't update unexisting task`);
+      throw new Error(`Can't update unexisting event`);
     }
 
-    this._tasks = [
-      ...this._tasks.slice(0, index),
+    this._events = [
+      ...this._events.slice(0, index),
       update,
-      ...this._tasks.slice(index + 1)
+      ...this._events.slice(index + 1)
     ];
 
     this._notify(updateType, update);
   }
 
-  addTask(updateType, update) {
-    this._tasks = [
+  addEvent(updateType, update) {
+    this._events = [
       update,
-      ...this._tasks
+      ...this._events
     ];
 
     this._notify(updateType, update);
   }
 
-  deleteTask(updateType, update) {
-    const index = this._tasks.findIndex((task) => task.id === update.id);
+  deleteEvent(updateType, update) {
+    const index = this._events.findIndex((event) => event.id === update.id);
 
     if (index === -1) {
-      throw new Error(`Can't delete unexisting task`);
+      throw new Error(`Can't delete unexisting event`);
     }
 
-    this._tasks = [
-      ...this._tasks.slice(0, index),
-      ...this._tasks.slice(index + 1)
+    this._events = [
+      ...this._events.slice(0, index),
+      ...this._events.slice(index + 1)
     ];
 
     this._notify(updateType);
