@@ -16,13 +16,14 @@ import SortView from '../view/trip-sort';
 import LoadingView from "../view/loading.js";
 
 export default class Page {
-  constructor(pageContainer, eventsModel, filterModel) {
+  constructor(pageContainer, eventsModel, filterModel, api) {
     this._eventsModel = eventsModel;
     this._filterModel = filterModel;
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE_DEFAULT;
     this._isLoading = true;
+    this._api = api;
 
     this._sortComponent = null;
 
@@ -55,10 +56,16 @@ export default class Page {
     this._renderPage();
   }
 
+  // console.log(`api`, this._api);
+
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_EVENT:
-        this._eventsModel.updateEvent(updateType, update);
+        // this._eventsModel.updateEvent(updateType, update);
+        console.log(`f`);
+        this._api.updateTask(update).then((response) => {
+          this._eventsModel.updateTask(updateType, response);
+        });
         break;
       case UserAction.ADD_EVENT:
         this._eventsModel.addEvent(updateType, update);

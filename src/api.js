@@ -24,7 +24,7 @@ export default class Api {
 
   updateTask(task) {
     return this._load({
-      url: `tasks/${task.id}`,
+      url: `points/${task.id}`,
       method: Method.PUT,
       body: JSON.stringify(TasksModel.adaptToServer(task)),
       headers: new Headers({"Content-Type": `application/json`})

@@ -84,11 +84,9 @@ export default class Events extends Observer {
             type: task.type,
             offers: task.offers,
           },
-          orders: `ff`,
         }
     );
 
-    // Ненужные ключи мы удаляем
     delete adaptedTask.base_price;
     delete adaptedTask.date_from;
     delete adaptedTask.date_to;
@@ -100,24 +98,24 @@ export default class Events extends Observer {
 
   // TODO: сделать при отправке на сервер
 
-  // static adaptToServer(task) {
-  //   const adaptedTask = Object.assign(
-  //       {},
-  //       task,
-  //       {
-  //         "due_date": task.dueDate instanceof Date ? task.dueDate.toISOString() : null, // На сервере дата хранится в ISO формате
-  //         "is_archived": task.isArchive,
-  //         "is_favorite": task.isFavorite,
-  //         "repeating_days": task.repeating
-  //       }
-  //   );
+  static adaptToServer(task) {
+    const adaptedTask = Object.assign(
+        {},
+        task,
+        {
+          "due_date": task.dueDate instanceof Date ? task.dueDate.toISOString() : null, // На сервере дата хранится в ISO формате
+          "is_archived": task.isArchive,
+          "is_favorite": task.isFavorite,
+          "repeating_days": task.repeating
+        }
+    );
 
-  //   // Ненужные ключи мы удаляем
-  //   delete adaptedTask.dueDate;
-  //   delete adaptedTask.isArchive;
-  //   delete adaptedTask.isFavorite;
-  //   delete adaptedTask.repeating;
+    // Ненужные ключи мы удаляем
+    delete adaptedTask.dueDate;
+    delete adaptedTask.isArchive;
+    delete adaptedTask.isFavorite;
+    delete adaptedTask.repeating;
 
-  //   return adaptedTask;
-  // }
+    return adaptedTask;
+  }
 }

@@ -43,7 +43,7 @@ const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
 
 // render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
 
-const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel);
+const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, api);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
 
 filterPresenter.init();
