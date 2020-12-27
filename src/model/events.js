@@ -53,4 +53,57 @@ export default class Events extends Observer {
 
     this._notify(updateType);
   }
+
+  static adaptToClient(task) {
+    const adaptedTask = Object.assign(
+        {},
+        task,
+        {
+          price: task.base_price,
+          dateStart: task.date_from !== null ? new Date(task.date_from) : task.date_from, // На клиенте дата хранится как экземпляр Date
+          isFavorite: task.is_favorite,
+          city: {
+            name: task.destination.name,
+            text: task.destination.description,
+            photos: task.destination.pictures,
+          }
+          // repeating: task.repeating_days
+        }
+    );
+
+    // Ненужные ключи мы удаляем
+    delete adaptedTask.base_price;
+    delete adaptedTask.date_from;
+    delete adaptedTask.is_favorite;
+    delete adaptedTask.destination;
+    // delete adaptedTask.due_date;
+    // delete adaptedTask.is_archived;
+    // delete adaptedTask.is_favorite;
+    // delete adaptedTask.repeating_days;
+
+    return adaptedTask;
+  }
+
+  // TODO: сделать при отправке на сервер
+
+  // static adaptToServer(task) {
+  //   const adaptedTask = Object.assign(
+  //       {},
+  //       task,
+  //       {
+  //         "due_date": task.dueDate instanceof Date ? task.dueDate.toISOString() : null, // На сервере дата хранится в ISO формате
+  //         "is_archived": task.isArchive,
+  //         "is_favorite": task.isFavorite,
+  //         "repeating_days": task.repeating
+  //       }
+  //   );
+
+  //   // Ненужные ключи мы удаляем
+  //   delete adaptedTask.dueDate;
+  //   delete adaptedTask.isArchive;
+  //   delete adaptedTask.isFavorite;
+  //   delete adaptedTask.repeating;
+
+  //   return adaptedTask;
+  // }
 }
