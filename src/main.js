@@ -32,7 +32,7 @@ import TripTabsView from './view/trip-tabs';
 const api = new Api(END_POINT, AUTHORIZATION);
 
 const eventsModel = new EventsModel();
-// eventsModel.setEvents(events);
+// eventsModel.setEvents(UpdateType.INIT, events);
 
 const filterModel = new FilterModel();
 

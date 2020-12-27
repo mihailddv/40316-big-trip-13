@@ -38,6 +38,8 @@ export const createEditPointTemplate = (data) => {
     price,
   } = data;
 
+  console.log(`data`, data);
+
   const createDetailsSection = () => {
     return `
     ${(eventType.offers || city.text) ? `
@@ -132,9 +134,12 @@ export const createEditPointTemplate = (data) => {
 
   let offersTemplate;
 
-  if (eventType.offers) {
-    offersTemplate = createOffers(eventType.offers);
+  if (eventType) {
+    if (eventType.offers) {
+      offersTemplate = createOffers(eventType.offers);
+    }
   }
+
 
   // const offersTemplate = createOffers(eventType.offers);
   const offersSection = createOffersSection();

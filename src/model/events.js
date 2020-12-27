@@ -7,7 +7,17 @@ export default class Events extends Observer {
   }
 
   setEvents(updateType, events) {
+    // console.log(`setEvents events`, events);
     this._events = events.slice();
+    console.log(`this._events`, this._events);
+
+    this._notify(updateType);
+  }
+
+  setTasks(updateType, tasks) {
+    console.log(`setTasks`);
+    this._tasks = tasks.slice();
+    console.log(`this._tasks`, this._tasks);
 
     this._notify(updateType);
   }
@@ -68,7 +78,9 @@ export default class Events extends Observer {
             name: task.destination.name,
             text: task.destination.description,
             photos: task.destination.pictures,
-          }
+          },
+          eventType: `test`,
+          orders: `ff`,
           // repeating: task.repeating_days
         }
     );
