@@ -11,6 +11,7 @@ import PagePresenter from "./presenter/page.js";
 import FilterPresenter from "./presenter/filter.js";
 import EventsModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
+import {MenuItem} from "./const.js";
 
 import {generateEvent} from '../mock/event';
 
@@ -28,14 +29,37 @@ const siteMainElement = document.querySelector(`.page-body`);
 const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);
 const siteTripControlsElement = siteTripMainElement.querySelector(`.trip-controls`);
 const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
+// const siteMenuComponent = new SiteMenuView();
 
 render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
 render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
+// render(siteHeaderElement, siteMenuComponent, RenderPosition.BEFOREEND);
 // render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
 
 
 const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
+
+const handleSiteMenuClick = (menuItem) => {
+  switch (menuItem) {
+    case MenuItem.ADD_NEW_TASK:
+      // Скрыть статистику
+      // Показать доску
+      // Показать форму добавления новой задачи
+      // Убрать выделение с ADD NEW TASK после сохранения
+      break;
+    case MenuItem.TASKS:
+      // Показать доску
+      // Скрыть статистику
+      break;
+    case MenuItem.STATISTICS:
+      // Скрыть доску
+      // Показать статистику
+      break;
+  }
+};
+
+// siteTripControlsElement.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
 pagePresenter.init();
@@ -46,3 +70,4 @@ document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (e
   evt.preventDefault();
   pagePresenter.createEvent();
 });
+
