@@ -15,7 +15,7 @@ export default class Api {
   }
 
   getTasks() {
-    return this._load({url: `tasks`})
+    return this._load({url: `points`})
       .then(Api.toJSON);
   }
 
