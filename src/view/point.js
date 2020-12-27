@@ -7,11 +7,12 @@ const createPointTemplate = (point) => {
     eventType,
     dateStart,
     dateEnd,
-    travelHours,
     price,
     isFavorite,
     orders
   } = point;
+
+  const travelHours = Math.floor((dateEnd - dateStart) / 3600000);
 
   const favoriteClassName = isFavorite
     ? `event__favorite-btn--active`

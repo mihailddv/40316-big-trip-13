@@ -73,6 +73,7 @@ export default class Events extends Observer {
         {
           price: task.base_price,
           dateStart: task.date_from !== null ? new Date(task.date_from) : task.date_from, // На клиенте дата хранится как экземпляр Date
+          dateEnd: task.date_to !== null ? new Date(task.date_to) : task.date_to,
           isFavorite: task.is_favorite,
           city: {
             name: task.destination.name,
@@ -81,19 +82,15 @@ export default class Events extends Observer {
           },
           eventType: `test`,
           orders: `ff`,
-          // repeating: task.repeating_days
         }
     );
 
     // Ненужные ключи мы удаляем
     delete adaptedTask.base_price;
     delete adaptedTask.date_from;
+    delete adaptedTask.date_to;
     delete adaptedTask.is_favorite;
     delete adaptedTask.destination;
-    // delete adaptedTask.due_date;
-    // delete adaptedTask.is_archived;
-    // delete adaptedTask.is_favorite;
-    // delete adaptedTask.repeating_days;
 
     return adaptedTask;
   }
