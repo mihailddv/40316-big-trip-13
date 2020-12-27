@@ -1,11 +1,32 @@
+import he from "he";
 import dayjs from "dayjs";
-import SmartView from "./smart.js";
-import {EVENT_TYPE} from '../const';
-import {humanizeEditPointTime} from '../utils/point';
-import {calculateTotal} from '../utils/common';
 import flatpickr from "flatpickr";
 
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
+
+import SmartView from "./smart.js";
+import {EVENT_TYPE, CITIES} from '../const';
+import {humanizeEditPointTime} from '../utils/point';
+import {calculateTotal} from '../utils/common';
+
+
+const BLANK_EVENT = {
+  city: [
+    {
+      name: `gg`,
+      text: `ff`,
+    }
+  ],
+  eventType: [
+    {
+      name: `Taxi`,
+      image: `taxi`,
+    }
+  ],
+  dateStart: null,
+  dateEnd: null,
+  price: 0,
+};
 
 export const createEditPointTemplate = (data) => {
 
@@ -15,14 +36,11 @@ export const createEditPointTemplate = (data) => {
     dateStart,
     dateEnd,
     price,
-    destination,
-    offers,
-    photos,
   } = data;
 
   const createDetailsSection = () => {
     return `
-    ${(offers.length || destination.length) ? `
+    ${(eventType.offers || city.text) ? `
       <section class="event__details">
         ${offersSection}
         ${destinationSection}
@@ -33,7 +51,7 @@ export const createEditPointTemplate = (data) => {
 
   const createOffersSection = () => {
     return `
-    ${offers.length ? `<section class="event__section  event__section--offers">
+    ${eventType.offers ? `<section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
       <div class="event__available-offers">
@@ -44,11 +62,11 @@ export const createEditPointTemplate = (data) => {
     `;
   };
 
-  const createDesctinationSection = () => {
+  const createDestinationSection = () => {
     return `
-    ${destination.length ? `<section class="event__section  event__section--destination">
+    ${city.text ? `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${destination}</p>
+      <p class="event__destination-description">${he.encode(city.text)}</p>
     </section>
     ` : ``}
     `;
@@ -56,12 +74,12 @@ export const createEditPointTemplate = (data) => {
 
   const createPhotosSection = () => {
     return `
-    ${photos.length ? `
+    ${city.photos ? `
       <div class="event__photos-container">
         <div class="event__photos-tape">
-          ${photos.map(({photoPath}) => `
-            <img class="event__photo" src="${photoPath}" alt="Event photo">
-          `).join(``)}
+        ${city.photos.map(({src}) => `
+          <img class="event__photo" src="${src}" alt="Event photo">
+        `).join(``)}
         </div>
       </div>
     ` : ``}
@@ -70,17 +88,18 @@ export const createEditPointTemplate = (data) => {
 
   const createOffers = () => {
     return /* html */`
-      ${offers.map(({id, name, offerPrice, isChecked}) => /* html */`
+      ${eventType.offers.map(({title, offerPrice, checked}) => /* html */`
         <div class="event__offer-selector">
           <input
             class="event__offer-checkbox visually-hidden"
-            id="event-offer-${id}"
+            id="event-offer-${title}"
             type="checkbox"
-            name="event-offer-${id}"
-            ${isChecked ? `checked` : ``}
+            name="event-offer-${title}"
+            data-name="${title}"
+            ${checked ? `checked` : ``}
           >
-          <label class="event__offer-label" for="event-offer-${id}">
-            <span class="event__offer-title">${name}</span>
+          <label class="event__offer-label" for="event-offer-${title}">
+            <span class="event__offer-title">${title}</span>
             &plus;&euro;&nbsp;
             <span class="event__offer-price">${offerPrice}</span>
           </label>
@@ -91,29 +110,34 @@ export const createEditPointTemplate = (data) => {
 
   const createEventTypeItems = () => {
     return `
-      ${EVENT_TYPE.map(({id, type, name, image}) => `
+      ${EVENT_TYPE.map(({type, image}) => `
         <div class="event__type-item">
           <input
-            id="event-type-${type}-${id}"
+            id="event-type-${type}"
             class="event__type-input visually-hidden"
             type="radio"
             name="event-type"
-            value="${name}"
+            value="${type}"
           >
           <label
             class="event__type-label event__type-label--${image}"
-            for="event-type-${type}-${id}"
+            for="event-type-${type}"
           >
-            ${name}
+            ${type}
           </label>
         </div>
       `).join(``)}
     `;
   };
 
-  const offersTemplate = createOffers(offers);
+  let offersTemplate;
+
+  if (eventType.offers) {
+    offersTemplate = createOffers(eventType.offers);
+  }
+
   const offersSection = createOffersSection();
-  const destinationSection = createDesctinationSection();
+  const destinationSection = createDestinationSection();
   const detailsSection = createDetailsSection();
   const photosSection = createPhotosSection();
   const eventTypeItems = createEventTypeItems();
@@ -139,13 +163,20 @@ export const createEditPointTemplate = (data) => {
 
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            ${eventType.name}
+            ${eventType.type}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${city}" list="destination-list-1">
+          <input
+            class="event__input event__input--destination"
+            id="event-destination-1"
+            type="text"
+            name="event-destination"
+            value="${city.name}"
+            list="destination-list-1"
+          >
           <datalist id="destination-list-1">
-            <option value="Amsterdam"></option>
-            <option value="Geneva"></option>
-            <option value="Chamonix"></option>
+            ${CITIES.map(({name}) => `
+              <option value="${name}"></option>
+            `).join(``)}
           </datalist>
         </div>
 
@@ -201,18 +232,21 @@ export const createEditPointTemplate = (data) => {
   `;
 };
 export default class PointEdit extends SmartView {
-  constructor(point) {
+  constructor(event = BLANK_EVENT) {
     super();
-    this._data = point;
+    this._data = event;
     this._datepicker = null;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
     this._cardArrowHandler = this._cardArrowHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
     this._cityInputHandler = this._cityInputHandler.bind(this);
     this._eventTypeHandler = this._eventTypeHandler.bind(this);
     this._dateStartChangeHandler = this._dateStartChangeHandler.bind(this);
     this._dateEndChangeHandler = this._dateEndChangeHandler.bind(this);
+    this._cityInputHandler = this._cityInputHandler.bind(this);
+    this._onOfferChange = this._onOfferChange.bind(this);
 
     this._setInnerHandlers();
     this._setDatepicker();
@@ -230,7 +264,7 @@ export default class PointEdit extends SmartView {
           minDate: `today`,
           dateFormat: `y/m/d H:i`,
           defaultDate: this._data.dateStart,
-          onChange: this._dateStartChangeHandler // На событие flatpickr передаём наш колбэк
+          onChange: this._dateStartChangeHandler,
         }
     );
 
@@ -240,7 +274,7 @@ export default class PointEdit extends SmartView {
           minDate: `today`,
           dateFormat: `y/m/d H:i`,
           defaultDate: this._data.dateEnd,
-          onChange: this._dateEndChangeHandler // На событие flatpickr передаём наш колбэк
+          onChange: this._dateEndChangeHandler,
         }
     );
   }
@@ -257,6 +291,15 @@ export default class PointEdit extends SmartView {
     });
   }
 
+  removeElement() {
+    super.removeElement();
+
+    if (this._datepicker) {
+      this._datepicker.destroy();
+      this._datepicker = null;
+    }
+  }
+
   reset(event) {
     this.updateData(
         PointEdit.parseEventToData(event)
@@ -270,53 +313,77 @@ export default class PointEdit extends SmartView {
   restoreHandlers() {
     this._setInnerHandlers();
     this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
     this._setDatepicker();
   }
 
-  _setInnerHandlers() {
-    this.getElement()
-      .querySelector(`.event__input--price`)
-      .addEventListener(`input`, this._priceInputHandler);
-    this.getElement()
-      .querySelector(`.event__input--destination`)
-      .addEventListener(`input`, this._cityInputHandler);
-    // this.getElement()
-    //   .querySelector(`[data-time="start"]`)
-    //   .addEventListener(`input`, this._dateStartInputHandler);
-    this.getElement()
-      .querySelector(`[data-time="end"]`)
-      .addEventListener(`input`, this._dateEndInputHandler);
-    this.getElement()
-      .querySelector(`.event__type-group`)
-      .addEventListener(`click`, this._eventTypeHandler);
+  _onOfferChange(evt) {
+    const offerCurrent = this._data.eventType.offers.map((item) => {
+      if (evt.target.name.includes(item.title)) {
+        item.checked = true;
+      }
+      return item;
+    });
+    this.updateData({
+      offers: offerCurrent,
+    }, true);
   }
 
   _priceInputHandler(evt) {
     evt.preventDefault();
     this.updateData({
-      price: evt.target.value
-    }, true);
+      price: evt.target.value,
+    });
   }
 
   _cityInputHandler(evt) {
     evt.preventDefault();
-    this.updateData({
-      city: evt.target.value
-    }, true);
+    const city = CITIES.find((elem) => elem.name === evt.target.value);
+    const name = evt.target.value;
+    let photos = [];
+    let text = ``;
+
+    if (city) {
+      photos = city.photos;
+      text = city.text;
+
+      this.updateData({
+        city: {
+          name,
+          text,
+          photos,
+        }
+      });
+    }
   }
 
   _eventTypeHandler(evt) {
     evt.preventDefault();
-    const name = evt.target.innerHTML.trim();
-    const image = name.toLowerCase();
+    const type = evt.target.value;
+    const image = type.toLowerCase();
+    const offers = EVENT_TYPE.find((elem) => elem.name === evt.target.value).offers;
 
     this.updateData({
       eventType: {
-        name,
+        type,
         image,
-        type: name
+        offers,
       },
     });
+  }
+
+  _dateStartInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      dateStart: evt.target.value
+    }, true);
+  }
+
+  _dateEndInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      dateEnd: evt.target.value
+    }, true);
   }
 
   _formSubmitHandler(evt) {
@@ -339,11 +406,50 @@ export default class PointEdit extends SmartView {
     this.getElement().querySelector(`.event--edit .event__rollup-btn`).addEventListener(`click`, this._cardArrowHandler);
   }
 
+  _formDeleteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.deleteClick(PointEdit.parseDataToEvent(this._data));
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, this._formDeleteClickHandler);
+  }
+
+  _setInnerHandlers() {
+    if (document.querySelector(`.event__input--price`)) {
+      this.getElement()
+        .querySelector(`.event__input--price`)
+        .addEventListener(`input`, this._priceInputHandler);
+    }
+    // this.getElement()
+    //   .querySelector(`.event__input--destination`)
+    //   .addEventListener(`input`, this._cityInputHandler);
+    // this.getElement()
+    //   .querySelector(`[data-time="start"]`)
+    //   .addEventListener(`input`, this._dateStartInputHandler);
+    // this.getElement()
+    //   .querySelector(`[data-time="end"]`)
+    //   .addEventListener(`input`, this._dateEndInputHandler);
+    // this.getElement()
+    //   .querySelector(`.event__type-group`)
+    //   .addEventListener(`change`, this._eventTypeHandler);
+    // this.getElement()
+    //   .querySelector(`.event__available-offers`)
+    //   .addEventListener(`change`, this._onOfferChange);
+  }
+
   static parseEventToData(event) {
     return Object.assign(
         {},
         event,
         {}
     );
+  }
+
+  static parseDataToEvent(data) {
+    data = Object.assign({}, data);
+
+    return data;
   }
 }

@@ -21,6 +21,7 @@ export default class Event {
     this._handleEditClick = this._handleEditClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
     this._handleArrowClick = this._handleArrowClick.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
@@ -37,6 +38,7 @@ export default class Event {
     this._eventComponent.setEditClickHandler(this._handleEditClick);
     this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._eventEditComponent.setCardArrowHandler(this._handleArrowClick);
+    this._eventEditComponent.setDeleteClickHandler(this._handleDeleteClick);
     this._eventComponent.setFavoriteClickHandler(this._handleFavoriteClick);
 
     if (prevEventComponent === null || prevEventEditComponent === null) {
@@ -90,7 +92,7 @@ export default class Event {
 
   _handleFavoriteClick() {
     this._changeData(
-        UserAction.UPDATE_EVENTS,
+        UserAction.UPDATE_EVENT,
         UpdateType.MINOR,
         Object.assign(
             {},
@@ -106,16 +108,40 @@ export default class Event {
     this._replaceCardToForm();
   }
 
-  _handleFormSubmit(event) {
+  _handleFormSubmit(update) {
     this._changeData(
-        UserAction.UPDATE_EVENTS,
+        UserAction.UPDATE_EVENT,
         UpdateType.MINOR,
-        event
+        update
+    );
+    // this._changeData(event);
+    this._replaceFormToCard();
+  }
+
+  _handleFormSubmit(update) {
+    // Проверяем, поменялись ли в задаче данные, которые попадают под фильтрацию,
+    // а значит требуют перерисовки списка - если таких нет, это PATCH-обновление
+    // const isMinorUpdate =
+    //   !isDatesEqual(this._event.dueDate, update.dueDate) ||
+    //   isEventRepeating(this._event.repeating) !== isEventRepeating(update.repeating);
+
+    this._changeData(
+        UserAction.UPDATE_EVENT,
+        UpdateType.PATCH,
+        update
     );
     this._replaceFormToCard();
   }
 
   _handleArrowClick() {
     this._replaceFormToCard();
+  }
+
+  _handleDeleteClick(event) {
+    this._changeData(
+        UserAction.DELETE_EVENT,
+        UpdateType.MINOR,
+        event
+    );
   }
 }

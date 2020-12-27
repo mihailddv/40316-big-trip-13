@@ -3,19 +3,21 @@ import {
   RenderPosition,
   remove,
 } from "../utils/render.js";
-// import {updateItem} from "../utils/common.js";
+import {updateItem} from "../utils/common.js";
 import {sortDate, sortPrice, sortTime} from "../utils/point.js";
-// import {SortType} from "../const.js";
-import {SortType, UpdateType, UserAction} from "../const.js";
+import {SortType, UpdateType, UserAction, FilterType} from "../const.js";
+import {filter} from "../utils/filter.js";
 
 import EventPresenter from './event';
+import EventNewPresenter from "./event-new.js";
 import ListView from '../view/list';
 import ListEmptyView from '../view/list-empty';
-import TripSortView from '../view/trip-sort';
+import SortView from '../view/trip-sort';
 
 export default class Page {
-  constructor(pageContainer, eventsModel) {
+  constructor(pageContainer, eventsModel, filterModel) {
     this._eventsModel = eventsModel;
+    this._filterModel = filterModel;
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE_DEFAULT;
@@ -27,91 +29,28 @@ export default class Page {
     this._eventsListComponent = new ListView();
     this._noEventsComponent = new ListEmptyView();
 
-    // this._handleEventChange = this._handleEventChange.bind(this);
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
+    this._handleEventChange = this._handleEventChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
 
     this._eventsModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
+
+    this._eventNewPresenter = new EventNewPresenter(this._eventsListComponent, this._handleViewAction);
   }
 
   init() {
+    // this._pageEvents = pageEvents.slice();
+
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
     // this._sortEvents(sortDate);
+    // this._renderPage();
     this._renderPage();
   }
-
-  _getEvents() {
-    switch (this._currentSortType) {
-      case SortType.TIME:
-        return this._eventsModel.getEvents().slice().sort(sortTime);
-      case SortType.PRICE:
-        return this._eventsModel.getEvents().slice().sort(sortPrice);
-      case SortType.DATE:
-        return this._eventsModel.getEvents().slice().sort(sortDate);
-    }
-
-    return this._eventsModel.getEvents();
-  }
-
-  _handlerSortTypeChange(sortType) {
-    if (this._currentSortType === sortType) {
-      return;
-    }
-    this._sortEvents(sortType);
-
-    // this._clearEventList();
-    // this._renderEventList();
-    this._clearEventList();
-    this._renderEventList();
-  }
-
-  _renderSort() {
-    if (this._sortComponent !== null) {
-      this._sortComponent = null;
-    }
-
-    this._sortComponent = new TripSortView(this._currentSortType);
-    this._sortComponent.setSortTypeChangeHandler(this._handlerSortTypeChange);
-    render(this._pageComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
-  }
-
-  _renderEvents(events) {
-    events.forEach((event) => this._renderEvent(event));
-  }
-
-  _renderNoEvents() {
-    render(this._pageComponent, this._noEventsComponent, RenderPosition.AFTERBEGIN);
-  }
-
-  _renderEventList() {
-    this._renderEvents(0, Math.min(this._pageEvents.length));
-  }
-
-  _clearEventList({resetSortType = false} = {}) {
-    // const taskCount = this._getEvents().length;
-
-    Object
-      .values(this._eventPresenter)
-      .forEach((presenter) => presenter.destroy());
-    this._eventPresenter = {};
-
-
-    remove(this._sortComponent);
-    // remove(this._noTaskComponent);
-
-    if (resetSortType) {
-      this._currentSortType = SortType.DEFAULT;
-    }
-  }
-
-  // _handleEventChange(updatedEvent) {
-  //   // this._pageEvents = updateItem(this._pageEvents, updatedEvent);
-  //   this._eventPresenter[updatedEvent.id].init(updatedEvent);
-  // }
 
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
@@ -130,6 +69,7 @@ export default class Page {
   _handleModelEvent(updateType, data) {
     switch (updateType) {
       case UpdateType.PATCH:
+        // - обновить часть списка (например, когда поменялось описание)
         this._eventPresenter[data.id].init(data);
         break;
       case UpdateType.MINOR:
@@ -137,35 +77,146 @@ export default class Page {
         this._renderPage();
         break;
       case UpdateType.MAJOR:
-        this._clearPage({resetSortType: true});
+        this._clearPage({resetRenderedEventCount: true, resetSortType: true});
         this._renderPage();
         break;
     }
   }
 
-  _handleModeChange() {
+  createEvent() {
+    this._currentSortType = SortType.DEFAULT;
+    this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
+    this._eventNewPresenter.init();
+  }
+
+  _getEvents() {
+    const filterType = this._filterModel.getFilter();
+    const events = this._eventsModel.getEvents();
+    const filtredEvents = filter[filterType](events);
+
+    switch (this._currentSortType) {
+      case SortType.DATE_UP:
+        // return this._eventsModel.getEvents().slice().sort(sortEventUp);
+        return filtredEvents.sort(sortDate);
+      case SortType.DATE_DOWN:
+        // return this._eventsModel.getEvents().slice().sort(sortEventDown);
+        return filtredEvents.sort(sortDate);
+    }
+
+    // return this._eventsModel.getEvents();
+    return filtredEvents;
+  }
+
+  _renderEvents(events) {
+    events.forEach((event) => this._renderEvent(event));
+  }
+
+  _sortEvents(sortType) {
+    switch (sortType) {
+      case SortType.TIME:
+        this._pageEvents.sort(sortTime);
+        break;
+      case SortType.PRICE:
+        this._pageEvents.sort(sortPrice);
+        break;
+      default:
+        this._pageEvents.sort(sortDate);
+    }
+
+    this._currentSortType = sortType;
+  }
+
+  _handlerSortTypeChange(sortType) {
+    if (this._currentSortType === sortType) {
+      return;
+    }
+    // this._sortEvents(sortType);
+    this._currentSortType = sortType;
+
+    this._clearPage({resetRenderedEventCount: true});
+    this._renderPage();
+  }
+
+  _renderSort() {
+    if (this._sortComponent !== null) {
+      this._sortComponent = null;
+    }
+
+    this._sortComponent = new SortView(this._currentSortType);
+    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
+
+    render(this._pageComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
+  }
+
+  _clearPage({resetSortType = false} = {}) {
+    const eventCount = this._getEvents().length;
+
+    this._eventNewPresenter.destroy();
+
     Object
       .values(this._eventPresenter)
-      .forEach((presenter) => presenter.resetView());
+      .forEach((presenter) => presenter.destroy());
+    this._eventPresenter = {};
+
+    remove(this._sortComponent);
+    remove(this._noEventsComponent);
+    // remove(this._loadMoreButtonComponent);
+
+    this._renderedEventCount = Math.min(eventCount, this._renderedEventCount);
+
+    if (resetSortType) {
+      this._currentSortType = SortType.DEFAULT;
+    }
   }
 
   _renderEvent(event) {
+    // const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleEventChange, this._handleModeChange);
     const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleViewAction, this._handleModeChange);
     eventPresenter.init(event);
     this._eventPresenter[event.id] = eventPresenter;
+  }
+
+  _renderNoEvents() {
+    render(this._pageComponent, this._noEventsComponent, RenderPosition.AFTERBEGIN);
+  }
+
+  _renderEventList() {
+    const eventCount = this._getEvents().length;
+    const events = this._getEvents().slice(0, Math.min(eventCount));
+
+    this._renderEvents(events);
+    this._renderEvents(0, Math.min(this._eventsModel.length));
+  }
+
+  _clearEventList() {
+    Object
+      .values(this._eventPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._eventPresenter = {};
+  }
+
+  _handleEventChange(updatedEvent) {
+    this._pageEvents = updateItem(this._pageEvents, updatedEvent);
+    this._eventPresenter[updatedEvent.id].init(updatedEvent);
+  }
+
+  _handleModeChange() {
+    this._eventNewPresenter.destroy();
+    Object
+      .values(this._eventPresenter)
+      .forEach((presenter) => presenter.resetView());
   }
 
   _renderPage() {
     const events = this._getEvents();
     const eventCount = events.length;
 
-    if (!events) {
+    if (eventCount === 0) {
       this._renderNoEvents();
       return;
     }
 
     this._renderSort();
-    // this._renderEventList();
-    this._renderEvents(events.slice(0, Math.min(eventCount, this._renderedEventCount)));
+    this._renderEvents(events.slice(0, eventCount));
   }
 }
