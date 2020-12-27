@@ -136,6 +136,7 @@ export const createEditPointTemplate = (data) => {
     offersTemplate = createOffers(eventType.offers);
   }
 
+  // const offersTemplate = createOffers(eventType.offers);
   const offersSection = createOffersSection();
   const destinationSection = createDestinationSection();
   const detailsSection = createDetailsSection();

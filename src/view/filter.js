@@ -2,22 +2,18 @@ import AbstractView from "./abstract.js";
 
 const createFilterTemplate = (filter, currentFilterType) => {
   const {type} = filter;
-  // const type = `all`;
-
-  console.log(`type`, type);
-  console.log(`currentFilterType`, currentFilterType);
 
   return /* html */ `<form class="trip-filters" action="#" method="get">
     <div class="trip-filters__filter">
       <input
-        id="filter-everything"
+        id="filter-all"
         class="trip-filters__filter-input visually-hidden"
         type="radio"
         name="trip-filter"
-        value="everything"
+        value="all"
         ${type === `all` ? `checked` : ``}
       >
-      <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
+      <label class="trip-filters__filter-label" for="filter-all">Everything</label>
     </div>
 
     <div class="trip-filters__filter">
@@ -58,7 +54,6 @@ export default class TripFilter extends AbstractView {
   }
 
   getTemplate() {
-    console.log(`getTemplate`);
     return createFilterTemplate(this._filters, this._currentFilter);
   }
 
