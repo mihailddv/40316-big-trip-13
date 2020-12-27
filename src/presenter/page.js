@@ -13,6 +13,7 @@ import EventNewPresenter from "./event-new.js";
 import ListView from '../view/list';
 import ListEmptyView from '../view/list-empty';
 import SortView from '../view/trip-sort';
+import LoadingView from "../view/loading.js";
 
 export default class Page {
   constructor(pageContainer, eventsModel, filterModel) {
@@ -21,6 +22,7 @@ export default class Page {
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE_DEFAULT;
+    this._isLoading = true;
 
     this._sortComponent = null;
 
@@ -28,6 +30,7 @@ export default class Page {
     // this._sortComponent = new TripSortView();
     this._eventsListComponent = new ListView();
     this._noEventsComponent = new ListEmptyView();
+    this._loadingComponent = new LoadingView();
 
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
@@ -80,6 +83,11 @@ export default class Page {
         this._clearPage({resetRenderedEventCount: true, resetSortType: true});
         this._renderPage();
         break;
+      case UpdateType.INIT:
+        this._isLoading = false;
+        remove(this._loadingComponent);
+        this._renderPage();
+        break;
     }
   }
 
@@ -109,6 +117,10 @@ export default class Page {
 
   _renderEvents(events) {
     events.forEach((event) => this._renderEvent(event));
+  }
+
+  _renderLoading() {
+    render(this._pageComponent, this._loadingComponent, RenderPosition.AFTERBEGIN);
   }
 
   _sortEvents(sortType) {
@@ -160,7 +172,7 @@ export default class Page {
 
     remove(this._sortComponent);
     remove(this._noEventsComponent);
-    // remove(this._loadMoreButtonComponent);
+    remove(this._loadingComponent);
 
     this._renderedEventCount = Math.min(eventCount, this._renderedEventCount);
 
