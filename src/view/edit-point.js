@@ -11,20 +11,16 @@ import {calculateTotal} from '../utils/common';
 
 
 const BLANK_EVENT = {
-  city: [
-    {
-      name: `gg`,
-      text: `ff`,
-    }
-  ],
-  eventType: [
-    {
-      name: `Taxi`,
-      image: `taxi`,
-    }
-  ],
-  dateStart: null,
-  dateEnd: null,
+  city: {
+    name: ``,
+    text: ``,
+  },
+  eventType: {
+    type: `taxi`,
+    image: `taxi`,
+  },
+  dateStart: new Date(),
+  dateEnd: new Date(),
   price: 0,
 };
 
@@ -37,6 +33,8 @@ export const createEditPointTemplate = (data) => {
     dateEnd,
     price,
   } = data;
+
+  // console.log(`data`, data);
 
   const createDetailsSection = () => {
     return `
@@ -423,6 +421,34 @@ export default class PointEdit extends SmartView {
         .querySelector(`.event__input--price`)
         .addEventListener(`input`, this._priceInputHandler);
     }
+    if (document.querySelector(`.event__input--destination`)) {
+      this.getElement()
+        .querySelector(`.event__input--destination`)
+        .addEventListener(`input`, this._cityInputHandler);
+    }
+    if (document.querySelector(`[data-time="start"]`)) {
+      this.getElement()
+        .querySelector(`[data-time="start"]`)
+        .addEventListener(`input`, this._dateStartInputHandler);
+    }
+    if (document.querySelector(`[data-time="end"]`)) {
+      this.getElement()
+        .querySelector(`[data-time="end"]`)
+        .addEventListener(`input`, this._dateEndInputHandler);
+    }
+    if (document.querySelector(`.event__type-group`)) {
+      this.getElement()
+        .querySelector(`.event__type-group`)
+        .addEventListener(`change`, this._eventTypeHandler);
+    }
+    if (document.querySelector(`.event__available-offers`)) {
+      this.getElement()
+        .querySelector(`.event__available-offers`)
+        .addEventListener(`change`, this._onOfferChange);
+    }
+    // this.getElement()
+    //   .querySelector(`.event__input--price`)
+    //   .addEventListener(`input`, this._priceInputHandler);
     // this.getElement()
     //   .querySelector(`.event__input--destination`)
     //   .addEventListener(`input`, this._cityInputHandler);
