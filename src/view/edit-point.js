@@ -34,8 +34,6 @@ export const createEditPointTemplate = (data) => {
     price,
   } = data;
 
-  // console.log(`data`, data);
-
   const createDetailsSection = () => {
     return `
     ${(eventType.offers || city.text) ? `

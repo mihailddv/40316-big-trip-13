@@ -10,8 +10,8 @@ const createSortTemplate = (currentSortType) => {
         type="radio"
         name="trip-sort"
         value="sort-day"
-        data-sort-type="${SortType.DATE_DEFAULT}"
-        checked
+        data-sort-type="${SortType.DATE}"
+        ${currentSortType === SortType.DATE ? `checked` : ``}
       >
       <label class="trip-sort__btn" for="sort-day">Day</label>
     </div>
@@ -29,6 +29,7 @@ const createSortTemplate = (currentSortType) => {
         name="trip-sort"
         value="sort-time"
         data-sort-type="${SortType.TIME}"
+        ${currentSortType === SortType.TIME ? `checked` : ``}
       >
       <label class="trip-sort__btn" for="sort-time">Time</label>
     </div>
@@ -41,6 +42,7 @@ const createSortTemplate = (currentSortType) => {
         name="trip-sort"
         value="sort-price"
         data-sort-type="${SortType.PRICE}"
+        ${currentSortType === SortType.PRICE ? `checked` : ``}
       >
       <label class="trip-sort__btn" for="sort-price">Price</label>
     </div>
