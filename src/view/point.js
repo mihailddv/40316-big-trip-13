@@ -14,14 +14,16 @@ const createPointTemplate = (data) => {
   const travelHours = Math.floor((dateEnd - dateStart) / 3600000);
   const image = eventType.type.toLowerCase();
 
+  // console.log(`data`, data);
+
   const createOffers = () => {
     return `
     ${(eventType.offers) ? `
-      ${eventType.offers.map(({title, offerPrice}) => /* html */`
+      ${eventType.offers.map(({title, price}) => /* html */`
         <li class="event__offer">
           <span class="event__offer-title">${title}</span>
           &plus;&euro;&nbsp;
-          <span class="event__offer-price">${offerPrice}</span>
+          <span class="event__offer-price">${price}</span>
         </li>
       `).join(``)}
     ` : ``}

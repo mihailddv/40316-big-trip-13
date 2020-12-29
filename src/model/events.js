@@ -103,18 +103,31 @@ export default class Events extends Observer {
         {},
         task,
         {
-          "due_date": task.dueDate instanceof Date ? task.dueDate.toISOString() : null, // На сервере дата хранится в ISO формате
-          "is_archived": task.isArchive,
+          "price": task.price,
+          "date_from": task.dateStart instanceof Date ? task.dateStart.toISOString() : null, // На сервере дата хранится в ISO формате
+          "date_to": task.dateEnd instanceof Date ? task.dateEnd.toISOString() : null, // На сервере дата хранится в ISO формате
+          "type": task.eventType.type,
+          "offers": task.eventType.offers,
           "is_favorite": task.isFavorite,
-          "repeating_days": task.repeating
+          "destination": {
+            name: task.city.name,
+            description: task.city.text,
+            pictures: task.city.photos,
+          },
+          // "is_archived": task.isArchive,
+          // "repeating_days": task.repeating
         }
     );
 
     // Ненужные ключи мы удаляем
-    delete adaptedTask.dueDate;
-    delete adaptedTask.isArchive;
+    // delete adaptedTask.price;
+    delete adaptedTask.dateStart;
+    delete adaptedTask.dateEnd;
+    delete adaptedTask.city;
+    delete adaptedTask.eventType;
+    // delete adaptedTask.isArchive;
     delete adaptedTask.isFavorite;
-    delete adaptedTask.repeating;
+    // delete adaptedTask.repeating;
 
     return adaptedTask;
   }

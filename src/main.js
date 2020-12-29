@@ -56,7 +56,7 @@ document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (e
 
 api.getTasks()
   .then((tasks) => {
-    // console.log(`tasks`, tasks);
+    console.log(`tasks`, tasks);
     eventsModel.setEvents(UpdateType.INIT, tasks);
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
     render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
