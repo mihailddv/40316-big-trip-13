@@ -103,10 +103,10 @@ export default class Events extends Observer {
         {},
         task,
         {
-          "price": task.price,
+          "base_price": Number(task.price),
           "date_from": task.dateStart instanceof Date ? task.dateStart.toISOString() : null, // На сервере дата хранится в ISO формате
           "date_to": task.dateEnd instanceof Date ? task.dateEnd.toISOString() : null, // На сервере дата хранится в ISO формате
-          "type": task.eventType.type,
+          "type": task.eventType.type.toLowerCase(),
           "offers": task.eventType.offers,
           "is_favorite": task.isFavorite,
           "destination": {
@@ -125,6 +125,7 @@ export default class Events extends Observer {
     delete adaptedTask.dateEnd;
     delete adaptedTask.city;
     delete adaptedTask.eventType;
+    delete adaptedTask.price;
     // delete adaptedTask.isArchive;
     delete adaptedTask.isFavorite;
     // delete adaptedTask.repeating;

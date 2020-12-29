@@ -23,6 +23,7 @@ export default class Api {
   }
 
   updateTask(task) {
+    console.log(`updateTask`, task);
     return this._load({
       url: `points/${task.id}`,
       method: Method.PUT,
