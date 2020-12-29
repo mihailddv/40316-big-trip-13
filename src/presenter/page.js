@@ -21,7 +21,7 @@ export default class Page {
     this._filterModel = filterModel;
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
-    this._currentSortType = SortType.DATE_DEFAULT;
+    this._currentSortType = SortType.DATE;
     this._isLoading = true;
     this._api = api;
 
@@ -37,7 +37,7 @@ export default class Page {
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleEventChange = this._handleEventChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
-    this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
 
     this._eventsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
@@ -61,8 +61,6 @@ export default class Page {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_EVENT:
-        // this._eventsModel.updateEvent(updateType, update);
-        console.log(`f`);
         this._api.updateTask(update).then((response) => {
           this._eventsModel.updateTask(updateType, response);
         });
@@ -110,12 +108,15 @@ export default class Page {
     const filtredEvents = filter[filterType](events);
 
     switch (this._currentSortType) {
-      case SortType.DATE_UP:
+      case SortType.DATE:
         // return this._eventsModel.getEvents().slice().sort(sortEventUp);
         return filtredEvents.sort(sortDate);
-      case SortType.DATE_DOWN:
+      case SortType.TIME:
+        // return this._eventsModel.getEvents().slice().sort(sortEventUp);
+        return filtredEvents.sort(sortTime);
+      case SortType.PRICE:
         // return this._eventsModel.getEvents().slice().sort(sortEventDown);
-        return filtredEvents.sort(sortDate);
+        return filtredEvents.sort(sortPrice);
     }
 
     // return this._eventsModel.getEvents();
@@ -138,21 +139,22 @@ export default class Page {
       case SortType.PRICE:
         this._pageEvents.sort(sortPrice);
         break;
-      default:
+      case SortType.DATE:
         this._pageEvents.sort(sortDate);
+        break;
     }
 
     this._currentSortType = sortType;
   }
 
-  _handlerSortTypeChange(sortType) {
+  _handleSortTypeChange(sortType) {
     if (this._currentSortType === sortType) {
       return;
     }
     // this._sortEvents(sortType);
     this._currentSortType = sortType;
 
-    this._clearPage({resetRenderedEventCount: true});
+    this._clearPage();
     this._renderPage();
   }
 
