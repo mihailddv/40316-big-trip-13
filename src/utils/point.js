@@ -21,7 +21,10 @@ export const sortPrice = (eventA, eventB) => {
 };
 
 export const sortTime = (eventA, eventB) => {
-  return eventB.travelHours - eventA.travelHours;
+  const eventADate = new Date(eventA.dateEnd) - new Date(eventA.dateStart);
+  const eventBDate = new Date(eventB.dateEnd) - new Date(eventB.dateStart);
+
+  return eventBDate - eventADate;
 };
 
 export const isPastDate = (date) => {
