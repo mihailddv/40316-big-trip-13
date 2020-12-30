@@ -329,7 +329,7 @@ export default class PointEdit extends SmartView {
     evt.preventDefault();
     this.updateData({
       price: evt.target.value,
-    });
+    }, true);
   }
 
   _cityInputHandler(evt) {
