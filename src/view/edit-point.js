@@ -23,6 +23,28 @@ const BLANK_EVENT = {
   price: 0,
 };
 
+const createOffers = (offers) => {
+  return /* html */`
+    ${offers.map(({title, price, checked}) => /* html */`
+      <div class="event__offer-selector">
+        <input
+          class="event__offer-checkbox visually-hidden"
+          id="event-offer-${title}"
+          type="checkbox"
+          name="event-offer-${title}"
+          data-name="${title}"
+          ${checked ? `checked` : ``}
+        >
+        <label class="event__offer-label" for="event-offer-${title}">
+          <span class="event__offer-title">${title}</span>
+          &plus;&euro;&nbsp;
+          <span class="event__offer-price">${price}</span>
+        </label>
+      </div>
+    `).join(``)}
+  `;
+};
+
 export const createEditPointTemplate = (data) => {
 
   const {
@@ -80,28 +102,6 @@ export const createEditPointTemplate = (data) => {
         </div>
       </div>
     ` : ``}
-    `;
-  };
-
-  const createOffers = () => {
-    return /* html */`
-      ${eventType.offers.map(({title, price, checked}) => /* html */`
-        <div class="event__offer-selector">
-          <input
-            class="event__offer-checkbox visually-hidden"
-            id="event-offer-${title}"
-            type="checkbox"
-            name="event-offer-${title}"
-            data-name="${title}"
-            ${checked ? `checked` : ``}
-          >
-          <label class="event__offer-label" for="event-offer-${title}">
-            <span class="event__offer-title">${title}</span>
-            &plus;&euro;&nbsp;
-            <span class="event__offer-price">${price}</span>
-          </label>
-        </div>
-      `).join(``)}
     `;
   };
 

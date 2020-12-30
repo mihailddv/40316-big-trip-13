@@ -1,6 +1,21 @@
 import AbstractView from "./abstract.js";
 import {humanizePointDate, humanizeEventTime} from "../utils/point";
 
+
+const createOffers = (offers) => {
+  return `
+  ${(offers) ? `
+    ${offers.map(({title, price}) => /* html */`
+      <li class="event__offer">
+        <span class="event__offer-title">${title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${price}</span>
+      </li>
+    `).join(``)}
+  ` : ``}
+  `;
+};
+
 const createPointTemplate = (data) => {
   const {
     city,
@@ -16,21 +31,7 @@ const createPointTemplate = (data) => {
 
   // console.log(`data`, data);
 
-  const createOffers = () => {
-    return `
-    ${(eventType.offers) ? `
-      ${eventType.offers.map(({title, price}) => /* html */`
-        <li class="event__offer">
-          <span class="event__offer-title">${title}</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">${price}</span>
-        </li>
-      `).join(``)}
-    ` : ``}
-    `;
-  };
-
-  const detailsSection = createOffers();
+  const detailsSection = createOffers(eventType.offers);
 
   const favoriteClassName = isFavorite
     ? `event__favorite-btn--active`
