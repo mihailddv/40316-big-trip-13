@@ -87,18 +87,18 @@ export default class Page {
   _getEvents() {
     const filterType = this._filterModel.getFilter();
     const events = this._eventsModel.getEvents();
-    const filtredEvents = filter[filterType](events);
+    const filteredEvents = filter[filterType](events);
 
     switch (this._currentSortType) {
       case SortType.DATE:
-        return filtredEvents.sort(sortDate);
+        return filteredEvents.sort(sortDate);
       case SortType.TIME:
-        return filtredEvents.sort(sortTime);
+        return filteredEvents.sort(sortTime);
       case SortType.PRICE:
-        return filtredEvents.sort(sortPrice);
+        return filteredEvents.sort(sortPrice);
     }
 
-    return filtredEvents;
+    return filteredEvents;
   }
 
   _renderEvents(events) {
