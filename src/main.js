@@ -44,10 +44,10 @@ const buttonNewEvent = siteMainElement.querySelector(`.trip-main__event-add-btn`
 
 // render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
 
-const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, api);
+const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, buttonNewEvent, api);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
-render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
-render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
+// render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
+// render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
 
 filterPresenter.init();
 pagePresenter.init();

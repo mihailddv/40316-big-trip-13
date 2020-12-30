@@ -23,8 +23,8 @@ export default class Page {
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE;
     this._isLoading = true;
-    this._api = api;
     this._buttonNewEvent = buttonNewEvent;
+    this._api = api;
 
     this._sortComponent = null;
 
@@ -52,11 +52,10 @@ export default class Page {
     this._renderPage();
   }
 
-  // console.log(`api`, this._api);
-
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_EVENT:
+        console.log(`api`, this._api);
         this._api.updateTask(update).then((response) => {
           this._eventsModel.updateEvent(updateType, response);
         });
