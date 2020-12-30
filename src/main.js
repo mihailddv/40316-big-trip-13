@@ -40,16 +40,21 @@ const siteMainElement = document.querySelector(`.page-body`);
 const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);
 const siteTripControlsElement = siteTripMainElement.querySelector(`.trip-controls`);
 const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
+const buttonNewEvent = siteMainElement.querySelector(`.trip-main__event-add-btn`);
 
 // render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
 
 const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, api);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
+render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
+render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
 
 filterPresenter.init();
 pagePresenter.init();
 
-document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
+calculateTotal();
+
+buttonNewEvent.addEventListener(`click`, (evt) => {
   evt.preventDefault();
   pagePresenter.createEvent();
 });

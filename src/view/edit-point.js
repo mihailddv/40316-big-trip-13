@@ -333,7 +333,7 @@ export default class PointEdit extends SmartView {
     evt.preventDefault();
     this.updateData({
       price: evt.target.value,
-    });
+    }, true);
   }
 
   _cityInputHandler(evt) {
@@ -417,36 +417,6 @@ export default class PointEdit extends SmartView {
   }
 
   _setInnerHandlers() {
-    // if (document.querySelector(`.event__input--price`)) {
-    //   this.getElement()
-    //     .querySelector(`.event__input--price`)
-    //     .addEventListener(`input`, this._priceInputHandler);
-    // }
-    // if (document.querySelector(`.event__input--destination`)) {
-    //   this.getElement()
-    //     .querySelector(`.event__input--destination`)
-    //     .addEventListener(`input`, this._cityInputHandler);
-    // }
-    // if (document.querySelector(`[data-time="start"]`)) {
-    //   this.getElement()
-    //     .querySelector(`[data-time="start"]`)
-    //     .addEventListener(`input`, this._dateStartInputHandler);
-    // }
-    // if (document.querySelector(`[data-time="end"]`)) {
-    //   this.getElement()
-    //     .querySelector(`[data-time="end"]`)
-    //     .addEventListener(`input`, this._dateEndInputHandler);
-    // }
-    // if (document.querySelector(`.event__type-group`)) {
-    //   this.getElement()
-    //     .querySelector(`.event__type-group`)
-    //     .addEventListener(`change`, this._eventTypeHandler);
-    // }
-    // if (document.querySelector(`.event__available-offers`)) {
-    //   this.getElement()
-    //     .querySelector(`.event__available-offers`)
-    //     .addEventListener(`change`, this._onOfferChange);
-    // }
     this.getElement()
       .querySelector(`.event__input--price`)
       .addEventListener(`input`, this._priceInputHandler);
@@ -462,9 +432,11 @@ export default class PointEdit extends SmartView {
     this.getElement()
       .querySelector(`.event__type-group`)
       .addEventListener(`change`, this._eventTypeHandler);
-    this.getElement()
-      .querySelector(`.event__available-offers`)
-      .addEventListener(`change`, this._onOfferChange);
+    if (document.querySelector(`.event__available-offers`)) {
+      this.getElement()
+        .querySelector(`.event__available-offers`)
+        .addEventListener(`change`, this._onOfferChange);
+    }
   }
 
   static parseEventToData(event) {
