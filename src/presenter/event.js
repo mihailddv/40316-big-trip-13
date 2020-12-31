@@ -26,14 +26,15 @@ export default class Event {
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
-  init(event) {
+  init(event, destinations) {
+    console.log(`init destinations`, destinations);
     this._event = event;
 
     const prevEventComponent = this._eventComponent;
     const prevEventEditComponent = this._eventEditComponent;
 
     this._eventComponent = new PointView(event);
-    this._eventEditComponent = new PointEditView(event);
+    this._eventEditComponent = new PointEditView(event, destinations);
 
     this._eventComponent.setEditClickHandler(this._handleEditClick);
     this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);

@@ -16,15 +16,17 @@ import SortView from '../view/trip-sort';
 import LoadingView from "../view/loading.js";
 
 export default class Page {
-  constructor(pageContainer, eventsModel, filterModel, buttonNewEvent, api) {
+  constructor(pageContainer, eventsModel, filterModel, destinationsModel, buttonNewEvent, api) {
     this._eventsModel = eventsModel;
     this._filterModel = filterModel;
     this._pageContainer = pageContainer;
+    this._destinationsModel = destinationsModel;
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE;
-    this._isLoading = true;
     this._buttonNewEvent = buttonNewEvent;
     this._api = api;
+    this._isLoading = true;
+    this._isDestinationLoad = false;
 
     this._sortComponent = null;
 
@@ -48,6 +50,7 @@ export default class Page {
   init() {
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
+    // this._destinationsModel.addObserver(this._handleModelEvent);
 
     this._renderPage();
   }

@@ -7,10 +7,13 @@ import {
   calculateTotal,
 } from './utils/common';
 
-import PagePresenter from "./presenter/page.js";
-import FilterPresenter from "./presenter/filter.js";
 import EventsModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
+import DestinationsModel from "./model/destinations";
+
+import PagePresenter from "./presenter/page.js";
+import FilterPresenter from "./presenter/filter.js";
+
 import {UpdateType} from "./const.js";
 import Api from "./api.js";
 
@@ -32,9 +35,8 @@ import TripTabsView from './view/trip-tabs';
 const api = new Api(END_POINT, AUTHORIZATION);
 
 const eventsModel = new EventsModel();
-// eventsModel.setEvents(UpdateType.INIT, events);
-
 const filterModel = new FilterModel();
+const destinationsModel = new DestinationsModel();
 
 const siteMainElement = document.querySelector(`.page-body`);
 const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);
@@ -61,7 +63,7 @@ buttonNewEvent.addEventListener(`click`, (evt) => {
 
 api.getTasks()
   .then((tasks) => {
-    console.log(`tasks`, tasks);
+    // console.log(`tasks`, tasks);
     eventsModel.setEvents(UpdateType.INIT, tasks);
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
     render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
@@ -71,5 +73,19 @@ api.getTasks()
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
     render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
   });
+
+api.getDestinations()
+  .then((response) => {
+    return response.json();
+  })
+  .then((destinations) => {
+    console.log(`data`, destinations);
+    destinationsModel.setDestination(UpdateType.INIT, destinations);
+  })
+  .catch(() => {
+    destinationsModel.setDestination(UpdateType.INIT, {});
+  });
+
+console.log(api.getDestinations());
 
 calculateTotal();
