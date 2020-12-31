@@ -252,6 +252,13 @@ export default class PointEdit extends SmartView {
     this._setDatepicker();
   }
 
+  _getDest() {
+    console.log(`getDest`);
+    const dest = this._destinationModel.getDestination();
+
+    return dest;
+  }
+
   _setDatepicker() {
     if (this._datepicker) {
       this._datepicker.destroy();

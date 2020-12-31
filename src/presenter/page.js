@@ -28,6 +28,8 @@ export default class Page {
     this._isLoading = true;
     this._isDestinationLoad = false;
 
+    console.log(`destinationsModel page`, destinationsModel);
+
     this._sortComponent = null;
 
     this._pageComponent = new ListView();
@@ -43,6 +45,7 @@ export default class Page {
 
     this._eventsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
+    // this._destinationsModel.addObserver(this._handleModelEvent);
 
     this._eventNewPresenter = new EventNewPresenter(this._eventsListComponent, this._handleViewAction);
   }
@@ -50,7 +53,6 @@ export default class Page {
   init() {
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
-    // this._destinationsModel.addObserver(this._handleModelEvent);
 
     this._renderPage();
   }

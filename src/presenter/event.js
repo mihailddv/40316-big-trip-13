@@ -27,7 +27,6 @@ export default class Event {
   }
 
   init(event, destinations) {
-    console.log(`init destinations`, destinations);
     this._event = event;
 
     const prevEventComponent = this._eventComponent;

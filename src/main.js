@@ -46,7 +46,7 @@ const buttonNewEvent = siteMainElement.querySelector(`.trip-main__event-add-btn`
 
 // render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
 
-const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, buttonNewEvent, api);
+const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, destinationsModel, buttonNewEvent, api);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
 // render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
 // render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
@@ -85,7 +85,5 @@ api.getDestinations()
   .catch(() => {
     destinationsModel.setDestination(UpdateType.INIT, {});
   });
-
-console.log(api.getDestinations());
 
 calculateTotal();
