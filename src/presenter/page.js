@@ -15,17 +15,17 @@ import ListEmptyView from '../view/list-empty';
 import SortView from '../view/trip-sort';
 
 export default class Page {
-  constructor(pageContainer, eventsModel, filterModel) {
+  constructor(pageContainer, eventsModel, filterModel, buttonNewEvent) {
     this._eventsModel = eventsModel;
     this._filterModel = filterModel;
     this._pageContainer = pageContainer;
     this._eventPresenter = {};
-    this._currentSortType = SortType.DATE_DEFAULT;
+    this._currentSortType = SortType.DATE;
+    this._buttonNewEvent = buttonNewEvent;
 
     this._sortComponent = null;
 
     this._pageComponent = new ListView();
-    // this._sortComponent = new TripSortView();
     this._eventsListComponent = new ListView();
     this._noEventsComponent = new ListEmptyView();
 
@@ -33,7 +33,7 @@ export default class Page {
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleEventChange = this._handleEventChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
-    this._handlerSortTypeChange = this._handlerSortTypeChange.bind(this);
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
 
     this._eventsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
@@ -42,13 +42,9 @@ export default class Page {
   }
 
   init() {
-    // this._pageEvents = pageEvents.slice();
-
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
-    // this._sortEvents(sortDate);
-    // this._renderPage();
     this._renderPage();
   }
 
@@ -69,7 +65,6 @@ export default class Page {
   _handleModelEvent(updateType, data) {
     switch (updateType) {
       case UpdateType.PATCH:
-        // - обновить часть списка (например, когда поменялось описание)
         this._eventPresenter[data.id].init(data);
         break;
       case UpdateType.MINOR:
@@ -86,25 +81,24 @@ export default class Page {
   createEvent() {
     this._currentSortType = SortType.DEFAULT;
     this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
-    this._eventNewPresenter.init();
+    this._eventNewPresenter.init(this._buttonNewEvent);
   }
 
   _getEvents() {
     const filterType = this._filterModel.getFilter();
     const events = this._eventsModel.getEvents();
-    const filtredEvents = filter[filterType](events);
+    const filteredEvents = filter[filterType](events);
 
     switch (this._currentSortType) {
-      case SortType.DATE_UP:
-        // return this._eventsModel.getEvents().slice().sort(sortEventUp);
-        return filtredEvents.sort(sortDate);
-      case SortType.DATE_DOWN:
-        // return this._eventsModel.getEvents().slice().sort(sortEventDown);
-        return filtredEvents.sort(sortDate);
+      case SortType.DATE:
+        return filteredEvents.sort(sortDate);
+      case SortType.TIME:
+        return filteredEvents.sort(sortTime);
+      case SortType.PRICE:
+        return filteredEvents.sort(sortPrice);
     }
 
-    // return this._eventsModel.getEvents();
-    return filtredEvents;
+    return filteredEvents;
   }
 
   _renderEvents(events) {
@@ -119,21 +113,22 @@ export default class Page {
       case SortType.PRICE:
         this._pageEvents.sort(sortPrice);
         break;
-      default:
+      case SortType.DATE:
         this._pageEvents.sort(sortDate);
+        break;
     }
 
     this._currentSortType = sortType;
   }
 
-  _handlerSortTypeChange(sortType) {
+  _handleSortTypeChange(sortType) {
     if (this._currentSortType === sortType) {
       return;
     }
-    // this._sortEvents(sortType);
+
     this._currentSortType = sortType;
 
-    this._clearPage({resetRenderedEventCount: true});
+    this._clearPage();
     this._renderPage();
   }
 
@@ -160,7 +155,6 @@ export default class Page {
 
     remove(this._sortComponent);
     remove(this._noEventsComponent);
-    // remove(this._loadMoreButtonComponent);
 
     this._renderedEventCount = Math.min(eventCount, this._renderedEventCount);
 
@@ -170,7 +164,6 @@ export default class Page {
   }
 
   _renderEvent(event) {
-    // const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleEventChange, this._handleModeChange);
     const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleViewAction, this._handleModeChange);
     eventPresenter.init(event);
     this._eventPresenter[event.id] = eventPresenter;

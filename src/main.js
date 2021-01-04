@@ -29,13 +29,10 @@ const siteMainElement = document.querySelector(`.page-body`);
 const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);
 const siteTripControlsElement = siteTripMainElement.querySelector(`.trip-controls`);
 const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
-// const siteMenuComponent = new SiteMenuView();
+const buttonNewEvent = siteMainElement.querySelector(`.trip-main__event-add-btn`);
 
 render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
 render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
-// render(siteHeaderElement, siteMenuComponent, RenderPosition.BEFOREEND);
-// render(siteTripControlsElement, new TripFilterView(filters, `all`), RenderPosition.BEFOREEND);
-
 
 const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
@@ -66,7 +63,7 @@ pagePresenter.init();
 
 calculateTotal();
 
-document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
+buttonNewEvent.addEventListener(`click`, (evt) => {
   evt.preventDefault();
   pagePresenter.createEvent();
 });

@@ -11,20 +11,16 @@ import {calculateTotal} from '../utils/common';
 
 
 const BLANK_EVENT = {
-  city: [
-    {
-      name: `gg`,
-      text: `ff`,
-    }
-  ],
-  eventType: [
-    {
-      name: `Taxi`,
-      image: `taxi`,
-    }
-  ],
-  dateStart: null,
-  dateEnd: null,
+  city: {
+    name: ``,
+    text: ``,
+  },
+  eventType: {
+    type: `taxi`,
+    image: `taxi`,
+  },
+  dateStart: new Date(),
+  dateEnd: new Date(),
   price: 0,
 };
 
@@ -136,7 +132,6 @@ export const createEditPointTemplate = (data) => {
     offersTemplate = createOffers(eventType.offers);
   }
 
-  // const offersTemplate = createOffers(eventType.offers);
   const offersSection = createOffersSection();
   const destinationSection = createDestinationSection();
   const detailsSection = createDetailsSection();
@@ -211,7 +206,7 @@ export const createEditPointTemplate = (data) => {
           <input
             class="event__input event__input--price"
             id="event-price-1"
-            type="text"
+            type="number"
             name="event-price"
             value="${price}"
           >
@@ -334,7 +329,7 @@ export default class PointEdit extends SmartView {
     evt.preventDefault();
     this.updateData({
       price: evt.target.value,
-    });
+    }, true);
   }
 
   _cityInputHandler(evt) {
@@ -418,26 +413,26 @@ export default class PointEdit extends SmartView {
   }
 
   _setInnerHandlers() {
-    if (document.querySelector(`.event__input--price`)) {
+    this.getElement()
+      .querySelector(`.event__input--price`)
+      .addEventListener(`input`, this._priceInputHandler);
+    this.getElement()
+      .querySelector(`.event__input--destination`)
+      .addEventListener(`input`, this._cityInputHandler);
+    this.getElement()
+      .querySelector(`[data-time="start"]`)
+      .addEventListener(`input`, this._dateStartInputHandler);
+    this.getElement()
+      .querySelector(`[data-time="end"]`)
+      .addEventListener(`input`, this._dateEndInputHandler);
+    this.getElement()
+      .querySelector(`.event__type-group`)
+      .addEventListener(`change`, this._eventTypeHandler);
+    if (document.querySelector(`.event__available-offers`)) {
       this.getElement()
-        .querySelector(`.event__input--price`)
-        .addEventListener(`input`, this._priceInputHandler);
+        .querySelector(`.event__available-offers`)
+        .addEventListener(`change`, this._onOfferChange);
     }
-    // this.getElement()
-    //   .querySelector(`.event__input--destination`)
-    //   .addEventListener(`input`, this._cityInputHandler);
-    // this.getElement()
-    //   .querySelector(`[data-time="start"]`)
-    //   .addEventListener(`input`, this._dateStartInputHandler);
-    // this.getElement()
-    //   .querySelector(`[data-time="end"]`)
-    //   .addEventListener(`input`, this._dateEndInputHandler);
-    // this.getElement()
-    //   .querySelector(`.event__type-group`)
-    //   .addEventListener(`change`, this._eventTypeHandler);
-    // this.getElement()
-    //   .querySelector(`.event__available-offers`)
-    //   .addEventListener(`change`, this._onOfferChange);
   }
 
   static parseEventToData(event) {

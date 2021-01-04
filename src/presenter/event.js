@@ -114,17 +114,10 @@ export default class Event {
         UpdateType.MINOR,
         update
     );
-    // this._changeData(event);
     this._replaceFormToCard();
   }
 
   _handleFormSubmit(update) {
-    // Проверяем, поменялись ли в задаче данные, которые попадают под фильтрацию,
-    // а значит требуют перерисовки списка - если таких нет, это PATCH-обновление
-    // const isMinorUpdate =
-    //   !isDatesEqual(this._event.dueDate, update.dueDate) ||
-    //   isEventRepeating(this._event.repeating) !== isEventRepeating(update.repeating);
-
     this._changeData(
         UserAction.UPDATE_EVENT,
         UpdateType.PATCH,

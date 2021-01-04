@@ -207,7 +207,7 @@ export const CITIES = [
 ];
 
 export const SortType = {
-  DATE_DEFAULT: `date`,
+  DATE: `date`,
   TIME: `time`,
   PRICE: `price`
 };
