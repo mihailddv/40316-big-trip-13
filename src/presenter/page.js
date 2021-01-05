@@ -45,7 +45,22 @@ export default class Page {
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
+
+    this._eventsModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
+
     this._renderPage();
+  }
+
+  destroy() {
+    console.log(`destroy`);
+    this._clearPage({resetSortType: true});
+
+    remove(this._eventsListComponent);
+    remove(this._pageComponent);
+
+    this._eventsModel.removeObserver(this._handleModelEvent);
+    this._filterModel.removeObserver(this._handleModelEvent);
   }
 
   _handleViewAction(actionType, updateType, update) {

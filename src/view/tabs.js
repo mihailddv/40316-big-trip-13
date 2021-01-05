@@ -38,14 +38,16 @@ export default class Tabs extends AbstractView {
   }
 
   setMenuClickHandler(callback) {
-    console.log(`setMenuClickHandler`);
     this._callback.menuClick = callback;
     this.getElement().addEventListener(`click`, this._menuClickHandler);
   }
 
   setMenuItem(menuItem) {
     console.log(`setMenuItem`);
-    const item = this.getElement().querySelector(`[ data-menu-item=${menuItem}]`);
+    const item = this.getElement().querySelector(`[data-menu-item=${menuItem}]`);
+
+    debugger;
+    console.log(`item`, item);
 
     if (item !== null) {
       item.checked = true;

@@ -11,7 +11,7 @@ import PagePresenter from "./presenter/page.js";
 import FilterPresenter from "./presenter/filter.js";
 import EventsModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
-import {MenuItem} from "./const.js";
+import {MenuItem, UpdateType, FilterType} from "./const.js";
 
 import {generateEvent} from '../mock/event';
 
@@ -39,7 +39,7 @@ const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filt
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
 
 const handleSiteMenuClick = (menuItem) => {
-  console.log(1);
+  // console.log(1);
   switch (menuItem) {
     case MenuItem.ADD_NEW_TASK:
       // Скрыть статистику
@@ -51,12 +51,16 @@ const handleSiteMenuClick = (menuItem) => {
       // Показать доску
       // Скрыть статистику
       // pagePresenter.destroy();
-      console.log(`TASKS`);
+      pagePresenter.destroy();
+      // filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
+      pagePresenter.init();
+      // console.log(`handleSiteMenuClick TASKS`);
       break;
     case MenuItem.STATISTICS:
       // Скрыть доску
       // Показать статистику
-      console.log(`STATISTICS`);
+      pagePresenter.destroy();
+      // console.log(`handleSiteMenuClick STATISTICS`);
       // pagePresenter.destroy();
       break;
   }
