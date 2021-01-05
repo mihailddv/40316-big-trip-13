@@ -12,6 +12,7 @@ import FilterPresenter from "./presenter/filter.js";
 import EventsModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
 import {MenuItem, UpdateType, FilterType} from "./const.js";
+import StatisticsView from "./view/statistics.js";
 
 import {generateEvent} from '../mock/event';
 
@@ -38,6 +39,8 @@ render(siteTripControlsElement, siteMenuComponent, RenderPosition.AFTERBEGIN);
 const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
 
+let statisticsComponent = null;
+
 const handleSiteMenuClick = (menuItem) => {
   // console.log(1);
   switch (menuItem) {
@@ -60,6 +63,9 @@ const handleSiteMenuClick = (menuItem) => {
       // Скрыть доску
       // Показать статистику
       pagePresenter.destroy();
+      statisticsComponent = new StatisticsView(eventsModel.getEvents());
+      console.log(`statisticsComponent`, statisticsComponent);
+      render(siteTripControlsElement, statisticsComponent, RenderPosition.BEFOREEND);
       // console.log(`handleSiteMenuClick STATISTICS`);
       // pagePresenter.destroy();
       break;
