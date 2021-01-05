@@ -78,14 +78,15 @@ const renderMoneyChart = (ctx, points) => {
 const renderTypeChart = (ctx, points) => {
   const labels = getTypes(points);
   // const chartLabels = getChartLabels(points);
-  // const counts = calculateCountByPointType(points);
+  const counts = calculateCountByPointType(points);
+  console.log(`counts`, counts);
   return new Chart(ctx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
       labels,
       datasets: [{
-        data: [4, 3, 2, 1, 1, 1],
+        data: labels.map((t) => counts.get(t)),
         backgroundColor: `#ffffff`,
         hoverBackgroundColor: `#ffffff`,
         anchor: `start`
@@ -279,10 +280,10 @@ export default class Statistics extends SmartView {
     const typeCtx = this.getElement().querySelector(`.statistics__chart--transport`);
     // const timeCtx = this.getElement().querySelector(`.statistics__chart--time`);
 
-    // const BAR_HEIGHT = 55;
-    // const barsCount = getChartLabels(points).length;
-    // moneyCtx.height = BAR_HEIGHT * barsCount;
-    // typeCtx.height = BAR_HEIGHT * barsCount;
+    const BAR_HEIGHT = 55;
+    const itemCount = getTypes(points).length;
+    moneyCtx.height = BAR_HEIGHT * itemCount;
+    typeCtx.height = BAR_HEIGHT * itemCount;
     // timeCtx.height = BAR_HEIGHT * barsCount;
 
     this._moneyChart = renderMoneyChart(moneyCtx, points);
