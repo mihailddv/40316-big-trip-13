@@ -17,18 +17,6 @@ export const getTypes = (points) => {
   return result.sort();
 };
 
-// const getChartLabels = (points) => {
-//   const counts = calculateCountByPointType(points);
-//   let labels = [];
-//   counts.forEach((value, key) => {
-//     if (value > 0) {
-//       labels.push(key);
-//     }
-//   });
-//   console.log(`labels`, labels);
-//   return labels.sort();
-// };
-
 const calculateCostByPointType = (points) => {
   let costs = new Map();
   POINT_TYPES.forEach((pointType) => costs.set(pointType, 0));
@@ -38,14 +26,16 @@ const calculateCostByPointType = (points) => {
   return costs;
 };
 
-const calculateCountByPointType = (points) => {
-  let counts = new Map();
-  POINT_TYPES.forEach((pointType) => counts.set(pointType, 0));
-  points.forEach((point) => {
-    counts.set(point.type, counts.get(point.type) + 1);
+const calculateUniqType = (points) => {
+  const labels = getTypes(points);
+  let uniqType = new Map();
+  labels.forEach((pointType) => {
+    uniqType.set(pointType, 0);
   });
-  console.log(`counts`, counts);
-  return counts;
+  points.forEach((point) => {
+    uniqType.set(point.eventType.type, uniqType.get(point.eventType.type) + 1);
+  });
+  return uniqType;
 };
 
 const calculateTimeByPointType = (points) => {
@@ -59,4 +49,4 @@ const calculateTimeByPointType = (points) => {
   return times;
 };
 
-export {calculateCostByPointType, calculateCountByPointType, calculateTimeByPointType};
+export {calculateCostByPointType, calculateUniqType, calculateTimeByPointType};
