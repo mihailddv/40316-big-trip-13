@@ -16,7 +16,7 @@ import {MenuItem} from "./const.js";
 import {generateEvent} from '../mock/event';
 
 import TripInfoView from './view/trip-info';
-import TripTabsView from './view/trip-tabs';
+import TabsView from './view/tabs';
 
 const EVENT_COUNT = 20;
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
@@ -30,14 +30,16 @@ const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);
 const siteTripControlsElement = siteTripMainElement.querySelector(`.trip-controls`);
 const siteTripEventsElement = siteMainElement.querySelector(`.trip-events`);
 const buttonNewEvent = siteMainElement.querySelector(`.trip-main__event-add-btn`);
+const siteMenuComponent = new TabsView();
 
 render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
-render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
+render(siteTripControlsElement, siteMenuComponent, RenderPosition.AFTERBEGIN);
 
 const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
 
 const handleSiteMenuClick = (menuItem) => {
+  console.log(1);
   switch (menuItem) {
     case MenuItem.ADD_NEW_TASK:
       // Скрыть статистику
@@ -48,15 +50,19 @@ const handleSiteMenuClick = (menuItem) => {
     case MenuItem.TASKS:
       // Показать доску
       // Скрыть статистику
+      // pagePresenter.destroy();
+      console.log(`TASKS`);
       break;
     case MenuItem.STATISTICS:
       // Скрыть доску
       // Показать статистику
+      console.log(`STATISTICS`);
+      // pagePresenter.destroy();
       break;
   }
 };
 
-// siteTripControlsElement.setMenuClickHandler(handleSiteMenuClick);
+siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
 pagePresenter.init();

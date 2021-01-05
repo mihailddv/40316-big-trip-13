@@ -6,14 +6,14 @@ const createTabsTemplate = () => {
     <a
       class="trip-tabs__btn"
       href="#"
-      value="${MenuItem.TASKS}"
+      data-menu-item="${MenuItem.TASKS}"
     >
       Table
     </a>
     <a
-      class="trip-tabs__btn trip-tabs__btn--active"
+      class="trip-tabs__btn"
       href="#"
-      value="${MenuItem.STATISTICS}"
+      data-menu-item="${MenuItem.STATISTICS}"
     >
       Stats
     </a>
@@ -32,17 +32,20 @@ export default class Tabs extends AbstractView {
   }
 
   _menuClickHandler(evt) {
+    console.log(`_menuClickHandler`, evt.target.dataset.menuItem);
     evt.preventDefault();
-    this._callback.menuClick(evt.target.value);
+    this._callback.menuClick(evt.target.dataset.menuItem);
   }
 
   setMenuClickHandler(callback) {
+    console.log(`setMenuClickHandler`);
     this._callback.menuClick = callback;
-    this.getElement().addEventListener(`change`, this._menuClickHandler);
+    this.getElement().addEventListener(`click`, this._menuClickHandler);
   }
 
   setMenuItem(menuItem) {
-    const item = this.getElement().querySelector(`[value=${menuItem}]`);
+    console.log(`setMenuItem`);
+    const item = this.getElement().querySelector(`[ data-menu-item=${menuItem}]`);
 
     if (item !== null) {
       item.checked = true;
