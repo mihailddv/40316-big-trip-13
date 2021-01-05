@@ -1,22 +1,18 @@
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from "./smart.js";
-import {getChartLabels, calculateCostByPointType, calculateCountByPointType, calculateTimeByPointType} from "../utils/statistics";
+import {calculateCostByPointType, calculateCountByPointType, calculateTimeByPointType, getTypes} from "../utils/statistics";
 
 const MINUTES_PER_DAY = 1440;
 
 const renderMoneyChart = (ctx, points) => {
-  console.log(`renderMoneyChart`);
-  console.log(`renderMoneyChart points`, points);
-  console.log(`renderMoneyChart ctx`, ctx);
-  // const chartLabels = getChartLabels(points);
+  const labels = getTypes(points);
   // const costs = calculateCostByPointType(points);
   return new Chart(ctx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      // labels: chartLabels,
-      labels: [`TAXI`, `BUS`, `TRAIN`, `SHIP`, `TRANSPORT`, `DRIVE`],
+      labels,
       datasets: [{
         // data: chartLabels.map((t) => costs.get(t)),
         data: [400, 300, 200, 160, 150, 100],
@@ -49,7 +45,7 @@ const renderMoneyChart = (ctx, points) => {
           ticks: {
             fontColor: `#000000`,
             padding: 5,
-            fontSize: 13,
+            fontSize: 15,
           },
           gridLines: {
             display: false,
@@ -80,13 +76,14 @@ const renderMoneyChart = (ctx, points) => {
 };
 
 const renderTypeChart = (ctx, points) => {
+  const labels = getTypes(points);
   // const chartLabels = getChartLabels(points);
   // const counts = calculateCountByPointType(points);
   return new Chart(ctx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      labels: [`TAXI`, `BUS`, `TRAIN`, `SHIP`, `TRANSPORT`, `DRIVE`],
+      labels,
       datasets: [{
         data: [4, 3, 2, 1, 1, 1],
         backgroundColor: `#ffffff`,
@@ -98,7 +95,7 @@ const renderTypeChart = (ctx, points) => {
       plugins: {
         datalabels: {
           font: {
-            size: 13
+            size: 15
           },
           color: `#000000`,
           anchor: `end`,
@@ -118,7 +115,7 @@ const renderTypeChart = (ctx, points) => {
           ticks: {
             fontColor: `#000000`,
             padding: 5,
-            fontSize: 13,
+            fontSize: 15,
           },
           gridLines: {
             display: false,

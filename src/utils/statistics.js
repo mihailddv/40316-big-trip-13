@@ -1,15 +1,33 @@
-import {POINT_TYPES} from "../const.js";
+import {POINT_TYPES, EVENT_TYPE} from "../const.js";
 
-const getChartLabels = (points) => {
-  const counts = calculateCountByPointType(points);
-  let labels = [];
-  counts.forEach((value, key) => {
-    if (value > 0) {
-      labels.push(key);
+export const getTypes = (points) => {
+  let lookup = {};
+  let items = points;
+  let result = [];
+
+  for (let item, i = 0; item = items[i++];) {
+    let type = item.eventType.type;
+
+    if (!(type in lookup)) {
+      lookup[type] = 1;
+      result.push(type);
     }
-  });
-  return labels.sort();
+  }
+
+  return result.sort();
 };
+
+// const getChartLabels = (points) => {
+//   const counts = calculateCountByPointType(points);
+//   let labels = [];
+//   counts.forEach((value, key) => {
+//     if (value > 0) {
+//       labels.push(key);
+//     }
+//   });
+//   console.log(`labels`, labels);
+//   return labels.sort();
+// };
 
 const calculateCostByPointType = (points) => {
   let costs = new Map();
@@ -26,6 +44,7 @@ const calculateCountByPointType = (points) => {
   points.forEach((point) => {
     counts.set(point.type, counts.get(point.type) + 1);
   });
+  console.log(`counts`, counts);
   return counts;
 };
 
@@ -40,4 +59,4 @@ const calculateTimeByPointType = (points) => {
   return times;
 };
 
-export {getChartLabels, calculateCostByPointType, calculateCountByPointType, calculateTimeByPointType};
+export {calculateCostByPointType, calculateCountByPointType, calculateTimeByPointType};
