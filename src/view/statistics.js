@@ -7,15 +7,19 @@ const MINUTES_PER_DAY = 1440;
 
 const renderMoneyChart = (ctx, points) => {
   console.log(`renderMoneyChart`);
-  const chartLabels = getChartLabels(points);
-  const costs = calculateCostByPointType(points);
+  console.log(`renderMoneyChart points`, points);
+  console.log(`renderMoneyChart ctx`, ctx);
+  // const chartLabels = getChartLabels(points);
+  // const costs = calculateCostByPointType(points);
   return new Chart(ctx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      labels: chartLabels,
+      // labels: chartLabels,
+      labels: [`TAXI`, `BUS`, `TRAIN`, `SHIP`, `TRANSPORT`, `DRIVE`],
       datasets: [{
-        data: chartLabels.map((t) => costs.get(t)),
+        // data: chartLabels.map((t) => costs.get(t)),
+        data: [400, 300, 200, 160, 150, 100],
         backgroundColor: `#ffffff`,
         hoverBackgroundColor: `#ffffff`,
         anchor: `start`
@@ -76,15 +80,15 @@ const renderMoneyChart = (ctx, points) => {
 };
 
 const renderTypeChart = (ctx, points) => {
-  const chartLabels = getChartLabels(points);
-  const counts = calculateCountByPointType(points);
+  // const chartLabels = getChartLabels(points);
+  // const counts = calculateCountByPointType(points);
   return new Chart(ctx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      labels: chartLabels,
+      labels: [`TAXI`, `BUS`, `TRAIN`, `SHIP`, `TRANSPORT`, `DRIVE`],
       datasets: [{
-        data: chartLabels.map((t) => counts.get(t)),
+        data: [4, 3, 2, 1, 1, 1],
         backgroundColor: `#ffffff`,
         hoverBackgroundColor: `#ffffff`,
         anchor: `start`
@@ -173,7 +177,7 @@ const renderTimeChart = (ctx, points) => {
       },
       title: {
         display: true,
-        text: `TYPE`,
+        text: `TIME-SPEND`,
         fontColor: `#000000`,
         fontSize: 23,
         position: `left`
@@ -276,16 +280,16 @@ export default class Statistics extends SmartView {
 
     const moneyCtx = this.getElement().querySelector(`.statistics__chart--money`);
     const typeCtx = this.getElement().querySelector(`.statistics__chart--transport`);
-    const timeCtx = this.getElement().querySelector(`.statistics__chart--time`);
+    // const timeCtx = this.getElement().querySelector(`.statistics__chart--time`);
 
-    const BAR_HEIGHT = 55;
-    const barsCount = getChartLabels(points).length;
-    moneyCtx.height = BAR_HEIGHT * barsCount;
-    typeCtx.height = BAR_HEIGHT * barsCount;
-    timeCtx.height = BAR_HEIGHT * barsCount;
+    // const BAR_HEIGHT = 55;
+    // const barsCount = getChartLabels(points).length;
+    // moneyCtx.height = BAR_HEIGHT * barsCount;
+    // typeCtx.height = BAR_HEIGHT * barsCount;
+    // timeCtx.height = BAR_HEIGHT * barsCount;
 
     this._moneyChart = renderMoneyChart(moneyCtx, points);
     this._typeChart = renderTypeChart(typeCtx, points);
-    this._timeChart = renderTimeChart(timeCtx, points);
+    // this._timeChart = renderTimeChart(timeCtx, points);
   }
 }

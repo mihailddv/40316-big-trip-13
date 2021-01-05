@@ -33,7 +33,7 @@ const calculateTimeByPointType = (points) => {
   let times = new Map();
   POINT_TYPES.forEach((pointType) => times.set(pointType, 0));
   points.forEach((point) => {
-    console.log(`point`, point);
+    // console.log(`point`, point);
     // const durationInMinutes = point.dateEnd.diff(point.dateStart, `minute`);
     // times.set(point.type, times.get(point.type) + durationInMinutes);
   });

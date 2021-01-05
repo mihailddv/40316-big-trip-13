@@ -1,6 +1,7 @@
 import {
   render,
   RenderPosition,
+  remove,
 } from "./utils/render.js";
 
 import {
@@ -57,6 +58,7 @@ const handleSiteMenuClick = (menuItem) => {
       pagePresenter.destroy();
       // filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
       pagePresenter.init();
+      remove(statisticsComponent);
       // console.log(`handleSiteMenuClick TASKS`);
       break;
     case MenuItem.STATISTICS:
@@ -65,7 +67,7 @@ const handleSiteMenuClick = (menuItem) => {
       pagePresenter.destroy();
       statisticsComponent = new StatisticsView(eventsModel.getEvents());
       console.log(`statisticsComponent`, statisticsComponent);
-      render(siteTripControlsElement, statisticsComponent, RenderPosition.BEFOREEND);
+      render(siteTripEventsElement, statisticsComponent, RenderPosition.BEFOREEND);
       // console.log(`handleSiteMenuClick STATISTICS`);
       // pagePresenter.destroy();
       break;
