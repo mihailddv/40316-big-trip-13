@@ -42,41 +42,19 @@ const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel
 
 let statisticsComponent = null;
 
-const setMenuItem = (menuElement) => {
-  const menuTasks = siteMenuComponent.getElement().querySelector(`[data-menu-item=${MenuItem.TASKS}]`);
-  const menuStats = siteMenuComponent.getElement().querySelector(`[data-menu-item=${MenuItem.STATISTICS}]`);
-  const menuItems = siteMenuComponent.getElement().querySelectorAll(`[data-menu-item]`);
-  const activeClass = `trip-tabs__btn--active`;
-
-  menuItems.forEach((item) => {
-    item.disabled = false;
-    item.classList.remove(activeClass);
-  });
-
-  pagePresenter.destroy();
-
-  if (menuElement === `TASKS`) {
-    pagePresenter.init();
-    remove(statisticsComponent);
-    menuTasks.disabled = true;
-    menuTasks.classList.add(activeClass);
-  }
-  if (menuElement === `STATISTICS`) {
-    menuStats.disabled = true;
-    menuStats.classList.add(activeClass);
-    statisticsComponent = new StatisticsView(eventsModel.getEvents());
-    render(siteTripEventsElement, statisticsComponent, RenderPosition.BEFOREEND);
-  }
-};
-
-
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
     case MenuItem.TASKS:
-      setMenuItem(`TASKS`);
+      pagePresenter.destroy();
+      pagePresenter.init();
+      remove(statisticsComponent);
+      siteMenuComponent.setMenuItem(`TASKS`);
       break;
     case MenuItem.STATISTICS:
-      setMenuItem(`STATISTICS`);
+      pagePresenter.destroy();
+      siteMenuComponent.setMenuItem(`STATISTICS`);
+      statisticsComponent = new StatisticsView(eventsModel.getEvents());
+      render(siteTripEventsElement, statisticsComponent, RenderPosition.BEFOREEND);
       break;
   }
 };
@@ -85,13 +63,12 @@ siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
 pagePresenter.init();
-setMenuItem(`TASKS`);
 
 calculateTotal();
 
 buttonNewEvent.addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  setMenuItem(`TASKS`);
+  handleSiteMenuClick(`TASKS`);
   pagePresenter.createEvent();
 });
 

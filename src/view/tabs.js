@@ -43,9 +43,14 @@ export default class Tabs extends AbstractView {
 
   setMenuItem(menuItem) {
     const item = this.getElement().querySelector(`[data-menu-item=${menuItem}]`);
+    const menuItems = this.getElement().querySelectorAll(`[data-menu-item]`);
+    const activeClass = `trip-tabs__btn--active`;
 
-    if (item !== null) {
-      item.checked = true;
-    }
+    menuItems.forEach((element) => {
+      element.disabled = false;
+      element.classList.remove(activeClass);
+    });
+
+    item.classList.add(activeClass);
   }
 }
