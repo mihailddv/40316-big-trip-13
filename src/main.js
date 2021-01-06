@@ -42,6 +42,27 @@ const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel
 
 let statisticsComponent = null;
 
+const setMenuItem = (menuElement) => {
+  const menuTasks = siteMenuComponent.getElement().querySelector(`[data-menu-item=${MenuItem.TASKS}]`);
+  const menuStats = siteMenuComponent.getElement().querySelector(`[data-menu-item=${MenuItem.STATISTICS}]`);
+  const menuItems = siteMenuComponent.getElement().querySelectorAll(`[data-menu-item]`);
+  const activeClass = `trip-tabs__btn--active`;
+
+  menuItems.forEach((item) => {
+    item.disabled = false;
+    item.classList.remove(activeClass);
+  });
+
+  if (menuElement === `TASKS`) {
+    menuTasks.disabled = true;
+    menuTasks.classList.add(activeClass);
+  }
+  if (menuElement === `STATISTICS`) {
+    menuStats.disabled = true;
+    menuStats.classList.add(activeClass);
+  }
+};
+
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
     case MenuItem.ADD_NEW_TASK:
@@ -51,16 +72,14 @@ const handleSiteMenuClick = (menuItem) => {
       // Убрать выделение с ADD NEW TASK после сохранения
       break;
     case MenuItem.TASKS:
-      // Показать доску
-      // Скрыть статистику
       pagePresenter.destroy();
       pagePresenter.init();
       remove(statisticsComponent);
+      setMenuItem(`TASKS`);
       break;
     case MenuItem.STATISTICS:
-      // Скрыть доску
-      // Показать статистику
       pagePresenter.destroy();
+      setMenuItem(`STATISTICS`);
       statisticsComponent = new StatisticsView(eventsModel.getEvents());
       render(siteTripEventsElement, statisticsComponent, RenderPosition.BEFOREEND);
       break;

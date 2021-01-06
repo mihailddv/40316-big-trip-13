@@ -3,20 +3,20 @@ import {MenuItem} from "../const.js";
 
 const createTabsTemplate = () => {
   return /* html */ `<nav class="trip-controls__trip-tabs trip-tabs">
-    <a
+    <button
       class="trip-tabs__btn"
       href="#"
       data-menu-item="${MenuItem.TASKS}"
     >
       Table
-    </a>
-    <a
+    </button>
+    <button
       class="trip-tabs__btn"
       href="#"
       data-menu-item="${MenuItem.STATISTICS}"
     >
       Stats
-    </a>
+    </button>
   </nav>`;
 };
 
