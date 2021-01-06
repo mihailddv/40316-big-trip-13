@@ -43,7 +43,6 @@ const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel
 let statisticsComponent = null;
 
 const handleSiteMenuClick = (menuItem) => {
-  // console.log(1);
   switch (menuItem) {
     case MenuItem.ADD_NEW_TASK:
       // Скрыть статистику
@@ -54,22 +53,16 @@ const handleSiteMenuClick = (menuItem) => {
     case MenuItem.TASKS:
       // Показать доску
       // Скрыть статистику
-      // pagePresenter.destroy();
       pagePresenter.destroy();
-      // filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
       pagePresenter.init();
       remove(statisticsComponent);
-      // console.log(`handleSiteMenuClick TASKS`);
       break;
     case MenuItem.STATISTICS:
       // Скрыть доску
       // Показать статистику
       pagePresenter.destroy();
       statisticsComponent = new StatisticsView(eventsModel.getEvents());
-      // console.log(`statisticsComponent`, statisticsComponent);
       render(siteTripEventsElement, statisticsComponent, RenderPosition.BEFOREEND);
-      // console.log(`handleSiteMenuClick STATISTICS`);
-      // pagePresenter.destroy();
       break;
   }
 };

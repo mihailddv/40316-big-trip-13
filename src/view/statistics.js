@@ -274,8 +274,6 @@ export default class Statistics extends SmartView {
     }
     const points = this._data.points;
 
-    // console.log(`points`, points);
-
     const moneyCtx = this.getElement().querySelector(`.statistics__chart--money`);
     const typeCtx = this.getElement().querySelector(`.statistics__chart--transport`);
     const timeCtx = this.getElement().querySelector(`.statistics__chart--time`);

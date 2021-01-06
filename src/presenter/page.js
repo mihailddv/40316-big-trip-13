@@ -53,7 +53,6 @@ export default class Page {
   }
 
   destroy() {
-    console.log(`destroy`);
     this._clearPage({resetSortType: true});
 
     remove(this._eventsListComponent);
