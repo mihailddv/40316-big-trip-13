@@ -1,5 +1,3 @@
-import {POINT_TYPES} from "../const.js";
-
 export const getTypes = (points) => {
   let lookup = {};
   let items = points;
@@ -42,13 +40,15 @@ export const calculateUniqType = (points) => {
   return uniqType;
 };
 
-export const calculateTimeByPointType = (points) => {
+export const calculateTime = (points) => {
+  const labels = getTypes(points);
   let times = new Map();
-  POINT_TYPES.forEach((type) => times.set(type, 0));
+  labels.forEach((type) => {
+    times.set(type, 0);
+  });
   points.forEach((point) => {
-    // console.log(`point`, point);
-    // const durationInMinutes = point.dateEnd.diff(point.dateStart, `minute`);
-    // times.set(point.type, times.get(point.type) + durationInMinutes);
+    const travelHours = Math.floor((point.dateEnd - point.dateStart) / 3600000 / 24);
+    times.set(point.eventType.type, times.get(point.eventType.type) + travelHours);
   });
   return times;
 };

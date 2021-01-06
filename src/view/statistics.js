@@ -1,14 +1,16 @@
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from "./smart.js";
-import {calculateCost, calculateUniqType, calculateTimeByPointType, getTypes} from "../utils/statistics";
-
-const MINUTES_PER_DAY = 1440;
+import {
+  calculateCost,
+  calculateUniqType,
+  calculateTime,
+  getTypes
+} from "../utils/statistics";
 
 const renderMoneyChart = (ctx, points) => {
   const labels = getTypes(points);
   const costs = calculateCost(points);
-  console.log(`costs`, costs);
   return new Chart(ctx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
@@ -16,7 +18,6 @@ const renderMoneyChart = (ctx, points) => {
       labels,
       datasets: [{
         data: labels.map((t) => costs.get(t)),
-        // data: [400, 300, 200, 160, 150, 100],
         backgroundColor: `#ffffff`,
         hoverBackgroundColor: `#ffffff`,
         anchor: `start`
@@ -146,15 +147,15 @@ const renderTypeChart = (ctx, points) => {
 };
 
 const renderTimeChart = (ctx, points) => {
-  const chartLabels = getChartLabels(points);
-  const times = calculateTimeByPointType(points);
+  const labels = getTypes(points);
+  const times = calculateTime(points);
   return new Chart(ctx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      labels: chartLabels,
+      labels,
       datasets: [{
-        data: chartLabels.map((t) => Math.round(times.get(t) / MINUTES_PER_DAY)),
+        data: labels.map((t) => times.get(t)),
         backgroundColor: `#ffffff`,
         hoverBackgroundColor: `#ffffff`,
         anchor: `start`
@@ -277,16 +278,16 @@ export default class Statistics extends SmartView {
 
     const moneyCtx = this.getElement().querySelector(`.statistics__chart--money`);
     const typeCtx = this.getElement().querySelector(`.statistics__chart--transport`);
-    // const timeCtx = this.getElement().querySelector(`.statistics__chart--time`);
+    const timeCtx = this.getElement().querySelector(`.statistics__chart--time`);
 
     const BAR_HEIGHT = 55;
     const itemCount = getTypes(points).length;
     moneyCtx.height = BAR_HEIGHT * itemCount;
     typeCtx.height = BAR_HEIGHT * itemCount;
-    // timeCtx.height = BAR_HEIGHT * barsCount;
+    timeCtx.height = BAR_HEIGHT * itemCount;
 
     this._moneyChart = renderMoneyChart(moneyCtx, points);
     this._typeChart = renderTypeChart(typeCtx, points);
-    // this._timeChart = renderTimeChart(timeCtx, points);
+    this._timeChart = renderTimeChart(timeCtx, points);
   }
 }

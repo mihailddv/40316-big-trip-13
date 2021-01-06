@@ -12,7 +12,7 @@ import PagePresenter from "./presenter/page.js";
 import FilterPresenter from "./presenter/filter.js";
 import EventsModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
-import {MenuItem, UpdateType, FilterType} from "./const.js";
+import {MenuItem} from "./const.js";
 import StatisticsView from "./view/statistics.js";
 
 import {generateEvent} from '../mock/event';
