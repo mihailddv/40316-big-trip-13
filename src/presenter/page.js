@@ -173,7 +173,7 @@ export default class Page {
     this._renderedEventCount = Math.min(eventCount, this._renderedEventCount);
 
     if (resetSortType) {
-      this._currentSortType = SortType.DEFAULT;
+      this._currentSortType = SortType.DATE;
     }
   }
 

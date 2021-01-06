@@ -49,6 +49,7 @@ const handleSiteMenuClick = (menuItem) => {
       pagePresenter.init();
       remove(statisticsComponent);
       siteMenuComponent.setMenuItem(`TASKS`);
+      // filterPresenter.init();
       break;
     case MenuItem.STATISTICS:
       pagePresenter.destroy();
@@ -63,6 +64,7 @@ siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
 pagePresenter.init();
+handleSiteMenuClick(`TASKS`);
 
 calculateTotal();
 
