@@ -53,35 +53,30 @@ const setMenuItem = (menuElement) => {
     item.classList.remove(activeClass);
   });
 
+  pagePresenter.destroy();
+
   if (menuElement === `TASKS`) {
+    pagePresenter.init();
+    remove(statisticsComponent);
     menuTasks.disabled = true;
     menuTasks.classList.add(activeClass);
   }
   if (menuElement === `STATISTICS`) {
     menuStats.disabled = true;
     menuStats.classList.add(activeClass);
+    statisticsComponent = new StatisticsView(eventsModel.getEvents());
+    render(siteTripEventsElement, statisticsComponent, RenderPosition.BEFOREEND);
   }
 };
 
+
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
-    case MenuItem.ADD_NEW_TASK:
-      // Скрыть статистику
-      // Показать доску
-      // Показать форму добавления новой задачи
-      // Убрать выделение с ADD NEW TASK после сохранения
-      break;
     case MenuItem.TASKS:
-      pagePresenter.destroy();
-      pagePresenter.init();
-      remove(statisticsComponent);
       setMenuItem(`TASKS`);
       break;
     case MenuItem.STATISTICS:
-      pagePresenter.destroy();
       setMenuItem(`STATISTICS`);
-      statisticsComponent = new StatisticsView(eventsModel.getEvents());
-      render(siteTripEventsElement, statisticsComponent, RenderPosition.BEFOREEND);
       break;
   }
 };
@@ -90,11 +85,13 @@ siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
 pagePresenter.init();
+setMenuItem(`TASKS`);
 
 calculateTotal();
 
 buttonNewEvent.addEventListener(`click`, (evt) => {
   evt.preventDefault();
+  setMenuItem(`TASKS`);
   pagePresenter.createEvent();
 });
 
