@@ -66,7 +66,7 @@ const handleSiteMenuClick = (menuItem) => {
       // Показать статистику
       pagePresenter.destroy();
       statisticsComponent = new StatisticsView(eventsModel.getEvents());
-      console.log(`statisticsComponent`, statisticsComponent);
+      // console.log(`statisticsComponent`, statisticsComponent);
       render(siteTripEventsElement, statisticsComponent, RenderPosition.BEFOREEND);
       // console.log(`handleSiteMenuClick STATISTICS`);
       // pagePresenter.destroy();

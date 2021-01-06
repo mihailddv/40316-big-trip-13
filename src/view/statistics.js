@@ -1,21 +1,22 @@
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from "./smart.js";
-import {calculateCostByPointType, calculateUniqType, calculateTimeByPointType, getTypes} from "../utils/statistics";
+import {calculateCost, calculateUniqType, calculateTimeByPointType, getTypes} from "../utils/statistics";
 
 const MINUTES_PER_DAY = 1440;
 
 const renderMoneyChart = (ctx, points) => {
   const labels = getTypes(points);
-  // const costs = calculateCostByPointType(points);
+  const costs = calculateCost(points);
+  console.log(`costs`, costs);
   return new Chart(ctx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
       labels,
       datasets: [{
-        // data: chartLabels.map((t) => costs.get(t)),
-        data: [400, 300, 200, 160, 150, 100],
+        data: labels.map((t) => costs.get(t)),
+        // data: [400, 300, 200, 160, 150, 100],
         backgroundColor: `#ffffff`,
         hoverBackgroundColor: `#ffffff`,
         anchor: `start`
@@ -77,9 +78,7 @@ const renderMoneyChart = (ctx, points) => {
 
 const renderTypeChart = (ctx, points) => {
   const labels = getTypes(points);
-  // const chartLabels = getChartLabels(points);
   const counts = calculateUniqType(points);
-  console.log(`counts`, counts);
   return new Chart(ctx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
