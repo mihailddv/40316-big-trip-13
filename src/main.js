@@ -44,11 +44,11 @@ let statisticsComponent = null;
 
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
-    case MenuItem.TASKS:
+    case MenuItem.POINTS:
       pagePresenter.destroy();
       pagePresenter.init();
       remove(statisticsComponent);
-      siteMenuComponent.setMenuItem(`TASKS`);
+      siteMenuComponent.setMenuItem(`POINTS`);
       // filterPresenter.init();
       break;
     case MenuItem.STATISTICS:
@@ -64,13 +64,13 @@ siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
 pagePresenter.init();
-handleSiteMenuClick(`TASKS`);
+handleSiteMenuClick(`POINTS`);
 
 calculateTotal();
 
 buttonNewEvent.addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  handleSiteMenuClick(`TASKS`);
+  handleSiteMenuClick(`POINTS`);
   pagePresenter.createEvent();
 });
 

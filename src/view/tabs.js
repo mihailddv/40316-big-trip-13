@@ -6,7 +6,7 @@ const createTabsTemplate = () => {
     <button
       class="trip-tabs__btn"
       href="#"
-      data-menu-item="${MenuItem.TASKS}"
+      data-menu-item="${MenuItem.POINTS}"
     >
       Table
     </button>
