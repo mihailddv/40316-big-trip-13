@@ -1,12 +1,28 @@
+import he from "he";
 import dayjs from "dayjs";
 import flatpickr from "flatpickr";
+
+import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import SmartView from "./smart.js";
 import {EVENT_TYPE, CITIES} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
 import {calculateTotal} from '../utils/common';
 
-import "../../node_modules/flatpickr/dist/flatpickr.min.css";
+
+const BLANK_EVENT = {
+  city: {
+    name: ``,
+    text: ``,
+  },
+  eventType: {
+    type: `taxi`,
+    image: `taxi`,
+  },
+  dateStart: new Date(),
+  dateEnd: new Date(),
+  price: 0,
+};
 
 export const createEditPointTemplate = (data) => {
 
@@ -20,7 +36,7 @@ export const createEditPointTemplate = (data) => {
 
   const createDetailsSection = () => {
     return `
-    ${(eventType.offers.length || city.text.length) ? `
+    ${(eventType.offers || city.text) ? `
       <section class="event__details">
         ${offersSection}
         ${destinationSection}
@@ -31,7 +47,7 @@ export const createEditPointTemplate = (data) => {
 
   const createOffersSection = () => {
     return `
-    ${eventType.offers.length ? `<section class="event__section  event__section--offers">
+    ${eventType.offers ? `<section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
       <div class="event__available-offers">
@@ -44,9 +60,9 @@ export const createEditPointTemplate = (data) => {
 
   const createDestinationSection = () => {
     return `
-    ${city.text.length ? `<section class="event__section  event__section--destination">
+    ${city.text ? `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${city.text}</p>
+      <p class="event__destination-description">${he.encode(city.text)}</p>
     </section>
     ` : ``}
     `;
@@ -110,7 +126,12 @@ export const createEditPointTemplate = (data) => {
     `;
   };
 
-  const offersTemplate = createOffers(eventType.offers);
+  let offersTemplate;
+
+  if (eventType.offers) {
+    offersTemplate = createOffers(eventType.offers);
+  }
+
   const offersSection = createOffersSection();
   const destinationSection = createDestinationSection();
   const detailsSection = createDetailsSection();
@@ -185,7 +206,7 @@ export const createEditPointTemplate = (data) => {
           <input
             class="event__input event__input--price"
             id="event-price-1"
-            type="text"
+            type="number"
             name="event-price"
             value="${price}"
           >
@@ -207,12 +228,13 @@ export const createEditPointTemplate = (data) => {
   `;
 };
 export default class PointEdit extends SmartView {
-  constructor(point) {
+  constructor(event = BLANK_EVENT) {
     super();
-    this._data = point;
+    this._data = event;
     this._datepicker = null;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
     this._cardArrowHandler = this._cardArrowHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
     this._cityInputHandler = this._cityInputHandler.bind(this);
@@ -265,6 +287,15 @@ export default class PointEdit extends SmartView {
     });
   }
 
+  removeElement() {
+    super.removeElement();
+
+    if (this._datepicker) {
+      this._datepicker.destroy();
+      this._datepicker = null;
+    }
+  }
+
   reset(event) {
     this.updateData(
         PointEdit.parseEventToData(event)
@@ -278,28 +309,8 @@ export default class PointEdit extends SmartView {
   restoreHandlers() {
     this._setInnerHandlers();
     this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
     this._setDatepicker();
-  }
-
-  _setInnerHandlers() {
-    this.getElement()
-      .querySelector(`.event__input--price`)
-      .addEventListener(`input`, this._priceInputHandler);
-    this.getElement()
-      .querySelector(`.event__input--destination`)
-      .addEventListener(`input`, this._cityInputHandler);
-    // this.getElement()
-    //   .querySelector(`[data-time="start"]`)
-    //   .addEventListener(`input`, this._dateStartInputHandler);
-    this.getElement()
-      .querySelector(`[data-time="end"]`)
-      .addEventListener(`input`, this._dateEndInputHandler);
-    this.getElement()
-      .querySelector(`.event__type-group`)
-      .addEventListener(`change`, this._eventTypeHandler);
-    this.getElement()
-      .querySelector(`.event__available-offers`)
-      .addEventListener(`change`, this._onOfferChange);
   }
 
   _onOfferChange(evt) {
@@ -318,7 +329,7 @@ export default class PointEdit extends SmartView {
     evt.preventDefault();
     this.updateData({
       price: evt.target.value,
-    });
+    }, true);
   }
 
   _cityInputHandler(evt) {
@@ -391,11 +402,50 @@ export default class PointEdit extends SmartView {
     this.getElement().querySelector(`.event--edit .event__rollup-btn`).addEventListener(`click`, this._cardArrowHandler);
   }
 
+  _formDeleteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.deleteClick(PointEdit.parseDataToEvent(this._data));
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, this._formDeleteClickHandler);
+  }
+
+  _setInnerHandlers() {
+    this.getElement()
+      .querySelector(`.event__input--price`)
+      .addEventListener(`input`, this._priceInputHandler);
+    this.getElement()
+      .querySelector(`.event__input--destination`)
+      .addEventListener(`input`, this._cityInputHandler);
+    this.getElement()
+      .querySelector(`[data-time="start"]`)
+      .addEventListener(`input`, this._dateStartInputHandler);
+    this.getElement()
+      .querySelector(`[data-time="end"]`)
+      .addEventListener(`input`, this._dateEndInputHandler);
+    this.getElement()
+      .querySelector(`.event__type-group`)
+      .addEventListener(`change`, this._eventTypeHandler);
+    if (document.querySelector(`.event__available-offers`)) {
+      this.getElement()
+        .querySelector(`.event__available-offers`)
+        .addEventListener(`change`, this._onOfferChange);
+    }
+  }
+
   static parseEventToData(event) {
     return Object.assign(
         {},
         event,
         {}
     );
+  }
+
+  static parseDataToEvent(data) {
+    data = Object.assign({}, data);
+
+    return data;
   }
 }

@@ -7,11 +7,27 @@ const createPointTemplate = (point) => {
     eventType,
     dateStart,
     dateEnd,
-    travelHours,
     price,
     isFavorite,
-    orders
   } = point;
+
+  const travelHours = Math.floor((dateEnd - dateStart) / 3600000);
+
+  const createOffers = () => {
+    return `
+    ${(eventType.offers) ? `
+      ${eventType.offers.map(({title, offerPrice}) => /* html */`
+        <li class="event__offer">
+          <span class="event__offer-title">${title}</span>
+          &plus;&euro;&nbsp;
+          <span class="event__offer-price">${offerPrice}</span>
+        </li>
+      `).join(``)}
+    ` : ``}
+    `;
+  };
+
+  const detailsSection = createOffers();
 
   const favoriteClassName = isFavorite
     ? `event__favorite-btn--active`
@@ -37,11 +53,7 @@ const createPointTemplate = (point) => {
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        <li class="event__offer">
-          <span class="event__offer-title">${orders.name}</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">${orders.price}</span>
-        </li>
+        ${detailsSection}
       </ul>
       <button class="event__favorite-btn  ${favoriteClassName}" type="button">
         <span class="visually-hidden">Add to favorite</span>

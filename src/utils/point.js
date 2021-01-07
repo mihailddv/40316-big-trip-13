@@ -23,3 +23,11 @@ export const sortPrice = (eventA, eventB) => {
 export const sortTime = (eventA, eventB) => {
   return eventB.travelHours - eventA.travelHours;
 };
+
+export const isPastDate = (date) => {
+  return date === null ? false : dayjs().isAfter(date);
+};
+
+export const isFutureDate = (date) => {
+  return date === null ? false : dayjs().isBefore(date, `day`) || dayjs().isSame(date, `day`);
+};
