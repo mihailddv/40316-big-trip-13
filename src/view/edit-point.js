@@ -53,9 +53,11 @@ export const createEditPointTemplate = (data) => {
     dateStart,
     dateEnd,
     price,
+    // destinations,
   } = data;
 
   // console.log(`data`, data);
+  // console.log(`data destinations`, destinations);
 
   const createDetailsSection = () => {
     return `

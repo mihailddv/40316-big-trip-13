@@ -30,6 +30,13 @@ export default class Api {
     //   .then((tasks) => tasks.map(DestinationsModel.adaptToClient));
   }
 
+  getOffers() {
+    console.log(`getOffers`);
+    return this._load({url: `offers`})
+      .then(Api.toJson);
+    //   .then((tasks) => tasks.map(DestinationsModel.adaptToClient));
+  }
+
   updateTask(task) {
     console.log(`updateTask`, task);
     return this._load({
