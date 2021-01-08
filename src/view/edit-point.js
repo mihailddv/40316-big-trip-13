@@ -57,7 +57,6 @@ export const createEditPointTemplate = (data, destinations) => {
   } = data;
 
   // console.log(`data`, data);
-  console.log(`data destinations`, destinations);
 
   const createDetailsSection = () => {
     return `
@@ -129,21 +128,27 @@ export const createEditPointTemplate = (data, destinations) => {
     `;
   };
 
+  const createDestinationList = () => {
+    const names = Object.values(destinations).map((destination) => destination.name);
+    const list = names.map((name) => {
+      return `<option value="${name}"></option>`;
+    });
+
+    return list.join(``);
+  };
+
   let offersTemplate;
 
-  if (eventType) {
-    if (eventType.offers) {
-      offersTemplate = createOffers(eventType.offers);
-    }
+  if (eventType.offers) {
+    offersTemplate = createOffers(eventType.offers);
   }
 
-
-  // const offersTemplate = createOffers(eventType.offers);
   const offersSection = createOffersSection();
   const destinationSection = createDestinationSection();
   const detailsSection = createDetailsSection();
   const photosSection = createPhotosSection();
   const eventTypeItems = createEventTypeItems();
+  const destinationList = createDestinationList();
 
   return /* html */ `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
@@ -176,9 +181,7 @@ export const createEditPointTemplate = (data, destinations) => {
             list="destination-list-1"
           >
           <datalist id="destination-list-1">
-            ${CITIES.map(({name}) => `
-              <option value="${name}"></option>
-            `).join(``)}
+            ${destinationList}
           </datalist>
         </div>
 
@@ -240,7 +243,7 @@ export default class PointEdit extends SmartView {
     this._datepicker = null;
     this._destinations = Object.assign({}, destinations);
 
-    console.log(`this._destinations`, destinations);
+    // console.log(`this._destinations`, destinations);
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);

@@ -29,8 +29,6 @@ const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 import TripInfoView from './view/trip-info';
 import TabsView from './view/tabs';
 
-let serverDest = [];
-
 // const EVENT_COUNT = 20;
 // const events = new Array(EVENT_COUNT).fill().map(generateEvent);
 
@@ -109,7 +107,7 @@ api.getDestinations()
     return response.json();
   })
   .then((destinations) => {
-    console.log(`destinations`, destinations);
+    // console.log(`destinations`, destinations);
     // serverDest = destinations;
     // console.log(`serverDest`, serverDest);
     destinationsModel.setDestinations(UpdateType.MINOR, destinations);
