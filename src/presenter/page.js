@@ -28,7 +28,7 @@ export default class Page {
     this._isLoading = true;
     this._isDestinationLoad = false;
 
-    console.log(`destinationsModel page`, destinationsModel);
+    // console.log(`destinationsModel page`, destinationsModel);
 
     this._sortComponent = null;
 
@@ -45,7 +45,7 @@ export default class Page {
 
     this._eventsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
-    // this._destinationsModel.addObserver(this._handleModelEvent);
+    this._destinationsModel.addObserver(this._handleModelEvent);
 
     this._eventNewPresenter = new EventNewPresenter(this._eventsListComponent, this._handleViewAction);
   }
@@ -200,8 +200,12 @@ export default class Page {
   }
 
   _renderEvent(event) {
+    const destinations = Object.assign({}, this._destinationsModel.getDestinations());
+
+    // console.log(`_renderEvent destinations`, destinations);
+
     const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleViewAction, this._handleModeChange);
-    eventPresenter.init(event);
+    eventPresenter.init(event, destinations);
     this._eventPresenter[event.id] = eventPresenter;
   }
 

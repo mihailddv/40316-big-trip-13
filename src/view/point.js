@@ -24,7 +24,7 @@ const createPointTemplate = (data) => {
     dateEnd,
     price,
     isFavorite,
-    destinations,
+    // destinations,
   } = data;
 
   // console.log(`point data`, data);
@@ -88,6 +88,7 @@ export default class Point extends AbstractView {
   getTemplate() {
     return createPointTemplate(this.point);
   }
+
   _editClickHandler(evt) {
     evt.preventDefault();
     this._callback.editClick();

@@ -1,15 +1,13 @@
 import Observer from "../utils/observer.js";
-
-export default class DestinationsModel extends Observer {
+export default class Destinations extends Observer {
   constructor() {
     super();
-    this._destinations = {};
   }
 
   setDestinations(updateType, destinations) {
-    console.log(`setDestinations destinations`, destinations);
+    console.log(`setDestination destinations`, destinations);
+    // this._destinations = this._adaptDestinations(destinations);
     this._destinations = destinations;
-
     this._notify(updateType);
   }
 
@@ -17,12 +15,18 @@ export default class DestinationsModel extends Observer {
     return this._destinations;
   }
 
-  // static adaptToClient(destinations) {
-  //   const adaptedDestination = destinations.reduce((acc, item) => {
-  //     acc[item.name] = item;
-  //     return acc;
-  //   }, {});
+  _adaptDestinations(destinations) {
+    const adaptedDestinations = {};
 
-  //   return adaptedDestination;
-  // }
+    for (let i = 0; i < destinations.length; i++) {
+      const info = {
+        description: destinations[i].description,
+        images: destinations[i].pictures,
+      };
+
+      adaptedDestinations[destinations[i].name] = {info};
+    }
+
+    return adaptedDestinations;
+  }
 }

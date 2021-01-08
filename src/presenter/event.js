@@ -27,7 +27,10 @@ export default class Event {
   }
 
   init(event, destinations) {
+    // console.log(`pres events`, destinations);
+    // console.log(`pres events`, event);
     this._event = event;
+    this._destinations = destinations;
 
     const prevEventComponent = this._eventComponent;
     const prevEventEditComponent = this._eventEditComponent;

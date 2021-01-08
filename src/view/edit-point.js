@@ -45,7 +45,7 @@ const createOffers = (offers) => {
   `;
 };
 
-export const createEditPointTemplate = (data) => {
+export const createEditPointTemplate = (data, destinations) => {
 
   const {
     city,
@@ -57,7 +57,7 @@ export const createEditPointTemplate = (data) => {
   } = data;
 
   // console.log(`data`, data);
-  // console.log(`data destinations`, destinations);
+  console.log(`data destinations`, destinations);
 
   const createDetailsSection = () => {
     return `
@@ -234,10 +234,13 @@ export const createEditPointTemplate = (data) => {
   `;
 };
 export default class PointEdit extends SmartView {
-  constructor(event = BLANK_EVENT) {
+  constructor(event = BLANK_EVENT, destinations) {
     super();
     this._data = event;
     this._datepicker = null;
+    this._destinations = Object.assign({}, destinations);
+
+    console.log(`this._destinations`, destinations);
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
@@ -254,12 +257,12 @@ export default class PointEdit extends SmartView {
     this._setDatepicker();
   }
 
-  _getDest() {
-    console.log(`getDest`);
-    const dest = this._destinationModel.getDestination();
+  // _getDest() {
+  //   console.log(`getDest`);
+  //   const dest = this._destinationModel.getDestination();
 
-    return dest;
-  }
+  //   return dest;
+  // }
 
   _setDatepicker() {
     if (this._datepicker) {
@@ -316,7 +319,7 @@ export default class PointEdit extends SmartView {
   }
 
   getTemplate() {
-    return createEditPointTemplate(this._data);
+    return createEditPointTemplate(this._data, this._destinations);
   }
 
   restoreHandlers() {

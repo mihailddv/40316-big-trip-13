@@ -109,7 +109,7 @@ api.getDestinations()
     return response.json();
   })
   .then((destinations) => {
-    // console.log(`destinations`, destinations);
+    console.log(`destinations`, destinations);
     // serverDest = destinations;
     // console.log(`serverDest`, serverDest);
     destinationsModel.setDestinations(UpdateType.MINOR, destinations);
