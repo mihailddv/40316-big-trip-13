@@ -94,12 +94,13 @@ buttonNewEvent.addEventListener(`click`, (evt) => {
 api.getTasks()
   .then((tasks) => {
     // console.log(`tasks`, tasks);
-    eventsModel.setEvents(UpdateType.INIT, tasks);
+    eventsModel.setEvents(UpdateType.MINOR, tasks);
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
+    calculateTotal();
     // render(siteTripControlsElement, new TabsView(), RenderPosition.AFTERBEGIN);
   })
   .catch(() => {
-    eventsModel.setEvents(UpdateType.INIT, []);
+    eventsModel.setEvents(UpdateType.MINOR, []);
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
     // render(siteTripControlsElement, new TabsView(), RenderPosition.AFTERBEGIN);
   });
@@ -112,7 +113,7 @@ api.getDestinations()
     destinationsModel.setDestinations(UpdateType.MINOR, destinations);
   })
   .catch(() => {
-    destinationsModel.setDestination(UpdateType.INIT, {});
+    destinationsModel.setDestination(UpdateType.MINOR, {});
   });
 
 api.getOffers()
@@ -120,10 +121,8 @@ api.getOffers()
     return response.json();
   })
   .then((offers) => {
-    offersModel.setOffers(UpdateType.INIT, offers);
+    offersModel.setOffers(UpdateType.MINOR, offers);
   })
   .catch(() => {
-    offersModel.setOffers(UpdateType.INIT, {});
+    offersModel.setOffers(UpdateType.MINOR, {});
   });
-
-calculateTotal();
