@@ -22,29 +22,6 @@ const BLANK_EVENT = {
   dateEnd: new Date(),
   price: 0,
 };
-
-const createOffers = (offers) => {
-  return /* html */`
-    ${EVENT_TYPE.map(({title, price, checked}) => /* html */`
-      <div class="event__offer-selector">
-        <input
-          class="event__offer-checkbox visually-hidden"
-          id="event-offer-${title}"
-          type="checkbox"
-          name="event-offer-${title}"
-          data-name="${title}"
-          ${checked ? `checked` : ``}
-        >
-        <label class="event__offer-label" for="event-offer-${title}">
-          <span class="event__offer-title">${title}</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">${price}</span>
-        </label>
-      </div>
-    `).join(``)}
-  `;
-};
-
 export const createEditPointTemplate = (data, destinations, offers) => {
 
   const {
@@ -59,27 +36,50 @@ export const createEditPointTemplate = (data, destinations, offers) => {
 
   const createDetailsSection = () => {
     return `
-    ${(eventType.offers || city.text) ? `
       <section class="event__details">
         ${offersSection}
         ${destinationSection}
       </section>
-    ` : ``}
     `;
   };
 
   const createOffersSection = () => {
-    return `
-    ${eventType.offers ? `<section class="event__section  event__section--offers">
+    return `<section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
       <div class="event__available-offers">
         ${offersTemplate}
       </div>
-    </section>
-    ` : ``}
-    `;
+    </section>`;
   };
+
+  const createOffers = () => {
+    const names = Object.values(offers).map((item) => item);
+    console.log(`names`, names);
+    const list = names.map(({title}) => {
+      return `
+        <div class="event__offer-selector">
+          <input
+            class="event__offer-checkbox visually-hidden"
+            id="event-offer-${title}"
+            type="checkbox"
+            name="event-offer-${title}"
+            data-name="${title}"
+          >
+          <label class="event__offer-label" for="event-offer-${title}">
+            <span class="event__offer-title">${title}</span>
+            &plus;&euro;&nbsp;
+            <span class="event__offer-price">${title}</span>
+          </label>
+        </div>
+      `;
+    });
+
+    // console.log(`list`, list);
+
+    return list.join(``);
+  };
+
 
   const createDestinationSection = () => {
     return `
@@ -141,7 +141,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   let offersTemplate;
 
   if (offers) {
-    offersTemplate = createOffers(eventType.offers);
+    offersTemplate = createOffers(offers);
   }
 
   const offersSection = createOffersSection();
