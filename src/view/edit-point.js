@@ -25,7 +25,7 @@ const BLANK_EVENT = {
 
 const createOffers = (offers) => {
   return /* html */`
-    ${offers.map(({title, price, checked}) => /* html */`
+    ${EVENT_TYPE.map(({title, price, checked}) => /* html */`
       <div class="event__offer-selector">
         <input
           class="event__offer-checkbox visually-hidden"
@@ -55,7 +55,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     price,
   } = data;
 
-  console.log(`offers`, offers);
+  // console.log(`offers`, offers);
 
   const createDetailsSection = () => {
     return `
@@ -106,9 +106,10 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   };
 
   const createEventTypeItems = () => {
-    // console.log(`offers`, offers);
+    const types = Object.values(offers).map((item) => item);
+
     return `
-      ${EVENT_TYPE.map(({type, image}) => `
+      ${types.map(({type}) => `
         <div class="event__type-item">
           <input
             id="event-type-${type}"
@@ -118,7 +119,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
             value="${type}"
           >
           <label
-            class="event__type-label event__type-label--${image}"
+            class="event__type-label event__type-label--${type}"
             for="event-type-${type}"
           >
             ${type}
@@ -139,7 +140,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
 
   let offersTemplate;
 
-  if (eventType.offers) {
+  if (offers) {
     offersTemplate = createOffers(eventType.offers);
   }
 
