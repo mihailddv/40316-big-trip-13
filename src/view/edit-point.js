@@ -5,7 +5,7 @@ import flatpickr from "flatpickr";
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import SmartView from "./smart.js";
-import {EVENT_TYPE, CITIES} from '../const';
+import {EVENT_TYPE} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
 import {calculateTotal} from '../utils/common';
 
@@ -45,7 +45,7 @@ const createOffers = (offers) => {
   `;
 };
 
-export const createEditPointTemplate = (data, destinations) => {
+export const createEditPointTemplate = (data, destinations, offers) => {
 
   const {
     city,
@@ -53,10 +53,9 @@ export const createEditPointTemplate = (data, destinations) => {
     dateStart,
     dateEnd,
     price,
-    // destinations,
   } = data;
 
-  // console.log(`data`, data);
+  console.log(`offers`, offers);
 
   const createDetailsSection = () => {
     return `
@@ -107,6 +106,7 @@ export const createEditPointTemplate = (data, destinations) => {
   };
 
   const createEventTypeItems = () => {
+    // console.log(`offers`, offers);
     return `
       ${EVENT_TYPE.map(({type, image}) => `
         <div class="event__type-item">
@@ -237,13 +237,14 @@ export const createEditPointTemplate = (data, destinations) => {
   `;
 };
 export default class PointEdit extends SmartView {
-  constructor(event = BLANK_EVENT, destinations) {
+  constructor(event = BLANK_EVENT, destinations, offers) {
     super();
     this._data = event;
     this._datepicker = null;
     this._destinations = Object.assign({}, destinations);
+    this._offers = Object.assign({}, offers);
 
-    // console.log(`this._destinations`, destinations);
+    // console.log(`this._offers`, this._offers);
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
@@ -259,13 +260,6 @@ export default class PointEdit extends SmartView {
     this._setInnerHandlers();
     this._setDatepicker();
   }
-
-  // _getDest() {
-  //   console.log(`getDest`);
-  //   const dest = this._destinationModel.getDestination();
-
-  //   return dest;
-  // }
 
   _setDatepicker() {
     if (this._datepicker) {
@@ -322,7 +316,7 @@ export default class PointEdit extends SmartView {
   }
 
   getTemplate() {
-    return createEditPointTemplate(this._data, this._destinations);
+    return createEditPointTemplate(this._data, this._destinations, this._offers);
   }
 
   restoreHandlers() {

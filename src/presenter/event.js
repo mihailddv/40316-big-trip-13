@@ -26,17 +26,19 @@ export default class Event {
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
-  init(event, destinations) {
-    // console.log(`pres events`, destinations);
+  init(event, destinations, offers) {
     // console.log(`pres events`, event);
     this._event = event;
     this._destinations = destinations;
+    this._offers = offers;
+
+    // console.log(`this._offers`, this._offers);
 
     const prevEventComponent = this._eventComponent;
     const prevEventEditComponent = this._eventEditComponent;
 
     this._eventComponent = new PointView(event);
-    this._eventEditComponent = new PointEditView(event, destinations);
+    this._eventEditComponent = new PointEditView(event, destinations, offers);
 
     this._eventComponent.setEditClickHandler(this._handleEditClick);
     this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);

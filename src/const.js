@@ -223,7 +223,6 @@ export const UpdateType = {
   MINOR: `MINOR`,
   MAJOR: `MAJOR`,
   INIT: `INIT`,
-  // DESTINATIONS_INIT: `DESTINATIONS_INIT`,
 };
 
 export const FilterType = {

@@ -16,19 +16,18 @@ import SortView from '../view/trip-sort';
 import LoadingView from "../view/loading.js";
 
 export default class Page {
-  constructor(pageContainer, eventsModel, filterModel, destinationsModel, buttonNewEvent, api) {
+  constructor(pageContainer, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, api) {
     this._eventsModel = eventsModel;
     this._filterModel = filterModel;
     this._pageContainer = pageContainer;
     this._destinationsModel = destinationsModel;
+    this._offersModel = offersModel;
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE;
     this._buttonNewEvent = buttonNewEvent;
     this._api = api;
     this._isLoading = true;
     this._isDestinationLoad = false;
-
-    // console.log(`destinationsModel page`, destinationsModel);
 
     this._sortComponent = null;
 
@@ -46,6 +45,7 @@ export default class Page {
     this._eventsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
     this._destinationsModel.addObserver(this._handleModelEvent);
+    this._offersModel.addObserver(this._handleModelEvent);
 
     this._eventNewPresenter = new EventNewPresenter(this._eventsListComponent, this._handleViewAction);
   }
@@ -201,11 +201,12 @@ export default class Page {
 
   _renderEvent(event) {
     const destinations = Object.assign({}, this._destinationsModel.getDestinations());
+    const offers = Object.assign({}, this._offersModel.getOffers());
 
-    // console.log(`_renderEvent destinations`, destinations);
+    // console.log(`_renderEvent offers`, offers);
 
     const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleViewAction, this._handleModeChange);
-    eventPresenter.init(event, destinations);
+    eventPresenter.init(event, destinations, offers);
     this._eventPresenter[event.id] = eventPresenter;
   }
 

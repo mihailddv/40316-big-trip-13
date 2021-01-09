@@ -1,5 +1,4 @@
 import TasksModel from "./model/events";
-import DestinationsModel from "./model/destinations";
 
 const Method = {
   GET: `GET`,
@@ -24,17 +23,13 @@ export default class Api {
   }
 
   getDestinations() {
-    console.log(`getDestinations`);
     return this._load({url: `destinations`})
       .then(Api.toJson);
-    //   .then((tasks) => tasks.map(DestinationsModel.adaptToClient));
   }
 
   getOffers() {
-    console.log(`getOffers`);
     return this._load({url: `offers`})
       .then(Api.toJson);
-    //   .then((tasks) => tasks.map(DestinationsModel.adaptToClient));
   }
 
   updateTask(task) {

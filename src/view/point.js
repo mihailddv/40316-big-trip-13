@@ -24,11 +24,9 @@ const createPointTemplate = (data) => {
     dateEnd,
     price,
     isFavorite,
-    // destinations,
   } = data;
 
   // console.log(`point data`, data);
-  // console.log(`point destinations`, destinations);
 
   const travelHours = Math.floor((dateEnd - dateStart) / 3600000);
   const image = eventType.type.toLowerCase();

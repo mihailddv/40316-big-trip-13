@@ -11,6 +11,7 @@ import {
 import EventsModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
 import DestinationsModel from "./model/destinations";
+import OffersModel from "./model/offers";
 
 import PagePresenter from "./presenter/page.js";
 import FilterPresenter from "./presenter/filter.js";
@@ -40,6 +41,7 @@ const api = new Api(END_POINT, AUTHORIZATION);
 const eventsModel = new EventsModel();
 const filterModel = new FilterModel();
 const destinationsModel = new DestinationsModel();
+const offersModel = new OffersModel();
 
 const siteMainElement = document.querySelector(`.page-body`);
 const siteTripMainElement = siteMainElement.querySelector(`.trip-main`);
@@ -52,7 +54,7 @@ const siteMenuComponent = new TabsView();
 // render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
 render(siteTripControlsElement, siteMenuComponent, RenderPosition.AFTERBEGIN);
 
-const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, destinationsModel, buttonNewEvent, api);
+const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, api);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
 // render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
 // render(siteTripControlsElement, new TripTabsView(), RenderPosition.AFTERBEGIN);
@@ -107,14 +109,10 @@ api.getDestinations()
     return response.json();
   })
   .then((destinations) => {
-    // console.log(`destinations`, destinations);
-    // serverDest = destinations;
-    // console.log(`serverDest`, serverDest);
     destinationsModel.setDestinations(UpdateType.MINOR, destinations);
-    // destinationsModel.setDestination(UpdateType.INIT, destinations);
   })
   .catch(() => {
-    // destinationsModel.setDestination(UpdateType.INIT, {});
+    destinationsModel.setDestination(UpdateType.INIT, {});
   });
 
 api.getOffers()
@@ -122,11 +120,10 @@ api.getOffers()
     return response.json();
   })
   .then((offers) => {
-    // console.log(`offers`, offers);
-    // destinationsModel.setDestination(UpdateType.INIT, destinations);
+    offersModel.setOffers(UpdateType.INIT, offers);
   })
   .catch(() => {
-    // destinationsModel.setDestination(UpdateType.INIT, {});
+    offersModel.setOffers(UpdateType.INIT, {});
   });
 
 calculateTotal();
