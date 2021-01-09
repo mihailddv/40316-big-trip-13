@@ -353,19 +353,19 @@ export default class PointEdit extends SmartView {
 
   _cityInputHandler(evt) {
     evt.preventDefault();
-    const cities = this._destinations;
-    const vals = Object.keys(cities).map(function (key) {
-      return cities[key];
+    const destinations = this._destinations;
+    const cities = Object.keys(destinations).map(function (key) {
+      return destinations[key];
     });
-    const city = vals.find((elem) => elem.name === evt.target.value);
+    const city = cities.find((elem) => elem.name === evt.target.value);
 
     const name = evt.target.value;
     let photos = [];
     let text = ``;
 
     if (city) {
-      photos = city.photos;
-      text = city.text;
+      photos = city.pictures;
+      text = city.description;
 
       this.updateData({
         city: {
