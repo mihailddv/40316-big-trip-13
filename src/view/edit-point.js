@@ -38,6 +38,9 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     dateStart,
     dateEnd,
     price,
+    isDisabled,
+    isSaving,
+    isDeleting
   } = data;
 
   // console.log(`offers`, offers);
@@ -61,11 +64,11 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     </section>`;
   };
 
-  const createOffers = () => {
+  const createOffers = (isDisabled) => {
     const names = Object.values(offers).map((item) => item);
     // console.log(`names`, names);
     const list = names.map(({title}) => {
-      return `
+      return /* html */`
         <div class="event__offer-selector">
           <input
             class="event__offer-checkbox visually-hidden"
@@ -73,6 +76,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
             type="checkbox"
             name="event-offer-${title}"
             data-name="${title}"
+            ${isDisabled ? `disabled` : ``}
           >
           <label class="event__offer-label" for="event-offer-${title}">
             <span class="event__offer-title">${title}</span>
@@ -113,7 +117,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     `;
   };
 
-  const createEventTypeItems = () => {
+  const createEventTypeItems = (isDisabled) => {
     const types = Object.values(offers).map((item) => item);
 
     return `
@@ -125,6 +129,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
             type="radio"
             name="event-type"
             value="${type}"
+            ${isDisabled ? `disabled` : ``}
           >
           <label
             class="event__type-label event__type-label--${type}"
@@ -230,8 +235,18 @@ export const createEditPointTemplate = (data, destinations, offers) => {
           >
         </div>
 
-        <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-        <button class="event__reset-btn" type="reset">Delete</button>
+        <button
+          class="event__save-btn  btn  btn--blue"
+          type="submit"
+        >
+          ${isSaving ? `Saving...` : `Save`}
+        </button>
+        <button
+          class="event__reset-btn"
+          type="reset"
+        >
+          ${isDeleting ? `deleting...` : `delete`}
+        </button>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
         </button>
@@ -466,12 +481,20 @@ export default class PointEdit extends SmartView {
     return Object.assign(
         {},
         event,
-        {}
+        {
+          isDisabled: false,
+          isSaving: false,
+          isDeleting: false
+        }
     );
   }
 
   static parseDataToEvent(data) {
     data = Object.assign({}, data);
+
+    delete data.isDisabled;
+    delete data.isSaving;
+    delete data.isDeleting;
 
     return data;
   }
