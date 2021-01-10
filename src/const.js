@@ -221,7 +221,8 @@ export const UserAction = {
 export const UpdateType = {
   PATCH: `PATCH`,
   MINOR: `MINOR`,
-  MAJOR: `MAJOR`
+  MAJOR: `MAJOR`,
+  INIT: `INIT`,
 };
 
 export const FilterType = {
@@ -229,3 +230,21 @@ export const FilterType = {
   FUTURE: `future`,
   PAST: `past`,
 };
+
+export const MenuItem = {
+  POINTS: `POINTS`,
+  STATISTICS: `STATISTICS`
+};
+
+export const POINT_TYPES = [
+  `Taxi`,
+  `Bus`,
+  `Train`,
+  `Ship`,
+  `Transport`,
+  `Drive`,
+  `Flight`,
+  `Check-in`,
+  `Sightseeing`,
+  `Restaurant`
+];
