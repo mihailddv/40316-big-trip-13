@@ -2,7 +2,9 @@ import PointsModel from "./model/events";
 
 const Method = {
   GET: `GET`,
-  PUT: `PUT`
+  PUT: `PUT`,
+  POST: `POST`,
+  DELETE: `DELETE`
 };
 
 const SuccessHTTPStatusRange = {
@@ -42,6 +44,24 @@ export default class Api {
     })
       .then(Api.toJSON)
       .then(PointsModel.adaptToClient);
+  }
+
+  addTask(task) {
+    return this._load({
+      url: `tasks`,
+      method: Method.POST,
+      body: JSON.stringify(PointsModel.adaptToServer(task)),
+      headers: new Headers({"Content-Type": `application/json`})
+    })
+      .then(Api.toJSON)
+      .then(PointsModel.adaptToClient);
+  }
+
+  deleteTask(task) {
+    return this._load({
+      url: `tasks/${task.id}`,
+      method: Method.DELETE
+    });
   }
 
   _load({

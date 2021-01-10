@@ -80,10 +80,14 @@ export default class Page {
         });
         break;
       case UserAction.ADD_EVENT:
-        this._eventsModel.addEvent(updateType, update);
+        this._api.addTask(update).then((response) => {
+          this._eventsModel.addTask(updateType, response);
+        });
         break;
       case UserAction.DELETE_EVENT:
-        this._eventsModel.deleteEvent(updateType, update);
+        this._api.deleteTask(update).then(() => {
+          this._eventsModel.deleteEvent(updateType, update);
+        });
         break;
     }
   }
