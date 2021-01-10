@@ -22,7 +22,7 @@ import {MenuItem} from "./const.js";
 import StatisticsView from "./view/statistics.js";
 
 const AUTHORIZATION = `Basic i85i3nhSXuR5XW8u`;
-// const END_POINT = `https://13.ecmascript.pages.academy/task-manager`;
+// const END_POINT = `https://13.ecmascript.pages.academy/point-manager`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 
 // import {generateEvent} from '../mock/event';
@@ -91,7 +91,7 @@ buttonNewEvent.addEventListener(`click`, (evt) => {
   pagePresenter.createEvent();
 });
 
-api.getTasks()
+api.getPoints()
   .then((tasks) => {
     // console.log(`tasks`, tasks);
     eventsModel.setEvents(UpdateType.MINOR, tasks);

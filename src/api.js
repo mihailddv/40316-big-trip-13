@@ -1,4 +1,4 @@
-import TasksModel from "./model/events";
+import PointsModel from "./model/events";
 
 const Method = {
   GET: `GET`,
@@ -16,10 +16,10 @@ export default class Api {
     this._authorization = authorization;
   }
 
-  getTasks() {
+  getPoints() {
     return this._load({url: `points`})
       .then(Api.toJSON)
-      .then((tasks) => tasks.map(TasksModel.adaptToClient));
+      .then((tasks) => tasks.map(PointsModel.adaptToClient));
   }
 
   getDestinations() {
@@ -32,16 +32,16 @@ export default class Api {
       .then(Api.toJson);
   }
 
-  updateTask(task) {
-    console.log(`updateTask`, task);
+  updatePoint(point) {
+    console.log(`updatePoint`, point);
     return this._load({
-      url: `points/${task.id}`,
+      url: `points/${point.id}`,
       method: Method.PUT,
-      body: JSON.stringify(TasksModel.adaptToServer(task)),
+      body: JSON.stringify(PointsModel.adaptToServer(point)),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then(Api.toJSON)
-      .then(TasksModel.adaptToClient);
+      .then(PointsModel.adaptToClient);
   }
 
   _load({

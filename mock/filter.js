@@ -3,10 +3,10 @@
 // };
 
 // export const generateFilter = (events) => {
-//   return Object.entries(EventToFilterMap).map(([filterName, countTasks]) => {
+//   return Object.entries(EventToFilterMap).map(([filterName, countPoints]) => {
 //     return {
 //       name: filterName,
-//       count: countTasks(events),
+//       count: countPoints(events),
 //     };
 //   });
 // };

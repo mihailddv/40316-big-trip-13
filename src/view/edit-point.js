@@ -13,6 +13,7 @@ const BLANK_EVENT = {
   city: {
     name: ``,
     text: ``,
+    photos: ``,
   },
   eventType: {
     type: `taxi`,
@@ -21,6 +22,13 @@ const BLANK_EVENT = {
   dateStart: new Date(),
   dateEnd: new Date(),
   price: 0,
+  isFavorite: false,
+  offers: [
+    {
+      title: ``,
+      price: ``,
+    }
+  ],
 };
 export const createEditPointTemplate = (data, destinations, offers) => {
 
@@ -55,7 +63,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
 
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
-    console.log(`names`, names);
+    // console.log(`names`, names);
     const list = names.map(({title}) => {
       return `
         <div class="event__offer-selector">

@@ -14,8 +14,8 @@ export default class Events extends Observer {
     this._notify(updateType);
   }
 
-  setTasks(updateType, tasks) {
-    // console.log(`setTasks`);
+  setPoints(updateType, tasks) {
+    // console.log(`setPoints`);
     this._tasks = tasks.slice();
     // console.log(`this._tasks`, this._tasks);
 
@@ -66,70 +66,71 @@ export default class Events extends Observer {
     this._notify(updateType);
   }
 
-  static adaptToClient(task) {
-    const adaptedTask = Object.assign(
+  static adaptToClient(point) {
+    const adaptedPoint = Object.assign(
         {},
-        task,
+        point,
         {
-          price: task.base_price,
-          dateStart: task.date_from !== null ? new Date(task.date_from) : task.date_from, // На клиенте дата хранится как экземпляр Date
-          dateEnd: task.date_to !== null ? new Date(task.date_to) : task.date_to,
-          isFavorite: task.is_favorite,
+          price: point.base_price,
+          dateStart: point.date_from !== null ? new Date(point.date_from) : point.date_from, // На клиенте дата хранится как экземпляр Date
+          dateEnd: point.date_to !== null ? new Date(point.date_to) : point.date_to,
+          isFavorite: point.is_favorite,
           city: {
-            name: task.destination.name,
-            text: task.destination.description,
-            photos: task.destination.pictures,
+            name: point.destination.name,
+            text: point.destination.description,
+            photos: point.destination.pictures,
           },
           eventType: {
-            type: task.type,
-            offers: task.offers,
+            type: point.type,
+            offers: point.offers,
           },
         }
     );
 
-    delete adaptedTask.base_price;
-    delete adaptedTask.date_from;
-    delete adaptedTask.date_to;
-    delete adaptedTask.is_favorite;
-    delete adaptedTask.destination;
+    delete adaptedPoint.base_price;
+    delete adaptedPoint.date_from;
+    delete adaptedPoint.date_to;
+    delete adaptedPoint.is_favorite;
+    delete adaptedPoint.destination;
 
-    return adaptedTask;
+    return adaptedPoint;
   }
 
   // TODO: сделать при отправке на сервер
 
-  static adaptToServer(task) {
-    const adaptedTask = Object.assign(
+  static adaptToServer(point) {
+    console.log(`point`, point);
+    const adaptedPoint = Object.assign(
         {},
-        task,
+        point,
         {
-          "base_price": Number(task.price),
-          "date_from": task.dateStart instanceof Date ? task.dateStart.toISOString() : null, // На сервере дата хранится в ISO формате
-          "date_to": task.dateEnd instanceof Date ? task.dateEnd.toISOString() : null, // На сервере дата хранится в ISO формате
-          "type": task.eventType.type.toLowerCase(),
-          "offers": task.eventType.offers,
-          "is_favorite": task.isFavorite,
+          "base_price": Number(point.price),
+          "date_from": point.dateStart instanceof Date ? point.dateStart.toISOString() : null, // На сервере дата хранится в ISO формате
+          "date_to": point.dateEnd instanceof Date ? point.dateEnd.toISOString() : null, // На сервере дата хранится в ISO формате
+          "type": point.eventType.type.toLowerCase(),
+          "offers": point.offers,
+          "is_favorite": point.isFavorite,
           "destination": {
-            name: task.city.name,
-            description: task.city.text,
-            pictures: task.city.photos,
+            name: point.city.name,
+            description: point.city.text,
+            pictures: point.city.photos,
           },
-          // "is_archived": task.isArchive,
-          // "repeating_days": task.repeating
+          // "is_archived": point.isArchive,
+          // "repeating_days": point.repeating
         }
     );
 
     // Ненужные ключи мы удаляем
-    // delete adaptedTask.price;
-    delete adaptedTask.dateStart;
-    delete adaptedTask.dateEnd;
-    delete adaptedTask.city;
-    delete adaptedTask.eventType;
-    delete adaptedTask.price;
-    // delete adaptedTask.isArchive;
-    delete adaptedTask.isFavorite;
-    // delete adaptedTask.repeating;
+    // delete adaptedPoint.price;
+    delete adaptedPoint.dateStart;
+    delete adaptedPoint.dateEnd;
+    delete adaptedPoint.city;
+    delete adaptedPoint.eventType;
+    delete adaptedPoint.price;
+    delete adaptedPoint.isFavorite;
 
-    return adaptedTask;
+    console.log(`adaptedPoint`, adaptedPoint);
+
+    return adaptedPoint;
   }
 }

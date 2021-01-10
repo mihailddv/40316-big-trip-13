@@ -75,7 +75,7 @@ export default class Page {
     switch (actionType) {
       case UserAction.UPDATE_EVENT:
         // console.log(`api`, this._api);
-        this._api.updateTask(update).then((response) => {
+        this._api.updatePoint(update).then((response) => {
           this._eventsModel.updateEvent(updateType, response);
         });
         break;
