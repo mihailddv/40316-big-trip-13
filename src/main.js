@@ -92,9 +92,9 @@ buttonNewEvent.addEventListener(`click`, (evt) => {
 });
 
 api.getPoints()
-  .then((tasks) => {
-    // console.log(`tasks`, tasks);
-    eventsModel.setEvents(UpdateType.MINOR, tasks);
+  .then((points) => {
+    // console.log(`points`, points);
+    eventsModel.setEvents(UpdateType.MINOR, points);
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
     calculateTotal();
     // render(siteTripControlsElement, new TabsView(), RenderPosition.AFTERBEGIN);

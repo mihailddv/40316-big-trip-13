@@ -14,9 +14,9 @@ export default class Events extends Observer {
     this._notify(updateType);
   }
 
-  setPoints(updateType, tasks) {
+  setPoints(updateType, points) {
     // console.log(`setPoints`);
-    this._tasks = tasks.slice();
+    this._tasks = points.slice();
     // console.log(`this._tasks`, this._tasks);
 
     this._notify(updateType);
