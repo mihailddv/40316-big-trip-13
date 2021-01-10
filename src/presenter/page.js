@@ -8,7 +8,7 @@ import {sortDate, sortPrice, sortTime} from "../utils/point.js";
 import {SortType, UpdateType, UserAction, FilterType} from "../const.js";
 import {filter} from "../utils/filter.js";
 
-import EventPresenter from './event';
+import EventPresenter, {State as TaskPresenterViewState} from './event';
 import EventNewPresenter from "./event-new.js";
 import ListView from '../view/list';
 import ListEmptyView from '../view/list-empty';
@@ -75,16 +75,19 @@ export default class Page {
     switch (actionType) {
       case UserAction.UPDATE_EVENT:
         // console.log(`api`, this._api);
+        this._eventPresenter[update.id].setViewState(TaskPresenterViewState.SAVING);
         this._api.updatePoint(update).then((response) => {
           this._eventsModel.updateEvent(updateType, response);
         });
         break;
       case UserAction.ADD_EVENT:
+        this._eventNewPresenter.setSaving();
         this._api.addTask(update).then((response) => {
           this._eventsModel.addTask(updateType, response);
         });
         break;
       case UserAction.DELETE_EVENT:
+        this._eventPresenter[update.id].setViewState(TaskPresenterViewState.DELETING);
         this._api.deleteTask(update).then(() => {
           this._eventsModel.deleteEvent(updateType, update);
         });
