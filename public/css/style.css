@@ -254,6 +254,9 @@ main {
           user-select: none;
   color: inherit;
   opacity: 0.8;
+  background: none;
+  border: none;
+  padding: 0;
   -webkit-transition: opacity 0.2s;
   transition: opacity 0.2s; }
   .trip-tabs__btn:not(:last-of-type) {
