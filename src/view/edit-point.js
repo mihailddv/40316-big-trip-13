@@ -63,9 +63,10 @@ export const createEditPointTemplate = (data, destinations, offers) => {
 
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
-    // console.log(`names`, names);
-    const list = names.map(({title}) => {
-      return `
+    const type = names.find((offer) => offer.type === data.type);
+
+    const list = type.offers.slice().map(({title, price}) => {
+      return /* html */`
         <div class="event__offer-selector">
           <input
             class="event__offer-checkbox visually-hidden"
@@ -77,13 +78,11 @@ export const createEditPointTemplate = (data, destinations, offers) => {
           <label class="event__offer-label" for="event-offer-${title}">
             <span class="event__offer-title">${title}</span>
             &plus;&euro;&nbsp;
-            <span class="event__offer-price">${title}</span>
+            <span class="event__offer-price">${price}</span>
           </label>
         </div>
       `;
     });
-
-    // console.log(`list`, list);
 
     return list.join(``);
   };

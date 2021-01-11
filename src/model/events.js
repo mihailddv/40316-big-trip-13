@@ -129,8 +129,6 @@ export default class Events extends Observer {
     delete adaptedPoint.price;
     delete adaptedPoint.isFavorite;
 
-    console.log(`adaptedPoint`, adaptedPoint);
-
     return adaptedPoint;
   }
 }
