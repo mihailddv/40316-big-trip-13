@@ -88,6 +88,8 @@ export const createEditPointTemplate = (data, destinations, offers) => {
         `;
       });
       return list.join(``);
+    } else {
+      return null;
     }
   };
 
