@@ -65,18 +65,21 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     const names = Object.values(offers).map((item) => item);
     const type = names.find((offer) => offer.type === data.type);
 
-    const list = type.offers.slice().map(({title, price}) => {
+    const list = type.offers.slice().map((offer) => {
+      const isChecked = eventType.offers.some((item) => item.title === offer.title);
+
       return /* html */`
         <div class="event__offer-selector">
           <input
             class="event__offer-checkbox visually-hidden"
-            id="event-offer-${title}"
+            id="event-offer-${offer.title}"
             type="checkbox"
-            name="event-offer-${title}"
-            data-name="${title}"
+            name="event-offer-${offer.title}"
+            data-name="${offer.title}"
+            ${isChecked ? `checked` : ``}
           >
-          <label class="event__offer-label" for="event-offer-${title}">
-            <span class="event__offer-title">${title}</span>
+          <label class="event__offer-label" for="event-offer-${offer.title}">
+            <span class="event__offer-title">${offer.title}</span>
             &plus;&euro;&nbsp;
             <span class="event__offer-price">${price}</span>
           </label>
