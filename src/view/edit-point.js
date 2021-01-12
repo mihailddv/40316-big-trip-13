@@ -389,13 +389,29 @@ export default class PointEdit extends SmartView {
     evt.preventDefault();
     const type = evt.target.value;
     const image = type.toLowerCase();
-    const offers = EVENT_TYPE.find((elem) => elem.name === evt.target.value).offers;
+    // const test = this._offers;
+    // console.log(`test`, test);
+    // // const offers2 = this._offers.find((elem) => elem.name === evt.target.value).offers;
+    // const element = test.find((routeType) => routeType.type === evt.target.value);
+    // console.log(`element`, element);
+
+    const destinations = this._offers;
+    const cities = Object.keys(destinations).map(function (key) {
+      return destinations[key];
+    });
+    const city = cities.find((elem) => {
+      console.log(`elem`, elem);
+      console.log(`evt.target.value`, evt.target.value);
+      // eslint-disable-next-line no-unused-expressions
+      elem.type === evt.target.value;
+    });
+    console.log(`city`, city);
 
     this.updateData({
       eventType: {
         type,
         image,
-        offers,
+        offers: city.offers,
       },
     });
   }
