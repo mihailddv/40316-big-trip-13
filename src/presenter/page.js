@@ -110,9 +110,12 @@ export default class Page {
   }
 
   createEvent() {
+    const destinations = Object.assign({}, this._destinationsModel.getDestinations());
+    const offers = Object.assign({}, this._offersModel.getOffers());
+
     this._currentSortType = SortType.DEFAULT;
     this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
-    this._eventNewPresenter.init(this._buttonNewEvent);
+    this._eventNewPresenter.init(destinations, offers);
   }
 
   _getEvents() {

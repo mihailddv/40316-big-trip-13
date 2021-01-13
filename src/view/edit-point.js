@@ -5,7 +5,6 @@ import flatpickr from "flatpickr";
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import SmartView from "./smart.js";
-import {EVENT_TYPE} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
 import {calculateTotal} from '../utils/common';
 
@@ -30,6 +29,7 @@ const BLANK_EVENT = {
     }
   ],
 };
+
 export const createEditPointTemplate = (data, destinations, offers) => {
 
   const {
@@ -41,7 +41,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   } = data;
 
   // console.log(`offers`, offers);
-  // console.log(`eventType`, eventType);
+  // console.log(`destinations`, destinations);
 
   const createDetailsSection = () => {
     return `
@@ -94,27 +94,30 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     }
   };
 
-
   const createDestinationSection = () => {
     return `
-    ${city.text ? `<section class="event__section  event__section--destination">
-      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${he.encode(city.text)}</p>
-    </section>
+    ${city ? `
+      ${city.text ? `<section class="event__section  event__section--destination">
+        <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+        <p class="event__destination-description">${he.encode(city.text)}</p>
+      </section>
+      ` : ``}
     ` : ``}
     `;
   };
 
   const createPhotosSection = () => {
     return `
-    ${city.photos ? `
-      <div class="event__photos-container">
-        <div class="event__photos-tape">
-        ${city.photos.map(({src}) => `
-          <img class="event__photo" src="${src}" alt="Event photo">
-        `).join(``)}
+    ${city ? `
+      ${city.photos ? `
+        <div class="event__photos-container">
+          <div class="event__photos-tape">
+          ${city.photos.map(({src}) => `
+            <img class="event__photo" src="${src}" alt="Event photo">
+          `).join(``)}
+          </div>
         </div>
-      </div>
+      ` : ``}
     ` : ``}
     `;
   };
@@ -331,6 +334,7 @@ export default class PointEdit extends SmartView {
   }
 
   getTemplate() {
+    // console.log(`this._data`, this._data);
     return createEditPointTemplate(this._data, this._destinations, this._offers);
   }
 
@@ -396,7 +400,7 @@ export default class PointEdit extends SmartView {
     });
     const typeOffers = offersKey.find((elem) => elem.type === evt.target.value);
 
-    console.log(`typeOffers`, typeOffers.offers);
+    // console.log(`typeOffers`, typeOffers.offers);
 
     this.updateData({
       eventType: {
