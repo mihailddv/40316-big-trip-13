@@ -402,7 +402,7 @@ export default class PointEdit extends SmartView {
       eventType: {
         type,
         image,
-        offers: typeOffers.offers,
+        offers: [],
       },
       offers: typeOffers.offers,
     });
