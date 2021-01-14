@@ -34,7 +34,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     price,
   } = data;
 
-  console.log(`offers`, offers);
+  // console.log(`offers`, offers);
   // console.log(`destinations`, destinations);
 
   const createDetailsSection = () => {
@@ -58,23 +58,26 @@ export const createEditPointTemplate = (data, destinations, offers) => {
 
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
-    const type = names.find((offer) => offer.type === data.type);
+    const type = names.find((offer) => offer.type === eventType.type);
 
-    // console.log(`offers`, offers);
+    // console.log(`names`, names);
+    // console.log(`type`, type);
+    // console.log(`eventType`, eventType);
 
     if (type) {
       const list = type.offers.slice().map((offer) => {
-        const isChecked = eventType.offers.some((item) => item.title === offer.title);
+        // const isChecked = type.offers.some((item) => item.title === offer.title);
+        // console.log(`isChecked`, isChecked);
+        // console.log(`offer`, offer);
+        // ${isChecked ? `checked` : ``}
 
-        return /* html */`
-          <div class="event__offer-selector">
+        return /* html */`<div class="event__offer-selector">
             <input
               class="event__offer-checkbox visually-hidden"
               id="event-offer-${offer.title}"
               type="checkbox"
               name="event-offer-${offer.title}"
               data-name="${offer.title}"
-              ${isChecked ? `checked` : ``}
             >
             <label class="event__offer-label" for="event-offer-${offer.title}">
               <span class="event__offer-title">${offer.title}</span>
@@ -154,7 +157,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   let offersTemplate;
 
   if (offers) {
-    offersTemplate = createOffers(offers);
+    offersTemplate = createOffers();
   }
 
   const offersSection = createOffersSection();
@@ -406,7 +409,6 @@ export default class PointEdit extends SmartView {
         image,
         offers: [],
       },
-      offers: typeOffers.offers,
     });
   }
 
