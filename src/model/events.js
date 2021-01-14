@@ -96,8 +96,6 @@ export default class Events extends Observer {
     return adaptedPoint;
   }
 
-  // TODO: сделать при отправке на сервер
-
   static adaptToServer(point) {
     console.log(`point`, point);
     const adaptedPoint = Object.assign(
@@ -115,8 +113,6 @@ export default class Events extends Observer {
             description: point.city.text,
             pictures: point.city.photos,
           },
-          // "is_archived": point.isArchive,
-          // "repeating_days": point.repeating
         }
     );
 
@@ -128,8 +124,6 @@ export default class Events extends Observer {
     delete adaptedPoint.eventType;
     delete adaptedPoint.price;
     delete adaptedPoint.isFavorite;
-
-    console.log(`adaptedPoint`, adaptedPoint);
 
     return adaptedPoint;
   }

@@ -5,7 +5,6 @@ import flatpickr from "flatpickr";
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import SmartView from "./smart.js";
-import {EVENT_TYPE} from '../const';
 import {humanizeEditPointTime} from '../utils/point';
 import {calculateTotal} from '../utils/common';
 
@@ -23,13 +22,8 @@ const BLANK_EVENT = {
   dateEnd: new Date(),
   price: 0,
   isFavorite: false,
-  offers: [
-    {
-      title: ``,
-      price: ``,
-    }
-  ],
 };
+
 export const createEditPointTemplate = (data, destinations, offers) => {
 
   const {
@@ -40,7 +34,8 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     price,
   } = data;
 
-  // console.log(`offers`, offers);
+  console.log(`offers`, offers);
+  // console.log(`destinations`, destinations);
 
   const createDetailsSection = () => {
     return `
@@ -63,52 +58,62 @@ export const createEditPointTemplate = (data, destinations, offers) => {
 
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
-    // console.log(`names`, names);
-    const list = names.map(({title}) => {
-      return `
-        <div class="event__offer-selector">
-          <input
-            class="event__offer-checkbox visually-hidden"
-            id="event-offer-${title}"
-            type="checkbox"
-            name="event-offer-${title}"
-            data-name="${title}"
-          >
-          <label class="event__offer-label" for="event-offer-${title}">
-            <span class="event__offer-title">${title}</span>
-            &plus;&euro;&nbsp;
-            <span class="event__offer-price">${title}</span>
-          </label>
-        </div>
-      `;
-    });
+    const type = names.find((offer) => offer.type === data.type);
 
-    // console.log(`list`, list);
+    // console.log(`offers`, offers);
 
-    return list.join(``);
+    if (type) {
+      const list = type.offers.slice().map((offer) => {
+        const isChecked = eventType.offers.some((item) => item.title === offer.title);
+
+        return /* html */`
+          <div class="event__offer-selector">
+            <input
+              class="event__offer-checkbox visually-hidden"
+              id="event-offer-${offer.title}"
+              type="checkbox"
+              name="event-offer-${offer.title}"
+              data-name="${offer.title}"
+              ${isChecked ? `checked` : ``}
+            >
+            <label class="event__offer-label" for="event-offer-${offer.title}">
+              <span class="event__offer-title">${offer.title}</span>
+              &plus;&euro;&nbsp;
+              <span class="event__offer-price">${price}</span>
+            </label>
+          </div>
+        `;
+      });
+      return list.join(``);
+    } else {
+      return ``;
+    }
   };
-
 
   const createDestinationSection = () => {
     return `
-    ${city.text ? `<section class="event__section  event__section--destination">
-      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${he.encode(city.text)}</p>
-    </section>
+    ${city ? `
+      ${city.text ? `<section class="event__section  event__section--destination">
+        <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+        <p class="event__destination-description">${he.encode(city.text)}</p>
+      </section>
+      ` : ``}
     ` : ``}
     `;
   };
 
   const createPhotosSection = () => {
     return `
-    ${city.photos ? `
-      <div class="event__photos-container">
-        <div class="event__photos-tape">
-        ${city.photos.map(({src}) => `
-          <img class="event__photo" src="${src}" alt="Event photo">
-        `).join(``)}
+    ${city ? `
+      ${city.photos ? `
+        <div class="event__photos-container">
+          <div class="event__photos-tape">
+          ${city.photos.map(({src}) => `
+            <img class="event__photo" src="${src}" alt="Event photo">
+          `).join(``)}
+          </div>
         </div>
-      </div>
+      ` : ``}
     ` : ``}
     `;
   };
@@ -325,6 +330,7 @@ export default class PointEdit extends SmartView {
   }
 
   getTemplate() {
+    // console.log(`this._data`, this._data);
     return createEditPointTemplate(this._data, this._destinations, this._offers);
   }
 
@@ -343,7 +349,9 @@ export default class PointEdit extends SmartView {
       return item;
     });
     this.updateData({
-      offers: offerCurrent,
+      eventType: {
+        offers: offerCurrent,
+      },
     }, true);
   }
 
@@ -384,14 +392,21 @@ export default class PointEdit extends SmartView {
     evt.preventDefault();
     const type = evt.target.value;
     const image = type.toLowerCase();
-    const offers = EVENT_TYPE.find((elem) => elem.name === evt.target.value).offers;
+    const offers = this._offers;
+    const offersKey = Object.keys(offers).map(function (key) {
+      return offers[key];
+    });
+    const typeOffers = offersKey.find((elem) => elem.type === evt.target.value);
+
+    console.log(`typeOffers`, typeOffers.offers);
 
     this.updateData({
       eventType: {
         type,
         image,
-        offers,
+        offers: [],
       },
+      offers: typeOffers.offers,
     });
   }
 
