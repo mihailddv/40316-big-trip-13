@@ -26,12 +26,8 @@ const createPointTemplate = (data) => {
     isFavorite,
   } = data;
 
-  // console.log(`point eventType`, eventType);
-
   const travelHours = Math.floor((dateEnd - dateStart) / 3600000);
   const image = eventType.type.toLowerCase();
-
-  // console.log(`data`, data);
 
   const detailsSection = createOffers(eventType.offers);
 

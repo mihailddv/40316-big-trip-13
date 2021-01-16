@@ -74,7 +74,6 @@ export default class Page {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_EVENT:
-        // console.log(`api`, this._api);
         this._api.updatePoint(update).then((response) => {
           this._eventsModel.updateEvent(updateType, response);
         });
@@ -203,13 +202,15 @@ export default class Page {
   }
 
   _renderEvent(event) {
-    const destinations = Object.assign({}, this._destinationsModel.getDestinations());
-    const offers = Object.assign({}, this._offersModel.getOffers());
+    const eventPresenter = new EventPresenter(
+        this._eventsListComponent,
+        this._handleViewAction,
+        this._handleModeChange,
+        this._destinationsModel,
+        this._offersModel
+    );
 
-    // console.log(`_renderEvent offers`, offers);
-
-    const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleViewAction, this._handleModeChange);
-    eventPresenter.init(event, destinations, offers);
+    eventPresenter.init(event);
     this._eventPresenter[event.id] = eventPresenter;
   }
 

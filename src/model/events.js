@@ -7,17 +7,13 @@ export default class Events extends Observer {
   }
 
   setEvents(updateType, events) {
-    // console.log(`setEvents events`, events);
     this._events = events.slice();
-    // console.log(`this._events`, this._events);
 
     this._notify(updateType);
   }
 
   setPoints(updateType, points) {
-    // console.log(`setPoints`);
     this._tasks = points.slice();
-    // console.log(`this._tasks`, this._tasks);
 
     this._notify(updateType);
   }
@@ -97,7 +93,6 @@ export default class Events extends Observer {
   }
 
   static adaptToServer(point) {
-    console.log(`point`, point);
     const adaptedPoint = Object.assign(
         {},
         point,
@@ -106,7 +101,7 @@ export default class Events extends Observer {
           "date_from": point.dateStart instanceof Date ? point.dateStart.toISOString() : null, // На сервере дата хранится в ISO формате
           "date_to": point.dateEnd instanceof Date ? point.dateEnd.toISOString() : null, // На сервере дата хранится в ISO формате
           "type": point.eventType.type.toLowerCase(),
-          "offers": point.offers,
+          "offers": point.eventType.offers,
           "is_favorite": point.isFavorite,
           "destination": {
             name: point.city.name,
@@ -117,7 +112,6 @@ export default class Events extends Observer {
     );
 
     // Ненужные ключи мы удаляем
-    // delete adaptedPoint.price;
     delete adaptedPoint.dateStart;
     delete adaptedPoint.dateEnd;
     delete adaptedPoint.city;

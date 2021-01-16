@@ -33,7 +33,6 @@ export default class Api {
   }
 
   updatePoint(point) {
-    console.log(`updatePoint`, point);
     return this._load({
       url: `points/${point.id}`,
       method: Method.PUT,
