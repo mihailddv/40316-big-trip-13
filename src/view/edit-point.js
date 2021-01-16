@@ -449,7 +449,7 @@ export default class PointEdit extends SmartView {
     evt.preventDefault();
     this.updateData({
       dateEnd: evt.target.value
-    }, true);
+    });
   }
 
   _formSubmitHandler(evt) {

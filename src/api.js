@@ -34,7 +34,7 @@ export default class Api {
       .then(Api.toJson);
   }
 
-  updatePoint(point) {
+  updateEvent(point) {
     return this._load({
       url: `points/${point.id}`,
       method: Method.PUT,
@@ -45,21 +45,21 @@ export default class Api {
       .then(PointsModel.adaptToClient);
   }
 
-  addEvent(task) {
+  addEvent(point) {
     return this._load({
       url: `points`,
       method: Method.POST,
-      body: JSON.stringify(PointsModel.adaptToServer(task)),
+      body: JSON.stringify(PointsModel.adaptToServer(point)),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then(Api.toJSON)
       .then(PointsModel.adaptToClient);
   }
 
-  deleteEvent(task) {
-    console.log(`task`, task);
+  deleteEvent(point) {
+    console.log(`point`, point);
     return this._load({
-      url: `points/${task.id}`,
+      url: `points/${point.id}`,
       method: Method.DELETE
     });
   }

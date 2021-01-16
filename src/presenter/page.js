@@ -8,7 +8,7 @@ import {sortDate, sortPrice, sortTime} from "../utils/point.js";
 import {SortType, UpdateType, UserAction, FilterType} from "../const.js";
 import {filter} from "../utils/filter.js";
 
-import EventPresenter, {State as TaskPresenterViewState} from './event';
+import EventPresenter, {State as PointPresenterViewState} from './event';
 import EventNewPresenter from "./event-new.js";
 import ListView from '../view/list';
 import ListEmptyView from '../view/list-empty';
@@ -75,14 +75,14 @@ export default class Page {
     switch (actionType) {
       case UserAction.UPDATE_EVENT:
         // console.log(`api`, this._api);
-        this._eventPresenter[update.id].setViewState(TaskPresenterViewState.SAVING);
-        this._api.updatePoint(update)
+        this._eventPresenter[update.id].setViewState(PointPresenterViewState.SAVING);
+        this._api.updateEvent(update)
           .then((response) => {
             this._eventsModel.updateEvent(updateType, response);
-          })
-          .catch(() => {
-            this._eventPresenter[update.id].setViewState(TaskPresenterViewState.ABORTING);
           });
+          // .catch(() => {
+          //   this._eventPresenter[update.id].setViewState(PointPresenterViewState.ABORTING);
+          // });
         break;
       case UserAction.ADD_EVENT:
         this._eventNewPresenter.setSaving();
@@ -95,13 +95,13 @@ export default class Page {
           });
         break;
       case UserAction.DELETE_EVENT:
-        this._eventPresenter[update.id].setViewState(TaskPresenterViewState.DELETING);
+        this._eventPresenter[update.id].setViewState(PointPresenterViewState.DELETING);
         this._api.deleteEvent(update)
           .then(() => {
             this._eventsModel.deleteEvent(updateType, update);
           })
           .catch(() => {
-            this._eventPresenter[update.id].setViewState(TaskPresenterViewState.ABORTING);
+            this._eventPresenter[update.id].setViewState(PointPresenterViewState.ABORTING);
           });
         break;
     }
