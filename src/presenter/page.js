@@ -96,30 +96,14 @@ export default class Page {
         break;
       case UserAction.DELETE_EVENT:
         this._eventPresenter[update.id].setViewState(TaskPresenterViewState.DELETING);
-        // this._api.deleteTask(update).then(() => {
-        //   this._eventsModel.deleteEvent(updateType, update);
-        // });
         this._api.deleteEvent(update)
           .then(() => {
             this._eventsModel.deleteEvent(updateType, update);
+          })
+          .catch(() => {
+            this._eventPresenter[update.id].setViewState(TaskPresenterViewState.ABORTING);
           });
-          // .catch(() => {
-          //   this._eventPresenter[update.id].setViewState(TaskPresenterViewState.ABORTING);
-          // });
         break;
-      // case UserAction.DELETE_EVENT:
-      //   this._eventPresenter[update.id].setViewState(TaskPresenterViewState.DELETING);
-      //   // this._api.deleteTask(update).then(() => {
-      //   //   this._eventsModel.deleteEvent(updateType, update);
-      //   // });
-      //   this._api.deleteTask(update)
-      //     .then(() => {
-      //       this._eventsModel.deleteTask(updateType, update);
-      //     })
-      //     .catch(() => {
-      //       this._eventPresenter[update.id].setViewState(TaskPresenterViewState.ABORTING);
-      //     });
-      //   break;
     }
   }
 
