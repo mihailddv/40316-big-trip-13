@@ -1,6 +1,7 @@
 import EventEditView from "../view/edit-point.js";
 import {remove, render, RenderPosition} from "../utils/render.js";
 import {UserAction, UpdateType} from "../const.js";
+import {generateId} from "../utils/point.js";
 
 export default class EventNew {
   constructor(eventListContainer, changeData) {
@@ -14,12 +15,15 @@ export default class EventNew {
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
-  init() {
+  init(destinations, offers) {
     if (this._eventEditComponent !== null) {
       return;
     }
 
-    this._eventEditComponent = new EventEditView();
+    this._destinations = destinations;
+    this._offers = offers;
+
+    this._eventEditComponent = new EventEditView(undefined, this._destinations, this._offers);
     this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._eventEditComponent.setDeleteClickHandler(this._handleDeleteClick);
 

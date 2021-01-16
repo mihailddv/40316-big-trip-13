@@ -7,17 +7,13 @@ export default class Events extends Observer {
   }
 
   setEvents(updateType, events) {
-    // console.log(`setEvents events`, events);
     this._events = events.slice();
-    // console.log(`this._events`, this._events);
 
     this._notify(updateType);
   }
 
   setPoints(updateType, points) {
-    // console.log(`setPoints`);
     this._tasks = points.slice();
-    // console.log(`this._tasks`, this._tasks);
 
     this._notify(updateType);
   }
@@ -96,10 +92,7 @@ export default class Events extends Observer {
     return adaptedPoint;
   }
 
-  // TODO: сделать при отправке на сервер
-
   static adaptToServer(point) {
-    console.log(`point`, point);
     const adaptedPoint = Object.assign(
         {},
         point,
@@ -108,28 +101,23 @@ export default class Events extends Observer {
           "date_from": point.dateStart instanceof Date ? point.dateStart.toISOString() : null, // На сервере дата хранится в ISO формате
           "date_to": point.dateEnd instanceof Date ? point.dateEnd.toISOString() : null, // На сервере дата хранится в ISO формате
           "type": point.eventType.type.toLowerCase(),
-          "offers": point.offers,
+          "offers": point.eventType.offers,
           "is_favorite": point.isFavorite,
           "destination": {
             name: point.city.name,
             description: point.city.text,
             pictures: point.city.photos,
           },
-          // "is_archived": point.isArchive,
-          // "repeating_days": point.repeating
         }
     );
 
     // Ненужные ключи мы удаляем
-    // delete adaptedPoint.price;
     delete adaptedPoint.dateStart;
     delete adaptedPoint.dateEnd;
     delete adaptedPoint.city;
     delete adaptedPoint.eventType;
     delete adaptedPoint.price;
     delete adaptedPoint.isFavorite;
-
-    console.log(`adaptedPoint`, adaptedPoint);
 
     return adaptedPoint;
   }

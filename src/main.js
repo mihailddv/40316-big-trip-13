@@ -21,7 +21,7 @@ import Api from "./api.js";
 import {MenuItem} from "./const.js";
 import StatisticsView from "./view/statistics.js";
 
-const AUTHORIZATION = `Basic i85i3nhSXuR5XW8u`;
+const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uyh`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 
 import TripInfoView from './view/trip-info';
@@ -79,16 +79,13 @@ buttonNewEvent.addEventListener(`click`, (evt) => {
 
 api.getPoints()
   .then((points) => {
-    // console.log(`points`, points);
     eventsModel.setEvents(UpdateType.MINOR, points);
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
     calculateTotal();
-    // render(siteTripControlsElement, new TabsView(), RenderPosition.AFTERBEGIN);
   })
   .catch(() => {
     eventsModel.setEvents(UpdateType.MINOR, []);
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
-    // render(siteTripControlsElement, new TabsView(), RenderPosition.AFTERBEGIN);
   });
 
 api.getDestinations()

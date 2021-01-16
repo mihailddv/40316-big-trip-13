@@ -132,9 +132,12 @@ export default class Page {
   }
 
   createEvent() {
+    const destinations = Object.assign({}, this._destinationsModel.getDestinations());
+    const offers = Object.assign({}, this._offersModel.getOffers());
+
     this._currentSortType = SortType.DEFAULT;
     this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
-    this._eventNewPresenter.init(this._buttonNewEvent);
+    this._eventNewPresenter.init(destinations, offers);
   }
 
   _getEvents() {
@@ -222,13 +225,15 @@ export default class Page {
   }
 
   _renderEvent(event) {
-    const destinations = Object.assign({}, this._destinationsModel.getDestinations());
-    const offers = Object.assign({}, this._offersModel.getOffers());
+    const eventPresenter = new EventPresenter(
+        this._eventsListComponent,
+        this._handleViewAction,
+        this._handleModeChange,
+        this._destinationsModel,
+        this._offersModel
+    );
 
-    // console.log(`_renderEvent offers`, offers);
-
-    const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleViewAction, this._handleModeChange);
-    eventPresenter.init(event, destinations, offers);
+    eventPresenter.init(event);
     this._eventPresenter[event.id] = eventPresenter;
   }
 
