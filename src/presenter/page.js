@@ -86,9 +86,9 @@ export default class Page {
         break;
       case UserAction.ADD_EVENT:
         this._eventNewPresenter.setSaving();
-        this._api.addTask(update)
+        this._api.addEvent(update)
           .then((response) => {
-            this._eventsModel.addTask(updateType, response);
+            this._eventsModel.addEvent(updateType, response);
           })
           .catch(() => {
             this._eventNewPresenter.setAborting();
@@ -99,14 +99,27 @@ export default class Page {
         // this._api.deleteTask(update).then(() => {
         //   this._eventsModel.deleteEvent(updateType, update);
         // });
-        this._api.deleteTask(update)
+        this._api.deleteEvent(update)
           .then(() => {
-            this._eventsModel.deleteTask(updateType, update);
-          })
-          .catch(() => {
-            this._eventPresenter[update.id].setViewState(TaskPresenterViewState.ABORTING);
+            this._eventsModel.deleteEvent(updateType, update);
           });
+          // .catch(() => {
+          //   this._eventPresenter[update.id].setViewState(TaskPresenterViewState.ABORTING);
+          // });
         break;
+      // case UserAction.DELETE_EVENT:
+      //   this._eventPresenter[update.id].setViewState(TaskPresenterViewState.DELETING);
+      //   // this._api.deleteTask(update).then(() => {
+      //   //   this._eventsModel.deleteEvent(updateType, update);
+      //   // });
+      //   this._api.deleteTask(update)
+      //     .then(() => {
+      //       this._eventsModel.deleteTask(updateType, update);
+      //     })
+      //     .catch(() => {
+      //       this._eventPresenter[update.id].setViewState(TaskPresenterViewState.ABORTING);
+      //     });
+      //   break;
     }
   }
 

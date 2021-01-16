@@ -45,7 +45,7 @@ export default class Api {
       .then(PointsModel.adaptToClient);
   }
 
-  addTask(task) {
+  addEvent(task) {
     return this._load({
       url: `points`,
       method: Method.POST,
@@ -56,7 +56,7 @@ export default class Api {
       .then(PointsModel.adaptToClient);
   }
 
-  deleteTask(task) {
+  deleteEvent(task) {
     console.log(`task`, task);
     return this._load({
       url: `points/${task.id}`,
