@@ -57,6 +57,7 @@ export default class Api {
   }
 
   deleteTask(task) {
+    console.log(`task`, task);
     return this._load({
       url: `points/${task.id}`,
       method: Method.DELETE

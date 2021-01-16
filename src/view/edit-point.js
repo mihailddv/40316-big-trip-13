@@ -83,6 +83,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
               name="event-offer-${offer.title}"
               data-name="${offer.title}"
               ${isChecked ? `checked` : ``}
+              ${isDisabled ? `disabled` : ``}
             >
             <label class="event__offer-label" for="event-offer-${offer.title}">
               <span class="event__offer-title">${offer.title}</span>
