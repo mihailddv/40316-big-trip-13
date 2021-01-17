@@ -109,3 +109,7 @@ api.getOffers()
   .catch(() => {
     offersModel.setOffers(UpdateType.MINOR, {});
   });
+
+window.addEventListener(`load`, () => {
+  navigator.serviceWorker.register(`/sw.js`);
+});
