@@ -71,8 +71,6 @@ filterPresenter.init();
 pagePresenter.init();
 handleSiteMenuClick(`POINTS`);
 
-calculateTotal();
-
 buttonNewEvent.addEventListener(`click`, (evt) => {
   evt.preventDefault();
   handleSiteMenuClick(`POINTS`);
