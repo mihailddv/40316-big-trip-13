@@ -74,15 +74,14 @@ export default class Page {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_EVENT:
-        // console.log(`api`, this._api);
         this._eventPresenter[update.id].setViewState(PointPresenterViewState.SAVING);
         this._api.updateEvent(update)
           .then((response) => {
             this._eventsModel.updateEvent(updateType, response);
+          })
+          .catch(() => {
+            this._eventPresenter[update.id].setViewState(PointPresenterViewState.ABORTING);
           });
-          // .catch(() => {
-          //   this._eventPresenter[update.id].setViewState(PointPresenterViewState.ABORTING);
-          // });
         break;
       case UserAction.ADD_EVENT:
         this._eventNewPresenter.setSaving();

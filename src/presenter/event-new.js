@@ -1,7 +1,6 @@
 import EventEditView from "../view/edit-point.js";
 import {remove, render, RenderPosition} from "../utils/render.js";
 import {UserAction, UpdateType} from "../const.js";
-import {generateId} from "../utils/point.js";
 
 export default class EventNew {
   constructor(eventListContainer, changeData) {

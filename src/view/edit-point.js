@@ -99,35 +99,6 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     }
   };
 
-  // const createOffers = (isDisabled) => {
-  //   const names = Object.values(offers).map((item) => item);
-  //   // console.log(`names`, names);
-  //   const list = names.map(({title}) => {
-  //     return /* html */`
-  //       <div class="event__offer-selector">
-  //         <input
-  //           class="event__offer-checkbox visually-hidden"
-  //           id="event-offer-${title}"
-  //           type="checkbox"
-  //           name="event-offer-${title}"
-  //           data-name="${title}"
-  //           ${isDisabled ? `disabled` : ``}
-  //         >
-  //         <label class="event__offer-label" for="event-offer-${title}">
-  //           <span class="event__offer-title">${title}</span>
-  //           &plus;&euro;&nbsp;
-  //           <span class="event__offer-price">${title}</span>
-  //         </label>
-  //       </div>
-  //     `;
-  //   });
-
-  //   // console.log(`list`, list);
-
-  //   return list.join(``);
-  // };
-
-
   const createDestinationSection = () => {
     return `
     ${city ? `
@@ -156,7 +127,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     `;
   };
 
-  const createEventTypeItems = (isDisabled) => {
+  const createEventTypeItems = () => {
     const types = Object.values(offers).map((item) => item);
 
     return `
@@ -284,7 +255,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
           class="event__reset-btn"
           type="reset"
         >
-          ${isDeleting ? `deleting...` : `delete`}
+          ${isDeleting ? `Deleting...` : `Delete`}
         </button>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
