@@ -35,4 +35,3 @@ export const isFutureDate = (date) => {
   return date === null ? false : dayjs().isBefore(date, `day`) || dayjs().isSame(date, `day`);
 };
 
-export const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);

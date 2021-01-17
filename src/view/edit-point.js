@@ -22,8 +22,13 @@ const BLANK_EVENT = {
   dateEnd: new Date(),
   price: 0,
   isFavorite: false,
+  offers: [
+    {
+      title: ``,
+      price: ``,
+    }
+  ],
 };
-
 export const createEditPointTemplate = (data, destinations, offers) => {
 
   const {
@@ -32,6 +37,9 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     dateStart,
     dateEnd,
     price,
+    isDisabled,
+    isSaving,
+    isDeleting
   } = data;
 
   const createDetailsSection = () => {
@@ -73,6 +81,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
               name="event-offer-${offer.title}"
               data-name="${offer.title}"
               ${isChecked ? `checked` : ``}
+              ${isDisabled ? `disabled` : ``}
             >
             <label class="event__offer-label" for="event-offer-${offer.title}">
               <span class="event__offer-title">${offer.title}</span>
@@ -128,6 +137,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
             type="radio"
             name="event-type"
             value="${type}"
+            ${isDisabled ? `disabled` : ``}
           >
           <label
             class="event__type-label event__type-label--${type}"
@@ -233,8 +243,18 @@ export const createEditPointTemplate = (data, destinations, offers) => {
           >
         </div>
 
-        <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-        <button class="event__reset-btn" type="reset">Delete</button>
+        <button
+          class="event__save-btn  btn  btn--blue"
+          type="submit"
+        >
+          ${isSaving ? `Saving...` : `Save`}
+        </button>
+        <button
+          class="event__reset-btn"
+          type="reset"
+        >
+          ${isDeleting ? `Deleting...` : `Delete`}
+        </button>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
         </button>
@@ -398,7 +418,7 @@ export default class PointEdit extends SmartView {
     evt.preventDefault();
     this.updateData({
       dateEnd: evt.target.value
-    }, true);
+    });
   }
 
   _formSubmitHandler(evt) {
@@ -480,12 +500,20 @@ export default class PointEdit extends SmartView {
     return Object.assign(
         {},
         event,
-        {}
+        {
+          isDisabled: false,
+          isSaving: false,
+          isDeleting: false
+        }
     );
   }
 
   static parseDataToEvent(data) {
     data = Object.assign({}, data);
+
+    delete data.isDisabled;
+    delete data.isSaving;
+    delete data.isDeleting;
 
     return data;
   }
