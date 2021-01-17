@@ -13,21 +13,28 @@ import EventNewPresenter from "./event-new.js";
 import ListView from '../view/list';
 import ListEmptyView from '../view/list-empty';
 import SortView from '../view/trip-sort';
+import LoadingView from "../view/loading.js";
 
 export default class Page {
-  constructor(pageContainer, eventsModel, filterModel, buttonNewEvent) {
+  constructor(pageContainer, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, api) {
     this._eventsModel = eventsModel;
     this._filterModel = filterModel;
     this._pageContainer = pageContainer;
+    this._destinationsModel = destinationsModel;
+    this._offersModel = offersModel;
     this._eventPresenter = {};
     this._currentSortType = SortType.DATE;
     this._buttonNewEvent = buttonNewEvent;
+    this._api = api;
+    this._isLoading = true;
+    this._isDestinationLoad = false;
 
     this._sortComponent = null;
 
     this._pageComponent = new ListView();
     this._eventsListComponent = new ListView();
     this._noEventsComponent = new ListEmptyView();
+    this._loadingComponent = new LoadingView();
 
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
@@ -37,6 +44,8 @@ export default class Page {
 
     this._eventsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
+    this._destinationsModel.addObserver(this._handleModelEvent);
+    this._offersModel.addObserver(this._handleModelEvent);
 
     this._eventNewPresenter = new EventNewPresenter(this._eventsListComponent, this._handleViewAction);
   }
@@ -65,7 +74,9 @@ export default class Page {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_EVENT:
-        this._eventsModel.updateEvent(updateType, update);
+        this._api.updatePoint(update).then((response) => {
+          this._eventsModel.updateEvent(updateType, response);
+        });
         break;
       case UserAction.ADD_EVENT:
         this._eventsModel.addEvent(updateType, update);
@@ -89,13 +100,21 @@ export default class Page {
         this._clearPage({resetRenderedEventCount: true, resetSortType: true});
         this._renderPage();
         break;
+      case UpdateType.INIT:
+        this._isLoading = false;
+        remove(this._loadingComponent);
+        this._renderPage();
+        break;
     }
   }
 
   createEvent() {
+    const destinations = Object.assign({}, this._destinationsModel.getDestinations());
+    const offers = Object.assign({}, this._offersModel.getOffers());
+
     this._currentSortType = SortType.DEFAULT;
     this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
-    this._eventNewPresenter.init(this._buttonNewEvent);
+    this._eventNewPresenter.init(destinations, offers);
   }
 
   _getEvents() {
@@ -117,6 +136,10 @@ export default class Page {
 
   _renderEvents(events) {
     events.forEach((event) => this._renderEvent(event));
+  }
+
+  _renderLoading() {
+    render(this._pageComponent, this._loadingComponent, RenderPosition.AFTERBEGIN);
   }
 
   _sortEvents(sortType) {
@@ -169,6 +192,7 @@ export default class Page {
 
     remove(this._sortComponent);
     remove(this._noEventsComponent);
+    // remove(this._loadingComponent);
 
     this._renderedEventCount = Math.min(eventCount, this._renderedEventCount);
 
@@ -178,7 +202,14 @@ export default class Page {
   }
 
   _renderEvent(event) {
-    const eventPresenter = new EventPresenter(this._eventsListComponent, this._handleViewAction, this._handleModeChange);
+    const eventPresenter = new EventPresenter(
+        this._eventsListComponent,
+        this._handleViewAction,
+        this._handleModeChange,
+        this._destinationsModel,
+        this._offersModel
+    );
+
     eventPresenter.init(event);
     this._eventPresenter[event.id] = eventPresenter;
   }

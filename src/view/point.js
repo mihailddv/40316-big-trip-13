@@ -1,7 +1,22 @@
 import AbstractView from "./abstract.js";
 import {humanizePointDate, humanizeEventTime} from "../utils/point";
 
-const createPointTemplate = (point) => {
+
+const createOffers = (offers) => {
+  return `
+  ${(offers) ? `
+    ${offers.map(({title, price}) => /* html */`
+      <li class="event__offer">
+        <span class="event__offer-title">${title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${price}</span>
+      </li>
+    `).join(``)}
+  ` : ``}
+  `;
+};
+
+const createPointTemplate = (data) => {
   const {
     city,
     eventType,
@@ -9,25 +24,12 @@ const createPointTemplate = (point) => {
     dateEnd,
     price,
     isFavorite,
-  } = point;
+  } = data;
 
   const travelHours = Math.floor((dateEnd - dateStart) / 3600000);
+  const image = eventType.type.toLowerCase();
 
-  const createOffers = () => {
-    return `
-    ${(eventType.offers) ? `
-      ${eventType.offers.map(({title, offerPrice}) => /* html */`
-        <li class="event__offer">
-          <span class="event__offer-title">${title}</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">${offerPrice}</span>
-        </li>
-      `).join(``)}
-    ` : ``}
-    `;
-  };
-
-  const detailsSection = createOffers();
+  const detailsSection = createOffers(eventType.offers);
 
   const favoriteClassName = isFavorite
     ? `event__favorite-btn--active`
@@ -37,7 +39,7 @@ const createPointTemplate = (point) => {
     <div class="event">
       <time class="event__date" datetime="${dateStart}">${humanizePointDate(dateStart)}</time>
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/${eventType.image}.png" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${image}.png" alt="Event type icon">
       </div>
       <h3 class="event__title">${eventType.type} ${city.name}</h3>
       <div class="event__schedule">
@@ -80,6 +82,7 @@ export default class Point extends AbstractView {
   getTemplate() {
     return createPointTemplate(this.point);
   }
+
   _editClickHandler(evt) {
     evt.preventDefault();
     this._callback.editClick();
