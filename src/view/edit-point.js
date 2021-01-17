@@ -42,8 +42,6 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isDeleting
   } = data;
 
-  // console.log(`offers`, offers);
-
   const createDetailsSection = () => {
     return `
       <section class="event__details">
@@ -98,35 +96,6 @@ export const createEditPointTemplate = (data, destinations, offers) => {
       return ``;
     }
   };
-
-  // const createOffers = (isDisabled) => {
-  //   const names = Object.values(offers).map((item) => item);
-  //   // console.log(`names`, names);
-  //   const list = names.map(({title}) => {
-  //     return /* html */`
-  //       <div class="event__offer-selector">
-  //         <input
-  //           class="event__offer-checkbox visually-hidden"
-  //           id="event-offer-${title}"
-  //           type="checkbox"
-  //           name="event-offer-${title}"
-  //           data-name="${title}"
-  //           ${isDisabled ? `disabled` : ``}
-  //         >
-  //         <label class="event__offer-label" for="event-offer-${title}">
-  //           <span class="event__offer-title">${title}</span>
-  //           &plus;&euro;&nbsp;
-  //           <span class="event__offer-price">${title}</span>
-  //         </label>
-  //       </div>
-  //     `;
-  //   });
-
-  //   // console.log(`list`, list);
-
-  //   return list.join(``);
-  // };
-
 
   const createDestinationSection = () => {
     return `

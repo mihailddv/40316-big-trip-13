@@ -57,7 +57,6 @@ export default class Api {
   }
 
   deleteEvent(point) {
-    console.log(`point`, point);
     return this._load({
       url: `points/${point.id}`,
       method: Method.DELETE

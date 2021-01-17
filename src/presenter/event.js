@@ -36,12 +36,9 @@ export default class Event {
   }
 
   init(event, destinations, offers) {
-    // console.log(`pres events`, event);
     this._event = event;
     this._destinations = destinations;
     this._offers = offers;
-
-    // console.log(`this._offers`, this._offers);
 
     const prevEventComponent = this._eventComponent;
     const prevEventEditComponent = this._eventEditComponent;
