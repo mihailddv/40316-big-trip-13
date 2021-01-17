@@ -17,7 +17,7 @@ import PagePresenter from "./presenter/page.js";
 import FilterPresenter from "./presenter/filter.js";
 
 import {UpdateType} from "./const.js";
-import Api from "./api.js";
+import Api from "./api/api.js";
 import {MenuItem} from "./const.js";
 import StatisticsView from "./view/statistics.js";
 
