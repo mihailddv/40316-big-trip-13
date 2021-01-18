@@ -42,3 +42,7 @@ export const calculateTotal = () => {
     fullPrice.textContent = priceList.reduce(reducer);
   }
 };
+
+export const isOnline = () => {
+  return window.navigator.onLine;
+};
