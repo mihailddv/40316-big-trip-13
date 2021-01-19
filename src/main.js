@@ -6,7 +6,9 @@ import {
 
 import {
   calculateTotal,
+  isOnline,
 } from './utils/common';
+import {toast} from "./utils/toast/toast.js";
 
 import EventsModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
@@ -20,14 +22,21 @@ import {UpdateType} from "./const.js";
 import Api from "./api/api.js";
 import {MenuItem} from "./const.js";
 import StatisticsView from "./view/statistics.js";
+// import Store from "./api/store.js";
+// import Provider from "./api/provider.js";
 
 const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uyh`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
+// const STORE_PREFIX = `taskmanager-localstorage`;
+// const STORE_VER = `v1`;
+// const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
 
 import TripInfoView from './view/trip-info';
 import TabsView from './view/tabs';
 
 const api = new Api(END_POINT, AUTHORIZATION);
+// const store = new Store(STORE_NAME, window.localStorage);
+// const apiWithProvider = new Provider(api, store);
 
 const eventsModel = new EventsModel();
 const filterModel = new FilterModel();
@@ -55,6 +64,11 @@ const handleSiteMenuClick = (menuItem) => {
       pagePresenter.init();
       remove(statisticsComponent);
       siteMenuComponent.setMenuItem(`POINTS`);
+      // if (!isOnline()) {
+      //   toast(`You can't create new task offline`);
+      //   siteMenuComponent.setMenuItem(`POINTS`);
+      //   break;
+      // }
       break;
     case MenuItem.STATISTICS:
       pagePresenter.destroy();
@@ -88,6 +102,8 @@ api.getPoints()
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
   });
 
+console.log(`test`);
+
 api.getDestinations()
   .then((response) => {
     return response.json();
@@ -112,4 +128,13 @@ api.getOffers()
 
 window.addEventListener(`load`, () => {
   navigator.serviceWorker.register(`/sw.js`);
+});
+
+window.addEventListener(`online`, () => {
+  document.title = document.title.replace(` [offline]`, ``);
+  apiWithProvider.sync();
+});
+
+window.addEventListener(`offline`, () => {
+  document.title += ` [offline]`;
 });
