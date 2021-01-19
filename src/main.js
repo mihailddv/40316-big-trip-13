@@ -22,21 +22,21 @@ import {UpdateType} from "./const.js";
 import Api from "./api/api.js";
 import {MenuItem} from "./const.js";
 import StatisticsView from "./view/statistics.js";
-// import Store from "./api/store.js";
-// import Provider from "./api/provider.js";
+import Store from "./api/store.js";
+import Provider from "./api/provider.js";
 
-const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uyh`;
+const AUTHORIZATION = `Basic i85i3nhSXuR5`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
-// const STORE_PREFIX = `taskmanager-localstorage`;
-// const STORE_VER = `v1`;
-// const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
+const STORE_PREFIX = `taskmanager-localstorage`;
+const STORE_VER = `v1`;
+const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
 
 import TripInfoView from './view/trip-info';
 import TabsView from './view/tabs';
 
 const api = new Api(END_POINT, AUTHORIZATION);
-// const store = new Store(STORE_NAME, window.localStorage);
-// const apiWithProvider = new Provider(api, store);
+const store = new Store(STORE_NAME, window.localStorage);
+const apiWithProvider = new Provider(api, store);
 
 const eventsModel = new EventsModel();
 const filterModel = new FilterModel();
@@ -52,7 +52,7 @@ const siteMenuComponent = new TabsView();
 
 render(siteTripControlsElement, siteMenuComponent, RenderPosition.AFTERBEGIN);
 
-const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, api);
+const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, apiWithProvider);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
 
 let statisticsComponent = null;
@@ -64,11 +64,11 @@ const handleSiteMenuClick = (menuItem) => {
       pagePresenter.init();
       remove(statisticsComponent);
       siteMenuComponent.setMenuItem(`POINTS`);
-      // if (!isOnline()) {
-      //   toast(`You can't create new task offline`);
-      //   siteMenuComponent.setMenuItem(`POINTS`);
-      //   break;
-      // }
+      if (!isOnline()) {
+        toast(`You can't create new task offline`);
+        siteMenuComponent.setMenuItem(`POINTS`);
+        break;
+      }
       break;
     case MenuItem.STATISTICS:
       pagePresenter.destroy();
@@ -91,7 +91,7 @@ buttonNewEvent.addEventListener(`click`, (evt) => {
   pagePresenter.createEvent();
 });
 
-api.getPoints()
+apiWithProvider.getPoints()
   .then((points) => {
     eventsModel.setEvents(UpdateType.MINOR, points);
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
@@ -102,9 +102,7 @@ api.getPoints()
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
   });
 
-console.log(`test`);
-
-api.getDestinations()
+apiWithProvider.getDestinations()
   .then((response) => {
     return response.json();
   })
@@ -115,7 +113,7 @@ api.getDestinations()
     destinationsModel.setDestination(UpdateType.MINOR, {});
   });
 
-api.getOffers()
+apiWithProvider.getOffers()
   .then((response) => {
     return response.json();
   })
