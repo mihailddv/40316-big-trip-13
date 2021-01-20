@@ -54,6 +54,12 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   };
 
   const createOffersSection = () => {
+    // if (eventType.offers.length) {
+    //   console.log(`yes`);
+    // } else {
+    //   console.log(`no`);
+    // }
+
     return `${eventType.offers ? `<section class="event__section event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
