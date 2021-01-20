@@ -81,7 +81,7 @@ buttonNewEvent.addEventListener(`click`, (evt) => {
 api.getPoints()
   .then((points) => {
     eventsModel.setEvents(UpdateType.MINOR, points);
-    render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
+    render(siteTripMainElement, new TripInfoView(points), RenderPosition.AFTERBEGIN);
     calculateTotal();
     calculateDate();
   })
