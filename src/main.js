@@ -96,7 +96,7 @@ api.getDestinations()
     destinationsModel.setDestinations(UpdateType.MINOR, destinations);
   })
   .catch(() => {
-    destinationsModel.setDestination(UpdateType.MINOR, {});
+    destinationsModel.setDestinations(UpdateType.MINOR, {});
   });
 
 api.getOffers()

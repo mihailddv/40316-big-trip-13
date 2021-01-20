@@ -42,6 +42,8 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isDeleting
   } = data;
 
+  // console.log(`data`, data);
+
   const createDetailsSection = () => {
     return `
       <section class="event__details">
@@ -52,13 +54,15 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   };
 
   const createOffersSection = () => {
-    return `<section class="event__section  event__section--offers">
-      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+    return `${eventType.offers ? `<section class="event__section event__section--offers">
+        <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
-      <div class="event__available-offers">
-        ${offersTemplate}
-      </div>
-    </section>`;
+        <div class="event__available-offers">
+          ${offersTemplate}
+        </div>
+      </section>
+      ` : ``}
+    `;
   };
 
   const createOffers = () => {
@@ -161,7 +165,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
 
   let offersTemplate;
 
-  if (offers) {
+  if (eventType.offers) {
     offersTemplate = createOffers();
   }
 
