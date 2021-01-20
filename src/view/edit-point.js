@@ -42,8 +42,6 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isDeleting
   } = data;
 
-  // console.log(`data`, data);
-
   const createDetailsSection = () => {
     return `
       <section class="event__details">
@@ -182,6 +180,16 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   const eventTypeItems = createEventTypeItems();
   const destinationList = createDestinationList();
 
+  let btnDeleteText = ``;
+
+  if (!data.id) {
+    btnDeleteText = `Cancel`;
+  } else if (isDeleting) {
+    btnDeleteText = `Deleting`;
+  } else {
+    btnDeleteText = `Delete`;
+  }
+
   return /* html */ `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
@@ -263,7 +271,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
           class="event__reset-btn"
           type="reset"
         >
-          ${isDeleting ? `Deleting...` : `Delete`}
+          ${btnDeleteText}
         </button>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
