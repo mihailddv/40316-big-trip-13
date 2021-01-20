@@ -463,7 +463,6 @@ export default class PointEdit extends SmartView {
 
     setTimeout(() => {
       calculateTotal();
-      calculateDate();
     }, 500);
   }
 

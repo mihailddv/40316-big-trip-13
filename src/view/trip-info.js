@@ -1,16 +1,23 @@
 import AbstractView from "./abstract.js";
 
 const createTripInfoTemplate = (points) => {
-  console.log(`points`, points);
-  console.log(`point`, points[0].city.name);
-  const cityFirst = points[0].city.name;
-  const cityLast = points[points.length - 1].city.name;
+  // console.log(`points`, points);
+  // console.log(`point`, points[0].city.name);s
 
-  console.log(`points.length`, points.length);
+  let sortedDate = [];
+
+  const sortByDate = (a, b) => {
+    return new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime();
+  };
+
+  sortedDate.push(points.sort(sortByDate));
+
+  const cityFirst = sortedDate[0][0].city.name;
+  const cityLast = sortedDate[0][sortedDate[0].length - 1].city.name;
 
   let titleText = ``;
 
-  if (points.length < 3) {
+  if (points.length < 2) {
     titleText = `${cityFirst} &mdash; ${cityLast}`;
   } else {
     titleText = `${cityFirst} &mdash; ... &mdash; ${cityLast}`;
