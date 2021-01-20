@@ -313,7 +313,7 @@ export default class PointEdit extends SmartView {
     this._datepicker = flatpickr(
         this.getElement().querySelector(`[data-time="end"]`),
         {
-          minDate: `today`,
+          minDate: this._data.dateStart,
           dateFormat: `y/m/d H:i`,
           defaultDate: this._data.dateEnd,
           onChange: this._dateEndChangeHandler,
