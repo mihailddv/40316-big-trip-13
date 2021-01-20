@@ -42,3 +42,12 @@ export const calculateTotal = () => {
     fullPrice.textContent = priceList.reduce(reducer);
   }
 };
+
+export const calculateDate = () => {
+  const page = document.querySelector(`.page-body`);
+  const dates = page.querySelector(`.trip-info__dates`);
+  const eventFirst = page.querySelector(`.trip-events__item:first-child .event__date`).textContent;
+  const eventLast = page.querySelector(`.trip-events__item:last-child .event__date`).textContent;
+
+  dates.textContent = `${eventFirst} - ${eventLast}`;
+};

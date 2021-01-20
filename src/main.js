@@ -6,6 +6,7 @@ import {
 
 import {
   calculateTotal,
+  calculateDate,
 } from './utils/common';
 
 import EventsModel from "./model/events.js";
@@ -82,6 +83,7 @@ api.getPoints()
     eventsModel.setEvents(UpdateType.MINOR, points);
     render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
     calculateTotal();
+    calculateDate();
   })
   .catch(() => {
     eventsModel.setEvents(UpdateType.MINOR, []);
