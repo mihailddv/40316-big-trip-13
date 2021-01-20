@@ -22,7 +22,7 @@ export const updateItem = (items, update) => {
 export const calculateTotal = () => {
   const page = document.querySelector(`.page-body`);
   const eventPrice = page.querySelectorAll(`.event__price-value`);
-  const offerPrice = page.querySelectorAll(`.event__offer-price`);
+  const offerPrice = page.querySelectorAll(`.event__selected-offers .event__offer-price`);
   const fullPrice = page.querySelector(`.trip-info__cost-value`);
 
   const priceList = [];

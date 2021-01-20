@@ -155,15 +155,6 @@ export default class Event {
         UpdateType.MINOR,
         update
     );
-    this._replaceFormToCard();
-  }
-
-  _handleFormSubmit(update) {
-    this._changeData(
-        UserAction.UPDATE_EVENT,
-        UpdateType.PATCH,
-        update
-    );
   }
 
   _handleArrowClick() {
