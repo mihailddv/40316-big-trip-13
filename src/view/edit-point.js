@@ -42,8 +42,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   } = data;
 
   const createDetailsSection = () => {
-    return `
-      <section class="event__details">
+    return /* html */`<section class="event__details">
         ${offersSection}
         ${destinationSection}
       </section>
@@ -51,13 +50,16 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   };
 
   const createOffersSection = () => {
-    return /* html */ `<section class="event__section event__section--offers">
+    // const isOffers = !!data.eventType.offers.length;
+
+    return `${eventType.offers ? `<section class="event__section event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
         <div class="event__available-offers">
           ${offersTemplate}
         </div>
       </section>
+      ` : ``}
     `;
   };
 
@@ -160,18 +162,17 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   };
 
   let offersTemplate;
+  // let offersSection;
 
-  if (eventType.offers) {
+  if (offers) {
     offersTemplate = createOffers();
   }
 
-  let offersSection;
+  // if (eventType.offers) {
+  //   offersSection = createOffersSection();
+  // }
 
-  if (offers) {
-    offersSection = createOffersSection();
-  }
-
-  // const offersSection = createOffersSection();
+  const offersSection = createOffersSection();
   // const offersTemplate = createOffers();
   const destinationSection = createDestinationSection();
   const detailsSection = createDetailsSection();

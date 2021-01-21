@@ -6,36 +6,37 @@ const createTripInfoTemplate = (points) => {
   let sortedDate = [];
   let dates = ``;
   let totalPrice = Number(0);
-
-  sortedDate.push(points.sort(sortByDate));
-
-  const pointFirst = sortedDate[0][0];
-  const pointLast = sortedDate[0][sortedDate[0].length - 1];
-  const pointFirstCity = pointFirst.city.name;
-  const pointLastCity = pointLast.city.name;
-  const pointFirstDate = dayjs(pointFirst.dateStart).format(`MMM D`);
-  const pointLastDate = dayjs(pointFirst.dateEnd).format(`MMM D`);
-
   let titleText = ``;
 
-  if (points.length < 3) {
-    titleText = `${pointFirstCity} &mdash; ${pointLastCity}`;
-  } else {
-    titleText = `${pointFirstCity} &mdash; ... &mdash; ${pointLastCity}`;
-  }
+  if (points) {
+    sortedDate.push(points.sort(sortByDate));
 
-  if (pointFirstDate && pointLastDate) {
-    dates = `${pointFirstDate} &mdash; ${pointLastDate}`;
-  } else {
-    dates = ``;
-  }
+    const pointFirst = sortedDate[0][0];
+    const pointLast = sortedDate[0][sortedDate[0].length - 1];
+    const pointFirstCity = pointFirst.city.name;
+    const pointLastCity = pointLast.city.name;
+    const pointFirstDate = dayjs(pointFirst.dateStart).format(`MMM D`);
+    const pointLastDate = dayjs(pointFirst.dateEnd).format(`MMM D`);
 
-  points.forEach((item) => {
-    totalPrice += item.price;
-    item.eventType.offers.forEach((offer) => {
-      totalPrice += offer.price;
+    if (points.length < 3) {
+      titleText = `${pointFirstCity} &mdash; ${pointLastCity}`;
+    } else {
+      titleText = `${pointFirstCity} &mdash; ... &mdash; ${pointLastCity}`;
+    }
+
+    if (pointFirstDate && pointLastDate) {
+      dates = `${pointFirstDate} &mdash; ${pointLastDate}`;
+    } else {
+      dates = ``;
+    }
+
+    points.forEach((item) => {
+      totalPrice += item.price;
+      item.eventType.offers.forEach((offer) => {
+        totalPrice += offer.price;
+      });
     });
-  });
+  }
 
   return /* html */ `<section class="trip-main__trip-info  trip-info">
     <div class="trip-info__main">
