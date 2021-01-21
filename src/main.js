@@ -4,10 +4,6 @@ import {
   remove,
 } from "./utils/render.js";
 
-import {
-  calculateTotal,
-} from './utils/common';
-
 import EventsModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
 import DestinationsModel from "./model/destinations";
@@ -81,7 +77,6 @@ api.getPoints()
   .then((points) => {
     eventsModel.setEvents(UpdateType.MINOR, points);
     render(siteTripMainElement, new TripInfoView(points), RenderPosition.AFTERBEGIN);
-    calculateTotal();
   })
   .catch(() => {
     eventsModel.setEvents(UpdateType.MINOR, []);

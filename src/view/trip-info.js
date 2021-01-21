@@ -3,11 +3,9 @@ import AbstractView from "./abstract.js";
 import {sortByDate} from '../utils/common';
 
 const createTripInfoTemplate = (points) => {
-  // console.log(`points`, points);
-  // console.log(`point`, points[0].city.name);s
-
   let sortedDate = [];
   let dates = ``;
+  let totalPrice = Number(0);
 
   sortedDate.push(points.sort(sortByDate));
 
@@ -32,10 +30,12 @@ const createTripInfoTemplate = (points) => {
     dates = ``;
   }
 
-  // dates = `${dayjs(points[0].dateStart).format(`MMM D`)}&nbsp;&mdash;&nbsp;${dayjs(points[points.length - 1].dateEnd).format(`MMM D`)}`;
-
-  // console.log(`dates`, `${dayjs(sortedDate[0][0].dateStart).format(`MMM D`)}`);
-  // console.log(`dates`, `${dayjs(sortedDate[0][sortedDate[0].length - 1].dateStart).format(`MMM D`)}`);
+  points.forEach((item) => {
+    totalPrice += item.price;
+    item.eventType.offers.forEach((offer) => {
+      totalPrice += offer.price;
+    });
+  });
 
   return /* html */ `<section class="trip-main__trip-info  trip-info">
     <div class="trip-info__main">
@@ -45,7 +45,10 @@ const createTripInfoTemplate = (points) => {
     </div>
 
     <p class="trip-info__cost">
-      Total: &euro;&nbsp;<span class="trip-info__cost-value"></span>
+      Total: &euro;&nbsp;
+      <span class="trip-info__cost-value">
+        ${totalPrice}
+      </span>
     </p>
   </section>`;
 };

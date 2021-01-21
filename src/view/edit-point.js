@@ -6,7 +6,6 @@ import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import SmartView from "./smart.js";
 import {humanizeEditPointTime} from '../utils/point';
-import {calculateTotal} from '../utils/common';
 
 const BLANK_EVENT = {
   city: {
@@ -466,10 +465,6 @@ export default class PointEdit extends SmartView {
       },
     });
     this._callback.formSubmit(this._data);
-
-    setTimeout(() => {
-      calculateTotal();
-    }, 500);
   }
 
   _cardArrowHandler() {
