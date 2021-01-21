@@ -1,14 +1,11 @@
 import AbstractView from "./abstract.js";
+import {sortByDate} from '../utils/common';
 
 const createTripInfoTemplate = (points) => {
   // console.log(`points`, points);
   // console.log(`point`, points[0].city.name);s
 
   let sortedDate = [];
-
-  const sortByDate = (a, b) => {
-    return new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime();
-  };
 
   sortedDate.push(points.sort(sortByDate));
 

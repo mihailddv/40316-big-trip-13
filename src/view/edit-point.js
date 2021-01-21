@@ -6,7 +6,7 @@ import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import SmartView from "./smart.js";
 import {humanizeEditPointTime} from '../utils/point';
-import {calculateTotal, calculateDate} from '../utils/common';
+import {calculateTotal} from '../utils/common';
 
 const BLANK_EVENT = {
   city: {
@@ -52,14 +52,13 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   };
 
   const createOffersSection = () => {
-    return `${eventType.offers ? `<section class="event__section event__section--offers">
+    return /* html */ `<section class="event__section event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
         <div class="event__available-offers">
           ${offersTemplate}
         </div>
       </section>
-      ` : ``}
     `;
   };
 
@@ -167,7 +166,14 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     offersTemplate = createOffers();
   }
 
-  const offersSection = createOffersSection();
+  let offersSection;
+
+  if (offers) {
+    offersSection = createOffersSection();
+  }
+
+  // const offersSection = createOffersSection();
+  // const offersTemplate = createOffers();
   const destinationSection = createDestinationSection();
   const detailsSection = createDetailsSection();
   const photosSection = createPhotosSection();
