@@ -8,7 +8,7 @@ const createTripInfoTemplate = (points) => {
   let totalPrice = Number(0);
   let titleText = ``;
 
-  if (points) {
+  if (points.length) {
     sortedDate.push(points.sort(sortByDate));
 
     const pointFirst = sortedDate[0][0];

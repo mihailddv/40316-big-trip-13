@@ -7,6 +7,7 @@ import {updateItem} from "../utils/common.js";
 import {sortDate, sortPrice, sortTime} from "../utils/point.js";
 import {SortType, UpdateType, UserAction, FilterType} from "../const.js";
 import {filter} from "../utils/filter.js";
+import TripInfoView from '../view/trip-info';
 
 import EventPresenter, {State as PointPresenterViewState} from './event';
 import EventNewPresenter from "./event-new.js";
@@ -16,10 +17,11 @@ import SortView from '../view/trip-sort';
 import LoadingView from "../view/loading.js";
 
 export default class Page {
-  constructor(pageContainer, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, api) {
+  constructor(pageContainer, header, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, api) {
     this._eventsModel = eventsModel;
     this._filterModel = filterModel;
     this._pageContainer = pageContainer;
+    this._header = header;
     this._destinationsModel = destinationsModel;
     this._offersModel = offersModel;
     this._eventPresenter = {};
@@ -35,6 +37,7 @@ export default class Page {
     this._eventsListComponent = new ListView();
     this._noEventsComponent = new ListEmptyView();
     this._loadingComponent = new LoadingView();
+    this._headerComponent = new TripInfoView();
 
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
@@ -54,7 +57,7 @@ export default class Page {
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
 
-
+    this._infoComponent = new TripInfoView(this._getEvents());
     this._eventsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
 
@@ -69,6 +72,15 @@ export default class Page {
 
     this._eventsModel.removeObserver(this._handleModelEvent);
     this._filterModel.removeObserver(this._handleModelEvent);
+  }
+
+  _renderTripInfo() {
+    if (this._infoComponent !== null) {
+      this._infoComponent = null;
+    }
+
+    this._infoComponent = new TripInfoView(this._getEvents());
+    render(this._header, this._infoComponent, RenderPosition.AFTERBEGIN);
   }
 
   _handleViewAction(actionType, updateType, update) {
@@ -208,6 +220,7 @@ export default class Page {
 
     remove(this._sortComponent);
     remove(this._noEventsComponent);
+    remove(this._infoComponent);
 
     this._renderedEventCount = Math.min(eventCount, this._renderedEventCount);
 
@@ -271,5 +284,6 @@ export default class Page {
 
     this._renderSort();
     this._renderEvents(events.slice(0, eventCount));
+    this._renderTripInfo();
   }
 }
