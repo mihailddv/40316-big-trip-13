@@ -31,8 +31,6 @@ export default class Page {
     this._isLoading = true;
     this._isDestinationLoad = false;
 
-    // console.log(`this._header`, this._header);
-
     this._sortComponent = null;
 
     this._pageComponent = new ListView();
@@ -56,15 +54,12 @@ export default class Page {
   }
 
   init() {
-    this._tripInfoComponent = new TripInfoView(this._getEvents());
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
-    // render(this._header, this._headerComponent, RenderPosition.AFTERBEGIN);
 
+    this._infoComponent = new TripInfoView(this._getEvents());
     this._eventsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
-    const points = this._getEvents();
-    console.log(`points`, points);
 
     this._renderPage();
   }
@@ -80,13 +75,12 @@ export default class Page {
   }
 
   _renderTripInfo() {
-    console.log(`_renderTripInfo`);
-    if (this._tripInfoComponent !== null) {
-      this._tripInfoComponent = null;
+    if (this._infoComponent !== null) {
+      this._infoComponent = null;
     }
 
-    this._tripInfoComponent = new TripInfoView(this._getEvents());
-    render(this._header, this._tripInfoComponent, RenderPosition.AFTERBEGIN);
+    this._infoComponent = new TripInfoView(this._getEvents());
+    render(this._header, this._infoComponent, RenderPosition.AFTERBEGIN);
   }
 
   _handleViewAction(actionType, updateType, update) {
@@ -226,6 +220,7 @@ export default class Page {
 
     remove(this._sortComponent);
     remove(this._noEventsComponent);
+    remove(this._infoComponent);
 
     this._renderedEventCount = Math.min(eventCount, this._renderedEventCount);
 
@@ -281,8 +276,6 @@ export default class Page {
   _renderPage() {
     const events = this._getEvents();
     const eventCount = events.length;
-
-    console.log(`_renderPage events`, events);
 
     if (eventCount === 0) {
       this._renderNoEvents();
