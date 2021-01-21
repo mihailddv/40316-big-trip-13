@@ -6,7 +6,6 @@ import {
 
 import {
   calculateTotal,
-  calculateDate,
 } from './utils/common';
 
 import EventsModel from "./model/events.js";
