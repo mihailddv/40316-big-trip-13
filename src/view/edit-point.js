@@ -52,14 +52,13 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   const createOffersSection = () => {
     // const isOffers = !!data.eventType.offers.length;
 
-    return `${eventType.offers ? `<section class="event__section event__section--offers">
+    return `<section class="event__section event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
         <div class="event__available-offers">
           ${offersTemplate}
         </div>
       </section>
-      ` : ``}
     `;
   };
 
