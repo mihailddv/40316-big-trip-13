@@ -113,7 +113,7 @@ export default class Page {
         this._renderPage();
         break;
       case UpdateType.MAJOR:
-        this._clearPage({resetRenderedEventCount: true, resetSortType: true});
+        this._clearPage({resetSortType: true});
         this._renderPage();
         break;
       case UpdateType.INIT:
