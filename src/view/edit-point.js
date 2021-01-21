@@ -41,27 +41,6 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isDeleting
   } = data;
 
-  const createDetailsSection = () => {
-    return /* html */`<section class="event__details">
-        ${offersSection}
-        ${destinationSection}
-      </section>
-    `;
-  };
-
-  const createOffersSection = () => {
-    // const isOffers = !!data.eventType.offers.length;
-
-    return `<section class="event__section event__section--offers">
-        <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
-        <div class="event__available-offers">
-          ${offersTemplate}
-        </div>
-      </section>
-    `;
-  };
-
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
     const type = names.find((offer) => offer.type === eventType.type);
@@ -96,6 +75,23 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     } else {
       return ``;
     }
+  };
+
+  const createOffersSection = () => {
+    const names = Object.values(offers).map((item) => item);
+    const type = names.find((offer) => offer.type === eventType.type);
+
+    return `
+      ${type ? `
+        ${type.offers.length ? `<section class="event__section event__section--offers">
+            <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+            <div class="event__available-offers">
+              ${offersTemplate}
+            </div>
+          </section>
+          ` : ``}
+      ` : ``}
+    `;
   };
 
   const createDestinationSection = () => {
@@ -161,20 +157,14 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   };
 
   let offersTemplate;
-  // let offersSection;
 
   if (offers) {
     offersTemplate = createOffers();
   }
 
-  // if (eventType.offers) {
-  //   offersSection = createOffersSection();
-  // }
-
   const offersSection = createOffersSection();
   // const offersTemplate = createOffers();
   const destinationSection = createDestinationSection();
-  const detailsSection = createDetailsSection();
   const photosSection = createPhotosSection();
   const eventTypeItems = createEventTypeItems();
   const destinationList = createDestinationList();
@@ -277,9 +267,12 @@ export const createEditPointTemplate = (data, destinations, offers) => {
         </button>
       </header>
 
-      ${detailsSection}
+      <section class="event__details">
+        ${offersSection}
+        ${destinationSection}
+        ${photosSection}
+      </section>
 
-      ${photosSection}
 
     </form>
   </li>
@@ -491,7 +484,10 @@ export default class PointEdit extends SmartView {
     this.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, this._formDeleteClickHandler);
   }
 
+
   _setInnerHandlers() {
+    const isOffers = document.querySelector(`.event__available-offers`);
+
     this.getElement()
       .querySelector(`.event__input--price`)
       .addEventListener(`input`, this._priceInputHandler);
@@ -507,7 +503,7 @@ export default class PointEdit extends SmartView {
     this.getElement()
       .querySelector(`.event__type-group`)
       .addEventListener(`change`, this._eventTypeHandler);
-    if (this._data.eventType.offers) {
+    if (isOffers) {
       this.getElement()
         .querySelector(`.event__available-offers`)
         .addEventListener(`change`, this._onOfferChange);
