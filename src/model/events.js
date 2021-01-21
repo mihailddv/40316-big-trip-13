@@ -68,7 +68,7 @@ export default class Events extends Observer {
         point,
         {
           price: point.base_price,
-          dateStart: point.date_from !== null ? new Date(point.date_from) : point.date_from, // На клиенте дата хранится как экземпляр Date
+          dateStart: point.date_from !== null ? new Date(point.date_from) : point.date_from,
           dateEnd: point.date_to !== null ? new Date(point.date_to) : point.date_to,
           isFavorite: point.is_favorite,
           city: {
@@ -98,8 +98,8 @@ export default class Events extends Observer {
         point,
         {
           "base_price": Number(point.price),
-          "date_from": point.dateStart instanceof Date ? point.dateStart.toISOString() : null, // На сервере дата хранится в ISO формате
-          "date_to": point.dateEnd instanceof Date ? point.dateEnd.toISOString() : null, // На сервере дата хранится в ISO формате
+          "date_from": point.dateStart instanceof Date ? point.dateStart.toISOString() : null,
+          "date_to": point.dateEnd instanceof Date ? point.dateEnd.toISOString() : null,
           "type": point.eventType.type.toLowerCase(),
           "offers": point.eventType.offers,
           "is_favorite": point.isFavorite,
@@ -111,7 +111,6 @@ export default class Events extends Observer {
         }
     );
 
-    // Ненужные ключи мы удаляем
     delete adaptedPoint.dateStart;
     delete adaptedPoint.dateEnd;
     delete adaptedPoint.city;
