@@ -4,10 +4,6 @@ import {
   remove,
 } from "./utils/render.js";
 
-import {
-  calculateTotal,
-} from './utils/common';
-
 import EventsModel from "./model/events.js";
 import FilterModel from "./model/filter.js";
 import DestinationsModel from "./model/destinations";
@@ -21,7 +17,7 @@ import Api from "./api.js";
 import {MenuItem} from "./const.js";
 import StatisticsView from "./view/statistics.js";
 
-const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uyh`;
+const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uq`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 
 import TripInfoView from './view/trip-info';
@@ -80,8 +76,7 @@ buttonNewEvent.addEventListener(`click`, (evt) => {
 api.getPoints()
   .then((points) => {
     eventsModel.setEvents(UpdateType.MINOR, points);
-    render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
-    calculateTotal();
+    render(siteTripMainElement, new TripInfoView(points), RenderPosition.AFTERBEGIN);
   })
   .catch(() => {
     eventsModel.setEvents(UpdateType.MINOR, []);
@@ -96,7 +91,7 @@ api.getDestinations()
     destinationsModel.setDestinations(UpdateType.MINOR, destinations);
   })
   .catch(() => {
-    destinationsModel.setDestination(UpdateType.MINOR, {});
+    destinationsModel.setDestinations(UpdateType.MINOR, {});
   });
 
 api.getOffers()
