@@ -7,6 +7,7 @@ import {updateItem} from "../utils/common.js";
 import {sortDate, sortPrice, sortTime} from "../utils/point.js";
 import {SortType, UpdateType, UserAction, FilterType} from "../const.js";
 import {filter} from "../utils/filter.js";
+import TripInfoView from '../view/trip-info';
 
 import EventPresenter, {State as PointPresenterViewState} from './event';
 import EventNewPresenter from "./event-new.js";
@@ -16,10 +17,11 @@ import SortView from '../view/trip-sort';
 import LoadingView from "../view/loading.js";
 
 export default class Page {
-  constructor(pageContainer, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, api) {
+  constructor(pageContainer, header, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, api) {
     this._eventsModel = eventsModel;
     this._filterModel = filterModel;
     this._pageContainer = pageContainer;
+    this._header = header;
     this._destinationsModel = destinationsModel;
     this._offersModel = offersModel;
     this._eventPresenter = {};
@@ -29,12 +31,15 @@ export default class Page {
     this._isLoading = true;
     this._isDestinationLoad = false;
 
+    // console.log(`this._header`, this._header);
+
     this._sortComponent = null;
 
     this._pageComponent = new ListView();
     this._eventsListComponent = new ListView();
     this._noEventsComponent = new ListEmptyView();
     this._loadingComponent = new LoadingView();
+    this._headerComponent = new TripInfoView();
 
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
@@ -51,12 +56,15 @@ export default class Page {
   }
 
   init() {
+    this._tripInfoComponent = new TripInfoView(this._getEvents());
     render(this._pageContainer, this._pageComponent, RenderPosition.BEFOREEND);
     render(this._pageComponent, this._eventsListComponent, RenderPosition.BEFOREEND);
-
+    // render(this._header, this._headerComponent, RenderPosition.AFTERBEGIN);
 
     this._eventsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
+    const points = this._getEvents();
+    console.log(`points`, points);
 
     this._renderPage();
   }
@@ -69,6 +77,16 @@ export default class Page {
 
     this._eventsModel.removeObserver(this._handleModelEvent);
     this._filterModel.removeObserver(this._handleModelEvent);
+  }
+
+  _renderTripInfo() {
+    console.log(`_renderTripInfo`);
+    if (this._tripInfoComponent !== null) {
+      this._tripInfoComponent = null;
+    }
+
+    this._tripInfoComponent = new TripInfoView(this._getEvents());
+    render(this._header, this._tripInfoComponent, RenderPosition.AFTERBEGIN);
   }
 
   _handleViewAction(actionType, updateType, update) {
@@ -264,6 +282,8 @@ export default class Page {
     const events = this._getEvents();
     const eventCount = events.length;
 
+    console.log(`_renderPage events`, events);
+
     if (eventCount === 0) {
       this._renderNoEvents();
       return;
@@ -271,5 +291,6 @@ export default class Page {
 
     this._renderSort();
     this._renderEvents(events.slice(0, eventCount));
+    this._renderTripInfo();
   }
 }

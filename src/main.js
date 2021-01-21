@@ -20,7 +20,7 @@ import StatisticsView from "./view/statistics.js";
 const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uq`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 
-import TripInfoView from './view/trip-info';
+// import TripInfoView from './view/trip-info';
 import TabsView from './view/tabs';
 
 const api = new Api(END_POINT, AUTHORIZATION);
@@ -39,7 +39,7 @@ const siteMenuComponent = new TabsView();
 
 render(siteTripControlsElement, siteMenuComponent, RenderPosition.AFTERBEGIN);
 
-const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, api);
+const pagePresenter = new PagePresenter(siteTripEventsElement, siteTripMainElement, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, api);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
 
 let statisticsComponent = null;
@@ -76,11 +76,11 @@ buttonNewEvent.addEventListener(`click`, (evt) => {
 api.getPoints()
   .then((points) => {
     eventsModel.setEvents(UpdateType.MINOR, points);
-    render(siteTripMainElement, new TripInfoView(points), RenderPosition.AFTERBEGIN);
+    // render(siteTripMainElement, new TripInfoView(points), RenderPosition.AFTERBEGIN);
   })
   .catch(() => {
     eventsModel.setEvents(UpdateType.MINOR, []);
-    render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
+    // render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
   });
 
 api.getDestinations()
