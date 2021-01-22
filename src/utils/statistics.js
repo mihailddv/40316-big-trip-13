@@ -3,8 +3,8 @@ export const getTypes = (points) => {
   let items = points;
   let result = [];
 
-  // eslint-disable-next-line no-cond-assign
-  for (let item, i = 0; item = items[i++];) {
+  for (let i = 0; i < items.length; i++) {
+    let item = items[i];
     let type = item.eventType.type;
 
     if (!(type in lookup)) {
