@@ -108,8 +108,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
 
   const createPhotosSection = () => {
     return `
-    ${city ? `
-      ${city.photos ? `
+      ${city && city.photos ? `
         <div class="event__photos-container">
           <div class="event__photos-tape">
           ${city.photos.map(({src}) => `
@@ -118,7 +117,6 @@ export const createEditPointTemplate = (data, destinations, offers) => {
           </div>
         </div>
       ` : ``}
-    ` : ``}
     `;
   };
 
