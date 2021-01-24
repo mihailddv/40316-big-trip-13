@@ -168,14 +168,12 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   const eventTypeItems = createEventTypeItems();
   const destinationList = createDestinationList();
 
-  let btnDeleteText = ``;
+  let btnDeleteText = `Delete`;
 
   if (!data.id) {
     btnDeleteText = `Cancel`;
   } else if (isDeleting) {
     btnDeleteText = `Deleting`;
-  } else {
-    btnDeleteText = `Delete`;
   }
 
   return /* html */ `<li class="trip-events__item">
