@@ -276,7 +276,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   `;
 };
 export default class PointEdit extends SmartView {
-  constructor(event = BLANK_EVENT, destinations, offers) {
+  constructor(destinations, offers, event = BLANK_EVENT) {
     super();
     this._data = event;
     this._datepicker = null;
