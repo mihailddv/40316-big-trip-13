@@ -116,7 +116,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     `;
   };
 
-  const createEventTypeItems = () => {
+  const createEventTypeItems = (currentType) => {
     const types = Object.values(offers).map((item) => item);
 
     return `
@@ -129,7 +129,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
             name="event-type"
             value="${type}"
             ${isDisabled ? `disabled` : ``}
-            ${data.type === type ? `checked` : ``}
+            ${currentType === type ? `checked` : ``}
           >
           <label
             class="event__type-label event__type-label--${type}"
@@ -160,7 +160,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   const offersSection = createOffersSection();
   const destinationSection = createDestinationSection();
   const photosSection = createPhotosSection();
-  const eventTypeItems = createEventTypeItems();
+  const eventTypeItems = createEventTypeItems(data.type);
   const destinationList = createDestinationList();
 
   let btnDeleteText = `Delete`;
