@@ -82,27 +82,23 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     const type = names.find((offer) => offer.type === eventType.type);
 
     return `
-      ${type ? `
-        ${type.offers.length ? `<section class="event__section event__section--offers">
-            <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-            <div class="event__available-offers">
-              ${offersTemplate}
-            </div>
-          </section>
-          ` : ``}
-      ` : ``}
+      ${type && type.offers.length ? `<section class="event__section event__section--offers">
+          <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+          <div class="event__available-offers">
+            ${offersTemplate}
+          </div>
+        </section>
+        ` : ``}
     `;
   };
 
   const createDestinationSection = () => {
     return `
-    ${city ? `
-      ${city.text ? `<section class="event__section  event__section--destination">
+      ${city && city.text ? `<section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
         <p class="event__destination-description">${he.encode(city.text)}</p>
       </section>
       ` : ``}
-    ` : ``}
     `;
   };
 
