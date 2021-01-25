@@ -129,6 +129,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
             name="event-type"
             value="${type}"
             ${isDisabled ? `disabled` : ``}
+            ${data.type === type ? `checked` : ``}
           >
           <label
             class="event__type-label event__type-label--${type}"
