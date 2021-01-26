@@ -8,6 +8,8 @@ import {
   getTypes
 } from "../utils/statistics";
 
+const BAR_HEIGHT = 55;
+
 const renderMoneyChart = (ctx, points) => {
   const labels = getTypes(points);
   const costs = calculateCost(points);
@@ -278,7 +280,6 @@ export default class Statistics extends SmartView {
     const typeCtx = this.getElement().querySelector(`.statistics__chart--transport`);
     const timeCtx = this.getElement().querySelector(`.statistics__chart--time`);
 
-    const BAR_HEIGHT = 55;
     const itemCount = getTypes(points).length;
     moneyCtx.height = BAR_HEIGHT * itemCount;
     typeCtx.height = BAR_HEIGHT * itemCount;

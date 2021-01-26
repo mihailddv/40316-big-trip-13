@@ -82,34 +82,29 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     const type = names.find((offer) => offer.type === eventType.type);
 
     return `
-      ${type ? `
-        ${type.offers.length ? `<section class="event__section event__section--offers">
-            <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-            <div class="event__available-offers">
-              ${offersTemplate}
-            </div>
-          </section>
-          ` : ``}
-      ` : ``}
+      ${type && type.offers.length ? `<section class="event__section event__section--offers">
+          <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+          <div class="event__available-offers">
+            ${offersTemplate}
+          </div>
+        </section>
+        ` : ``}
     `;
   };
 
   const createDestinationSection = () => {
     return `
-    ${city ? `
-      ${city.text ? `<section class="event__section  event__section--destination">
+      ${city && city.text ? `<section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
         <p class="event__destination-description">${he.encode(city.text)}</p>
       </section>
       ` : ``}
-    ` : ``}
     `;
   };
 
   const createPhotosSection = () => {
     return `
-    ${city ? `
-      ${city.photos ? `
+      ${city && city.photos ? `
         <div class="event__photos-container">
           <div class="event__photos-tape">
           ${city.photos.map(({src}) => `
@@ -118,11 +113,10 @@ export const createEditPointTemplate = (data, destinations, offers) => {
           </div>
         </div>
       ` : ``}
-    ` : ``}
     `;
   };
 
-  const createEventTypeItems = () => {
+  const createEventTypeItems = (currentType) => {
     const types = Object.values(offers).map((item) => item);
 
     return `
@@ -135,6 +129,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
             name="event-type"
             value="${type}"
             ${isDisabled ? `disabled` : ``}
+            ${currentType === type ? `checked` : ``}
           >
           <label
             class="event__type-label event__type-label--${type}"
@@ -165,17 +160,15 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   const offersSection = createOffersSection();
   const destinationSection = createDestinationSection();
   const photosSection = createPhotosSection();
-  const eventTypeItems = createEventTypeItems();
+  const eventTypeItems = createEventTypeItems(data.type);
   const destinationList = createDestinationList();
 
-  let btnDeleteText = ``;
+  let btnDeleteText = `Delete`;
 
   if (!data.id) {
     btnDeleteText = `Cancel`;
   } else if (isDeleting) {
     btnDeleteText = `Deleting`;
-  } else {
-    btnDeleteText = `Delete`;
   }
 
   return /* html */ `<li class="trip-events__item">
@@ -252,12 +245,14 @@ export const createEditPointTemplate = (data, destinations, offers) => {
         <button
           class="event__save-btn  btn  btn--blue"
           type="submit"
+          ${isDisabled ? `disabled` : ``}
         >
           ${isSaving ? `Saving...` : `Save`}
         </button>
         <button
           class="event__reset-btn"
           type="reset"
+          ${isDisabled ? `disabled` : ``}
         >
           ${btnDeleteText}
         </button>
@@ -278,7 +273,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   `;
 };
 export default class PointEdit extends SmartView {
-  constructor(event = BLANK_EVENT, destinations, offers) {
+  constructor(destinations, offers, event = BLANK_EVENT) {
     super();
     this._data = event;
     this._datepicker = null;

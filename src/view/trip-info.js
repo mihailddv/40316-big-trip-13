@@ -15,8 +15,8 @@ const createTripInfoTemplate = (points) => {
     const pointLast = sortedDate[0][sortedDate[0].length - 1];
     const pointFirstCity = pointFirst.city.name;
     const pointLastCity = pointLast.city.name;
-    const pointFirstDate = dayjs(pointFirst.dateStart).format(`MMM D`);
-    const pointLastDate = dayjs(pointFirst.dateEnd).format(`MMM D`);
+    const pointFirstDate = dayjs(pointFirst.dateStart).format(`D MMM`);
+    const pointLastDate = dayjs(pointFirst.dateEnd).format(`D MMM`);
 
     if (points.length < 3) {
       titleText = `${pointFirstCity} &mdash; ${pointLastCity}`;
