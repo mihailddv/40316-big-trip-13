@@ -19,9 +19,9 @@ import {UpdateType} from "./const.js";
 import Api from "./api/api.js";
 import {MenuItem} from "./const.js";
 import StatisticsView from "./view/statistics.js";
+import TabsView from './view/tabs';
 import Store from "./api/store.js";
 import Provider from "./api/provider.js";
-import TabsView from './view/tabs';
 
 const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uw`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
