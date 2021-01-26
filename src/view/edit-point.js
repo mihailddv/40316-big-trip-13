@@ -245,12 +245,14 @@ export const createEditPointTemplate = (data, destinations, offers) => {
         <button
           class="event__save-btn  btn  btn--blue"
           type="submit"
+          ${isDisabled ? `disabled` : ``}
         >
           ${isSaving ? `Saving...` : `Save`}
         </button>
         <button
           class="event__reset-btn"
           type="reset"
+          ${isDisabled ? `disabled` : ``}
         >
           ${btnDeleteText}
         </button>
