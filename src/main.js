@@ -48,11 +48,11 @@ const handleSiteMenuClick = (menuItem) => {
       pagePresenter.destroy();
       pagePresenter.init();
       remove(statisticsComponent);
-      siteMenuComponent.setMenuItem(`POINTS`);
+      siteMenuComponent.setMenuItem(MenuItem.POINTS);
       break;
     case MenuItem.STATISTICS:
       pagePresenter.destroy();
-      siteMenuComponent.setMenuItem(`STATISTICS`);
+      siteMenuComponent.setMenuItem(MenuItem.STATISTICS);
       statisticsComponent = new StatisticsView(eventsModel.getEvents());
       render(siteTripEventsElement, statisticsComponent, RenderPosition.BEFOREEND);
       break;
@@ -63,11 +63,11 @@ siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
 pagePresenter.init();
-handleSiteMenuClick(`POINTS`);
+handleSiteMenuClick(MenuItem.POINTS);
 
 buttonNewEvent.addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  handleSiteMenuClick(`POINTS`);
+  handleSiteMenuClick(MenuItem.POINTS);
   pagePresenter.createEvent();
 });
 
