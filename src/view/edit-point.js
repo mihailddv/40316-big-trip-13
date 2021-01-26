@@ -6,7 +6,6 @@ import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import SmartView from "./smart.js";
 import {humanizeEditPointTime} from '../utils/point';
-import {calculateTotal} from '../utils/common';
 
 const BLANK_EVENT = {
   city: {
@@ -41,27 +40,6 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isSaving,
     isDeleting
   } = data;
-
-  // console.log(`offers`, offers);
-
-  const createDetailsSection = () => {
-    return `
-      <section class="event__details">
-        ${offersSection}
-        ${destinationSection}
-      </section>
-    `;
-  };
-
-  const createOffersSection = () => {
-    return `<section class="event__section  event__section--offers">
-      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
-      <div class="event__available-offers">
-        ${offersTemplate}
-      </div>
-    </section>`;
-  };
 
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
@@ -99,22 +77,34 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     }
   };
 
+  const createOffersSection = () => {
+    const names = Object.values(offers).map((item) => item);
+    const type = names.find((offer) => offer.type === eventType.type);
+
+    return `
+      ${type && type.offers.length ? `<section class="event__section event__section--offers">
+          <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+          <div class="event__available-offers">
+            ${offersTemplate}
+          </div>
+        </section>
+        ` : ``}
+    `;
+  };
+
   const createDestinationSection = () => {
     return `
-    ${city ? `
-      ${city.text ? `<section class="event__section  event__section--destination">
+      ${city && city.text ? `<section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
         <p class="event__destination-description">${he.encode(city.text)}</p>
       </section>
       ` : ``}
-    ` : ``}
     `;
   };
 
   const createPhotosSection = () => {
     return `
-    ${city ? `
-      ${city.photos ? `
+      ${city && city.photos ? `
         <div class="event__photos-container">
           <div class="event__photos-tape">
           ${city.photos.map(({src}) => `
@@ -123,11 +113,10 @@ export const createEditPointTemplate = (data, destinations, offers) => {
           </div>
         </div>
       ` : ``}
-    ` : ``}
     `;
   };
 
-  const createEventTypeItems = () => {
+  const createEventTypeItems = (currentType) => {
     const types = Object.values(offers).map((item) => item);
 
     return `
@@ -140,6 +129,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
             name="event-type"
             value="${type}"
             ${isDisabled ? `disabled` : ``}
+            ${currentType === type ? `checked` : ``}
           >
           <label
             class="event__type-label event__type-label--${type}"
@@ -169,10 +159,17 @@ export const createEditPointTemplate = (data, destinations, offers) => {
 
   const offersSection = createOffersSection();
   const destinationSection = createDestinationSection();
-  const detailsSection = createDetailsSection();
   const photosSection = createPhotosSection();
-  const eventTypeItems = createEventTypeItems();
+  const eventTypeItems = createEventTypeItems(data.type);
   const destinationList = createDestinationList();
+
+  let btnDeleteText = `Delete`;
+
+  if (!data.id) {
+    btnDeleteText = `Cancel`;
+  } else if (isDeleting) {
+    btnDeleteText = `Deleting`;
+  }
 
   return /* html */ `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
@@ -248,30 +245,35 @@ export const createEditPointTemplate = (data, destinations, offers) => {
         <button
           class="event__save-btn  btn  btn--blue"
           type="submit"
+          ${isDisabled ? `disabled` : ``}
         >
           ${isSaving ? `Saving...` : `Save`}
         </button>
         <button
           class="event__reset-btn"
           type="reset"
+          ${isDisabled ? `disabled` : ``}
         >
-          ${isDeleting ? `Deleting...` : `Delete`}
+          ${btnDeleteText}
         </button>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
         </button>
       </header>
 
-      ${detailsSection}
+      <section class="event__details">
+        ${offersSection}
+        ${destinationSection}
+        ${photosSection}
+      </section>
 
-      ${photosSection}
 
     </form>
   </li>
   `;
 };
 export default class PointEdit extends SmartView {
-  constructor(event = BLANK_EVENT, destinations, offers) {
+  constructor(destinations, offers, event = BLANK_EVENT) {
     super();
     this._data = event;
     this._datepicker = null;
@@ -311,7 +313,7 @@ export default class PointEdit extends SmartView {
     this._datepicker = flatpickr(
         this.getElement().querySelector(`[data-time="end"]`),
         {
-          minDate: `today`,
+          minDate: this._data.dateStart,
           dateFormat: `y/m/d H:i`,
           defaultDate: this._data.dateEnd,
           onChange: this._dateEndChangeHandler,
@@ -450,7 +452,6 @@ export default class PointEdit extends SmartView {
       },
     });
     this._callback.formSubmit(this._data);
-    calculateTotal();
   }
 
   _cardArrowHandler() {
@@ -478,6 +479,8 @@ export default class PointEdit extends SmartView {
   }
 
   _setInnerHandlers() {
+    const isOffers = document.querySelector(`.event__available-offers`);
+
     this.getElement()
       .querySelector(`.event__input--price`)
       .addEventListener(`input`, this._priceInputHandler);
@@ -493,9 +496,11 @@ export default class PointEdit extends SmartView {
     this.getElement()
       .querySelector(`.event__type-group`)
       .addEventListener(`change`, this._eventTypeHandler);
-    this.getElement()
-      .querySelector(`.event__available-offers`)
-      .addEventListener(`change`, this._onOfferChange);
+    if (isOffers) {
+      this.getElement()
+        .querySelector(`.event__available-offers`)
+        .addEventListener(`change`, this._onOfferChange);
+    }
   }
 
   static parseEventToData(event) {

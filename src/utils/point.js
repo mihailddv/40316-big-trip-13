@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 export const humanizePointDate = (dueDate) => {
-  return dayjs(dueDate).format(`D MMM`);
+  return dayjs(dueDate).format(`MMM D`);
 };
 
 export const humanizeEventTime = (dueDate) => {
@@ -9,7 +9,7 @@ export const humanizeEventTime = (dueDate) => {
 };
 
 export const humanizeEditPointTime = (dueDate) => {
-  return dayjs(dueDate).format(`DD/MM/YY HH:mm`);
+  return dayjs(dueDate).format(`DD/MM/YYYY HH:mm`);
 };
 
 export const sortDate = (eventA, eventB) => {

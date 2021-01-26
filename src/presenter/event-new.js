@@ -22,7 +22,7 @@ export default class EventNew {
     this._destinations = destinations;
     this._offers = offers;
 
-    this._eventEditComponent = new EventEditView(undefined, this._destinations, this._offers);
+    this._eventEditComponent = new EventEditView(this._destinations, this._offers);
     this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._eventEditComponent.setDeleteClickHandler(this._handleDeleteClick);
 

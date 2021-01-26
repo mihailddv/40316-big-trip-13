@@ -4,10 +4,7 @@ import {
   remove,
 } from "./utils/render.js";
 
-import {
-  calculateTotal,
-  isOnline,
-} from './utils/common';
+import {isOnline} from './utils/common';
 import {toast} from "./utils/toast/toast.js";
 
 import EventsModel from "./model/events.js";
@@ -24,15 +21,13 @@ import {MenuItem} from "./const.js";
 import StatisticsView from "./view/statistics.js";
 import Store from "./api/store.js";
 import Provider from "./api/provider.js";
+import TabsView from './view/tabs';
 
-const AUTHORIZATION = `Basic i85i3nhSXuR5`;
+const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uw`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 const STORE_PREFIX = `taskmanager-localstorage`;
 const STORE_VER = `v1`;
 const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
-
-import TripInfoView from './view/trip-info';
-import TabsView from './view/tabs';
 
 const api = new Api(END_POINT, AUTHORIZATION);
 const store = new Store(STORE_NAME, window.localStorage);
@@ -52,7 +47,7 @@ const siteMenuComponent = new TabsView();
 
 render(siteTripControlsElement, siteMenuComponent, RenderPosition.AFTERBEGIN);
 
-const pagePresenter = new PagePresenter(siteTripEventsElement, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, apiWithProvider);
+const pagePresenter = new PagePresenter(siteTripEventsElement, siteTripMainElement, eventsModel, filterModel, destinationsModel, offersModel, buttonNewEvent, apiWithProvider);
 const filterPresenter = new FilterPresenter(siteTripControlsElement, filterModel, eventsModel);
 
 let statisticsComponent = null;
@@ -63,16 +58,16 @@ const handleSiteMenuClick = (menuItem) => {
       pagePresenter.destroy();
       pagePresenter.init();
       remove(statisticsComponent);
-      siteMenuComponent.setMenuItem(`POINTS`);
       if (!isOnline()) {
         toast(`You can't create new task offline`);
-        siteMenuComponent.setMenuItem(`POINTS`);
+        siteMenuComponent.setMenuItem(MenuItem.POINTS);
         break;
       }
+      siteMenuComponent.setMenuItem(MenuItem.POINTS);
       break;
     case MenuItem.STATISTICS:
       pagePresenter.destroy();
-      siteMenuComponent.setMenuItem(`STATISTICS`);
+      siteMenuComponent.setMenuItem(MenuItem.STATISTICS);
       statisticsComponent = new StatisticsView(eventsModel.getEvents());
       render(siteTripEventsElement, statisticsComponent, RenderPosition.BEFOREEND);
       break;
@@ -83,23 +78,20 @@ siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
 pagePresenter.init();
-handleSiteMenuClick(`POINTS`);
+handleSiteMenuClick(MenuItem.POINTS);
 
 buttonNewEvent.addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  handleSiteMenuClick(`POINTS`);
+  handleSiteMenuClick(MenuItem.POINTS);
   pagePresenter.createEvent();
 });
 
 apiWithProvider.getPoints()
   .then((points) => {
     eventsModel.setEvents(UpdateType.MINOR, points);
-    render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
-    calculateTotal();
   })
   .catch(() => {
     eventsModel.setEvents(UpdateType.MINOR, []);
-    render(siteTripMainElement, new TripInfoView(), RenderPosition.AFTERBEGIN);
   });
 
 apiWithProvider.getDestinations()
@@ -110,7 +102,7 @@ apiWithProvider.getDestinations()
     destinationsModel.setDestinations(UpdateType.MINOR, destinations);
   })
   .catch(() => {
-    destinationsModel.setDestination(UpdateType.MINOR, {});
+    destinationsModel.setDestinations(UpdateType.MINOR, {});
   });
 
 apiWithProvider.getOffers()
