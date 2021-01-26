@@ -26,7 +26,16 @@ const createPointTemplate = (data) => {
     isFavorite,
   } = data;
 
-  const travelHours = Math.floor((dateEnd - dateStart) / 3600000);
+  const travelHours = Math.floor((dateEnd - dateStart) / 3600000) % 24;
+  const travelMinutes = Math.ceil((dateEnd - dateStart) / 36000) % 60;
+  const travelDays = Math.floor((dateEnd - dateStart) / (1000 * 60 * 60 * 24));
+
+  let durationText = `${travelHours}H ${travelMinutes}M`;
+
+  if (travelDays > 0) {
+    durationText = `${travelDays}D ${travelHours}H ${travelMinutes}M`;
+  }
+
   const image = eventType.type.toLowerCase();
 
   const detailsSection = createOffers(eventType.offers);
@@ -48,7 +57,7 @@ const createPointTemplate = (data) => {
           &mdash;
           <time class="event__end-time" datetime="${dateEnd}">${humanizeEventTime(dateEnd)}</time>
         </p>
-        <p class="event__duration">${travelHours}H</p>
+        <p class="event__duration">${durationText}</p>
       </div>
       <p class="event__price">
         &euro;&nbsp;<span class="event__price-value">${price}</span>
