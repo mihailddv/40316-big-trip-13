@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 export const humanizePointDate = (dueDate) => {
-  return dayjs(dueDate).format(`D MMM`);
+  return dayjs(dueDate).format(`MMM D`);
 };
 
 export const humanizeEventTime = (dueDate) => {
