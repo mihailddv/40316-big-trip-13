@@ -6,28 +6,8 @@ import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import SmartView from "./smart.js";
 import {humanizeEditPointTime} from '../utils/point';
+import {BLANK_EVENT} from '../const';
 
-const BLANK_EVENT = {
-  city: {
-    name: ``,
-    text: ``,
-    photos: ``,
-  },
-  eventType: {
-    type: `taxi`,
-    image: `taxi`,
-  },
-  dateStart: new Date(),
-  dateEnd: new Date(),
-  price: 0,
-  isFavorite: false,
-  offers: [
-    {
-      title: ``,
-      price: ``,
-    }
-  ],
-};
 export const createEditPointTemplate = (data, destinations, offers) => {
 
   const {
@@ -40,6 +20,10 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isSaving,
     isDeleting
   } = data;
+
+  if (eventType && offers && !eventType.type) {
+    eventType.type = offers[0].type;
+  }
 
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
@@ -160,7 +144,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   const offersSection = createOffersSection();
   const destinationSection = createDestinationSection();
   const photosSection = createPhotosSection();
-  const eventTypeItems = createEventTypeItems(data.type);
+  const eventTypeItems = createEventTypeItems(data.eventType.type);
   const destinationList = createDestinationList();
 
   let btnDeleteText = `Delete`;
@@ -295,26 +279,31 @@ export default class PointEdit extends SmartView {
   }
 
   _setDatepicker() {
-    if (this._datepicker) {
-      this._datepicker.destroy();
-      this._datepicker = null;
+    if (this._datepickerStart) {
+      this._datepickerStart.destroy();
+      this._datepickerStart = null;
     }
 
-    this._datepicker = flatpickr(
+    if (this._datepickerEnd) {
+      this._datepickerEnd.destroy();
+      this._datepickerEnd = null;
+    }
+
+    this._datepickerStart = flatpickr(
         this.getElement().querySelector(`[data-time="start"]`),
         {
           minDate: `today`,
-          dateFormat: `y/m/d H:i`,
+          dateFormat: `d/m/Y H:i`,
           defaultDate: this._data.dateStart,
           onChange: this._dateStartChangeHandler,
         }
     );
 
-    this._datepicker = flatpickr(
+    this._datepickerEnd = flatpickr(
         this.getElement().querySelector(`[data-time="end"]`),
         {
           minDate: this._data.dateStart,
-          dateFormat: `y/m/d H:i`,
+          dateFormat: `d/m/Y H:i`,
           defaultDate: this._data.dateEnd,
           onChange: this._dateEndChangeHandler,
         }
@@ -323,22 +312,27 @@ export default class PointEdit extends SmartView {
 
   _dateStartChangeHandler([userDate]) {
     this.updateData({
-      dateStart: dayjs(userDate).hour(23).minute(59).second(59).toDate()
+      dateStart: dayjs(userDate).toDate()
     });
   }
 
   _dateEndChangeHandler([userDate]) {
     this.updateData({
-      dateEnd: dayjs(userDate).hour(23).minute(59).second(59).toDate()
+      dateEnd: dayjs(userDate).toDate()
     });
   }
 
   removeElement() {
     super.removeElement();
 
-    if (this._datepicker) {
-      this._datepicker.destroy();
-      this._datepicker = null;
+    if (this._datepickerStart) {
+      this._datepickerStart.destroy();
+      this._datepickerStart = null;
+    }
+
+    if (this._datepickerEnd) {
+      this._datepickerEnd.destroy();
+      this._datepickerEnd = null;
     }
   }
 
@@ -357,6 +351,7 @@ export default class PointEdit extends SmartView {
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.setDeleteClickHandler(this._callback.deleteClick);
     this._setDatepicker();
+    this.setCardArrowHandler(this._callback.arrowClick);
   }
 
   _priceInputHandler(evt) {
@@ -408,20 +403,6 @@ export default class PointEdit extends SmartView {
         type,
         offers: [],
       },
-    });
-  }
-
-  _dateStartInputHandler(evt) {
-    evt.preventDefault();
-    this.updateData({
-      dateStart: evt.target.value
-    }, true);
-  }
-
-  _dateEndInputHandler(evt) {
-    evt.preventDefault();
-    this.updateData({
-      dateEnd: evt.target.value
     });
   }
 

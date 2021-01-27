@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import AbstractView from "./abstract.js";
 import {sortByDate} from '../utils/common';
+import {INFO_CITIES} from '../const';
 
 const createTripInfoTemplate = (points) => {
   let sortedDate = [];
@@ -16,9 +17,9 @@ const createTripInfoTemplate = (points) => {
     const pointFirstCity = pointFirst.city.name;
     const pointLastCity = pointLast.city.name;
     const pointFirstDate = dayjs(pointFirst.dateStart).format(`D MMM`);
-    const pointLastDate = dayjs(pointFirst.dateEnd).format(`D MMM`);
+    const pointLastDate = dayjs(pointLast.dateEnd).format(`D MMM`);
 
-    if (points.length < 3) {
+    if (points.length <= INFO_CITIES) {
       titleText = `${pointFirstCity} &mdash; ${pointLastCity}`;
     } else {
       titleText = `${pointFirstCity} &mdash; ... &mdash; ${pointLastCity}`;

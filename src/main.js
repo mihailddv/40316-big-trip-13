@@ -23,7 +23,7 @@ import TabsView from './view/tabs';
 import Store from "./api/store.js";
 import Provider from "./api/provider.js";
 
-const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uw`;
+const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uy`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 const STORE_PREFIX = `taskmanager-localstorage`;
 const STORE_VER = `v1`;

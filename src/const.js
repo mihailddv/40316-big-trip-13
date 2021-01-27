@@ -1,3 +1,5 @@
+export const INFO_CITIES = 2;
+
 export const SortType = {
   DATE: `date`,
   TIME: `time`,
@@ -26,4 +28,30 @@ export const FilterType = {
 export const MenuItem = {
   POINTS: `POINTS`,
   STATISTICS: `STATISTICS`
+};
+
+export const BLANK_EVENT = {
+  city: {
+    name: ``,
+    text: ``,
+    photos: ``,
+  },
+  eventType: {
+    type: ``,
+  },
+  dateStart: new Date(),
+  dateEnd: new Date(),
+  price: 0,
+  isFavorite: false,
+  offers: [
+    {
+      title: ``,
+      price: ``,
+    }
+  ],
+};
+
+export const Keys = {
+  ESCAPE: `Escape`,
+  ESC: `Esc`,
 };
