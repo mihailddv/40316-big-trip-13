@@ -1,3 +1,5 @@
+export const INFO_CITIES = 2;
+
 export const SortType = {
   DATE: `date`,
   TIME: `time`,
