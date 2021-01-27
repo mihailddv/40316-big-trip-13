@@ -29,3 +29,24 @@ export const MenuItem = {
   POINTS: `POINTS`,
   STATISTICS: `STATISTICS`
 };
+
+export const BLANK_EVENT = {
+  city: {
+    name: ``,
+    text: ``,
+    photos: ``,
+  },
+  eventType: {
+    type: ``,
+  },
+  dateStart: new Date(),
+  dateEnd: new Date(),
+  price: 0,
+  isFavorite: false,
+  offers: [
+    {
+      title: ``,
+      price: ``,
+    }
+  ],
+};

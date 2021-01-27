@@ -6,28 +6,8 @@ import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import SmartView from "./smart.js";
 import {humanizeEditPointTime} from '../utils/point';
+import {BLANK_EVENT} from '../const';
 
-const BLANK_EVENT = {
-  city: {
-    name: ``,
-    text: ``,
-    photos: ``,
-  },
-  eventType: {
-    type: `taxi`,
-    image: `taxi`,
-  },
-  dateStart: new Date(),
-  dateEnd: new Date(),
-  price: 0,
-  isFavorite: false,
-  offers: [
-    {
-      title: ``,
-      price: ``,
-    }
-  ],
-};
 export const createEditPointTemplate = (data, destinations, offers) => {
 
   const {
@@ -41,7 +21,9 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isDeleting
   } = data;
 
-  // console.log(`data`, data);
+  if (eventType && offers && !eventType.type) {
+    eventType.type = offers[0].type;
+  }
 
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
