@@ -51,7 +51,7 @@ export const BLANK_EVENT = {
   ],
 };
 
-export const KEYS = {
+export const Keys = {
   ESCAPE: `Escape`,
   ESC: `Esc`,
 };
