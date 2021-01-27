@@ -21,7 +21,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isDeleting
   } = data;
 
-  if (eventType && offers && offers.length && !eventType.type) {
+  if (eventType && offers && offers[0].type && !eventType.type) {
     eventType.type = offers[0].type;
   }
 
