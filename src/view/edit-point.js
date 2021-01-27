@@ -312,13 +312,13 @@ export default class PointEdit extends SmartView {
 
   _dateStartChangeHandler([userDate]) {
     this.updateData({
-      dateStart: dayjs(userDate).hour(23).minute(59).second(59).toDate()
+      dateStart: dayjs(userDate).toDate()
     });
   }
 
   _dateEndChangeHandler([userDate]) {
     this.updateData({
-      dateEnd: dayjs(userDate).hour(23).minute(59).second(59).toDate()
+      dateEnd: dayjs(userDate).toDate()
     });
   }
 
