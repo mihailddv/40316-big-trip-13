@@ -18,7 +18,7 @@ import {MenuItem} from "./const.js";
 import StatisticsView from "./view/statistics.js";
 import TabsView from './view/tabs';
 
-const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uw`;
+const AUTHORIZATION = `Basic i85i3nhSXuR5XW8ut`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 
 const api = new Api(END_POINT, AUTHORIZATION);

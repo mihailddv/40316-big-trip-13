@@ -41,6 +41,8 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isDeleting
   } = data;
 
+  // console.log(`data`, data);
+
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
     const type = names.find((offer) => offer.type === eventType.type);
@@ -295,26 +297,31 @@ export default class PointEdit extends SmartView {
   }
 
   _setDatepicker() {
-    if (this._datepicker) {
-      this._datepicker.destroy();
-      this._datepicker = null;
+    if (this._datepickerStart) {
+      this._datepickerStart.destroy();
+      this._datepickerStart = null;
     }
 
-    this._datepicker = flatpickr(
+    if (this._datepickerEnd) {
+      this._datepickerEnd.destroy();
+      this._datepickerEnd = null;
+    }
+
+    this._datepickerStart = flatpickr(
         this.getElement().querySelector(`[data-time="start"]`),
         {
           minDate: `today`,
-          dateFormat: `y/m/d H:i`,
+          dateFormat: `d/m/Y H:i`,
           defaultDate: this._data.dateStart,
           onChange: this._dateStartChangeHandler,
         }
     );
 
-    this._datepicker = flatpickr(
+    this._datepickerEnd = flatpickr(
         this.getElement().querySelector(`[data-time="end"]`),
         {
           minDate: this._data.dateStart,
-          dateFormat: `y/m/d H:i`,
+          dateFormat: `d/m/Y H:i`,
           defaultDate: this._data.dateEnd,
           onChange: this._dateEndChangeHandler,
         }
@@ -336,9 +343,14 @@ export default class PointEdit extends SmartView {
   removeElement() {
     super.removeElement();
 
-    if (this._datepicker) {
-      this._datepicker.destroy();
-      this._datepicker = null;
+    if (this._datepickerStart) {
+      this._datepickerStart.destroy();
+      this._datepickerStart = null;
+    }
+
+    if (this._datepickerEnd) {
+      this._datepickerEnd.destroy();
+      this._datepickerEnd = null;
     }
   }
 
@@ -408,20 +420,6 @@ export default class PointEdit extends SmartView {
         type,
         offers: [],
       },
-    });
-  }
-
-  _dateStartInputHandler(evt) {
-    evt.preventDefault();
-    this.updateData({
-      dateStart: evt.target.value
-    }, true);
-  }
-
-  _dateEndInputHandler(evt) {
-    evt.preventDefault();
-    this.updateData({
-      dateEnd: evt.target.value
     });
   }
 
