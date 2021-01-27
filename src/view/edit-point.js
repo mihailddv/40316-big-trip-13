@@ -162,7 +162,7 @@ export const createEditPointTemplate = (data, destinations, offers) => {
   const offersSection = createOffersSection();
   const destinationSection = createDestinationSection();
   const photosSection = createPhotosSection();
-  const eventTypeItems = createEventTypeItems(data.type);
+  const eventTypeItems = createEventTypeItems(data.eventType.type);
   const destinationList = createDestinationList();
 
   let btnDeleteText = `Delete`;
