@@ -1,6 +1,6 @@
 import EventEditView from "../view/edit-point.js";
 import {remove, render, RenderPosition} from "../utils/render.js";
-import {UserAction, UpdateType} from "../const.js";
+import {UserAction, UpdateType, Keys} from "../const.js";
 
 export default class EventNew {
   constructor(eventListContainer, changeData) {
@@ -74,7 +74,7 @@ export default class EventNew {
   }
 
   _escKeyDownHandler(evt) {
-    if (evt.key === `Escape` || evt.key === `Esc`) {
+    if (evt.key === Keys.ESCAPE || evt.key === Keys.ESC) {
       evt.preventDefault();
       this.destroy();
     }

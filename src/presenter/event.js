@@ -1,7 +1,7 @@
 import PointView from "../view/point";
 import PointEditView from "../view/edit-point";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
-import {UserAction, UpdateType} from "../const.js";
+import {UserAction, UpdateType, Keys} from "../const.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
@@ -124,7 +124,7 @@ export default class Event {
   }
 
   _escKeyDownHandler(evt) {
-    if (evt.key === `Escape` || evt.key === `Esc`) {
+    if (evt.key === Keys.ESCAPE || evt.key === Keys.ESC) {
       evt.preventDefault();
       this._eventEditComponent.reset(this._event);
       this._replaceFormToCard();
