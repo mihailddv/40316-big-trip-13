@@ -20,9 +20,9 @@ export default class Provider {
     this._store = store;
   }
 
-  getEvents() {
+  getPoints() {
     if (isOnline()) {
-      return this._api.getEvents()
+      return this._api.getPoints()
         .then((tasks) => {
           const items = createStoreStructure(tasks.map(EventsModel.adaptToServer));
           this._store.setItems(items);

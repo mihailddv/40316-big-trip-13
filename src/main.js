@@ -94,27 +94,27 @@ apiWithProvider.getPoints()
     eventsModel.setEvents(UpdateType.MINOR, []);
   });
 
-apiWithProvider.getDestinations()
-  .then((response) => {
-    return response.json();
-  })
-  .then((destinations) => {
-    destinationsModel.setDestinations(UpdateType.MINOR, destinations);
-  })
-  .catch(() => {
-    destinationsModel.setDestinations(UpdateType.MINOR, {});
-  });
+// apiWithProvider.getDestinations()
+//   .then((response) => {
+//     return response.json();
+//   })
+//   .then((destinations) => {
+//     destinationsModel.setDestinations(UpdateType.MINOR, destinations);
+//   })
+//   .catch(() => {
+//     destinationsModel.setDestinations(UpdateType.MINOR, {});
+//   });
 
-apiWithProvider.getOffers()
-  .then((response) => {
-    return response.json();
-  })
-  .then((offers) => {
-    offersModel.setOffers(UpdateType.MINOR, offers);
-  })
-  .catch(() => {
-    offersModel.setOffers(UpdateType.MINOR, {});
-  });
+// apiWithProvider.getOffers()
+//   .then((response) => {
+//     return response.json();
+//   })
+//   .then((offers) => {
+//     offersModel.setOffers(UpdateType.MINOR, offers);
+//   })
+//   .catch(() => {
+//     offersModel.setOffers(UpdateType.MINOR, {});
+//   });
 
 window.addEventListener(`load`, () => {
   navigator.serviceWorker.register(`/sw.js`);
