@@ -65,11 +65,9 @@ export default class Provider {
   }
 
   getOffers() {
-    console.log(`getOffers`);
     if (isOnline()) {
       return this._api.getOffers()
         .then((offers) => {
-          console.log(`getOffers offers`, offers);
           const items = createOffersStoreStructure(offers);
           this._offersStore.setItems(items);
           return offers;

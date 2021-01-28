@@ -83,7 +83,9 @@ handleSiteMenuClick(MenuItem.POINTS);
 buttonNewEvent.addEventListener(`click`, (evt) => {
   evt.preventDefault();
   handleSiteMenuClick(MenuItem.POINTS);
-  pagePresenter.createEvent();
+  if (isOnline()) {
+    pagePresenter.createEvent();
+  }
 });
 
 apiWithProvider.getPoints()
@@ -94,7 +96,7 @@ apiWithProvider.getPoints()
     eventsModel.setEvents(UpdateType.MINOR, []);
   });
 
-apiWithProvider.getDestinations()
+api.getDestinations()
   .then((response) => {
     return response.json();
   })
@@ -105,12 +107,11 @@ apiWithProvider.getDestinations()
     destinationsModel.setDestinations(UpdateType.MINOR, {});
   });
 
-apiWithProvider.getOffers()
+api.getOffers()
   .then((response) => {
     return response.json();
   })
   .then((offers) => {
-    console.log(`offers`, offers);
     offersModel.setOffers(UpdateType.MINOR, offers);
   })
   .catch(() => {

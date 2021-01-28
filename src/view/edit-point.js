@@ -21,11 +21,9 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isDeleting
   } = data;
 
-  console.log(`offers`, offers);
-
-  // if (eventType && offers && offers[0].type && !eventType.type) {
-  //   eventType.type = offers[0].type;
-  // }
+  if (eventType && offers && !eventType.type) {
+    eventType.type = offers[0].type;
+  }
 
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
@@ -354,6 +352,7 @@ export default class PointEdit extends SmartView {
     this.setDeleteClickHandler(this._callback.deleteClick);
     this._setDatepicker();
     this.setCardArrowHandler(this._callback.arrowClick);
+    this._cardArrowHandler();
   }
 
   _priceInputHandler(evt) {
@@ -424,7 +423,7 @@ export default class PointEdit extends SmartView {
         });
     };
 
-    if (type) {
+    if (type.offers) {
       findCheckedElements();
     }
 
