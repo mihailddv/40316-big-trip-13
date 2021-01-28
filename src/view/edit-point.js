@@ -294,6 +294,7 @@ export default class PointEdit extends SmartView {
         {
           minDate: `today`,
           dateFormat: `d/m/y H:i`,
+          enableTime: true,
           defaultDate: this._data.dateStart,
           onChange: this._dateStartChangeHandler,
         }
@@ -304,6 +305,7 @@ export default class PointEdit extends SmartView {
         {
           minDate: this._data.dateStart,
           dateFormat: `d/m/y H:i`,
+          enableTime: true,
           defaultDate: this._data.dateEnd,
           onChange: this._dateEndChangeHandler,
         }
