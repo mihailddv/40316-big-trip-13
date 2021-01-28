@@ -37,7 +37,8 @@ export const BLANK_EVENT = {
     photos: ``,
   },
   eventType: {
-    type: ``,
+    type: `taxi`,
+    image: `taxi`,
   },
   dateStart: new Date(),
   dateEnd: new Date(),

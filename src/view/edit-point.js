@@ -390,7 +390,7 @@ export default class PointEdit extends SmartView {
           photos,
         }
       });
-    } else {
+    } else if (destinationElement) {
       destinationElement.textContent = `Description not found`;
       photosElement.textContent = ``;
     }
@@ -424,7 +424,7 @@ export default class PointEdit extends SmartView {
         });
     };
 
-    if (type && type.offers) {
+    if (type) {
       findCheckedElements();
     }
 
