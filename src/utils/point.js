@@ -9,7 +9,7 @@ export const humanizeEventTime = (dueDate) => {
 };
 
 export const humanizeEditPointTime = (dueDate) => {
-  return dayjs(dueDate).format(`DD/MM/YYYY HH:mm`);
+  return dayjs(dueDate).format(`DD/MM/YY HH:mm`);
 };
 
 export const sortDate = (eventA, eventB) => {
