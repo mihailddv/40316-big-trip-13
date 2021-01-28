@@ -164,7 +164,7 @@ export default class Event {
 
     this._changeData(
         UserAction.UPDATE_EVENT,
-        UpdateType.PATCH,
+        UpdateType.MINOR,
         update
     );
   }
