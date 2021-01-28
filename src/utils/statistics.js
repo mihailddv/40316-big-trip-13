@@ -1,11 +1,11 @@
 export const getTypes = (points) => {
-  let lookup = {};
-  let items = points;
-  let result = [];
+  const lookup = {};
+  const items = points;
+  const result = [];
 
   for (let i = 0; i < items.length; i++) {
-    let item = items[i];
-    let type = item.eventType.type;
+    const item = items[i];
+    const type = item.eventType.type;
 
     if (!(type in lookup)) {
       lookup[type] = 1;
@@ -42,7 +42,7 @@ export const calculateUniqType = (points) => {
 
 export const calculateTime = (points) => {
   const labels = getTypes(points);
-  let times = new Map();
+  const times = new Map();
   labels.forEach((type) => {
     times.set(type, 0);
   });

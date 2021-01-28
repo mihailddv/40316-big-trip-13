@@ -408,7 +408,7 @@ export default class PointEdit extends SmartView {
 
     const names = Object.values(this._offers).map((item) => item);
     const type = names.find((offer) => offer.type === this._data.eventType.type);
-    let checkedOffers = [];
+    const checkedOffers = [];
 
     const findCheckedElements = () => {
       this.getElement().querySelectorAll(`.event__offer-checkbox`)

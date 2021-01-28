@@ -4,7 +4,7 @@ import {sortByDate} from '../utils/common';
 import {INFO_CITIES} from '../const';
 
 const createTripInfoTemplate = (points) => {
-  let sortedDate = [];
+  const sortedDate = [];
   let dates = ``;
   let totalPrice = Number(0);
   let titleText = ``;
