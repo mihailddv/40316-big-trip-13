@@ -424,7 +424,7 @@ export default class PointEdit extends SmartView {
         });
     };
 
-    if (type.offers) {
+    if (type && type.offers) {
       findCheckedElements();
     }
 
