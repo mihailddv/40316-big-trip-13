@@ -21,10 +21,6 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isDeleting
   } = data;
 
-  if (eventType && offers && offers[0].type && !eventType.type) {
-    eventType.type = offers[0].type;
-  }
-
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
     const type = names.find((offer) => offer.type === eventType.type);
@@ -293,7 +289,8 @@ export default class PointEdit extends SmartView {
         this.getElement().querySelector(`[data-time="start"]`),
         {
           minDate: `today`,
-          dateFormat: `d/m/Y H:i`,
+          dateFormat: `d/m/y H:i`,
+          enableTime: true,
           defaultDate: this._data.dateStart,
           onChange: this._dateStartChangeHandler,
         }
@@ -303,7 +300,8 @@ export default class PointEdit extends SmartView {
         this.getElement().querySelector(`[data-time="end"]`),
         {
           minDate: this._data.dateStart,
-          dateFormat: `d/m/Y H:i`,
+          dateFormat: `d/m/y H:i`,
+          enableTime: true,
           defaultDate: this._data.dateEnd,
           onChange: this._dateEndChangeHandler,
         }
@@ -351,7 +349,6 @@ export default class PointEdit extends SmartView {
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.setDeleteClickHandler(this._callback.deleteClick);
     this._setDatepicker();
-    this.setCardArrowHandler(this._callback.arrowClick);
   }
 
   _priceInputHandler(evt) {
@@ -388,7 +385,7 @@ export default class PointEdit extends SmartView {
           photos,
         }
       });
-    } else {
+    } else if (destinationElement) {
       destinationElement.textContent = `Description not found`;
       photosElement.textContent = ``;
     }

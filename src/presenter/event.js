@@ -2,6 +2,8 @@ import PointView from "../view/point";
 import PointEditView from "../view/edit-point";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 import {UserAction, UpdateType, Keys} from "../const.js";
+import {isOnline} from "../utils/common.js";
+import {toast} from "../utils/toast/toast.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
@@ -146,10 +148,20 @@ export default class Event {
   }
 
   _handleEditClick() {
+    if (!isOnline()) {
+      toast(`You can't edit point offline`);
+      return;
+    }
+
     this._replaceCardToForm();
   }
 
   _handleFormSubmit(update) {
+    if (!isOnline()) {
+      toast(`You can't save point offline`);
+      return;
+    }
+
     this._changeData(
         UserAction.UPDATE_EVENT,
         UpdateType.MINOR,
@@ -162,6 +174,11 @@ export default class Event {
   }
 
   _handleDeleteClick(event) {
+    if (!isOnline()) {
+      toast(`You can't delete point offline`);
+      return;
+    }
+
     this._changeData(
         UserAction.DELETE_EVENT,
         UpdateType.MINOR,

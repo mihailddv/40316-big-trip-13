@@ -15,3 +15,7 @@ export const updateItem = (items, update) => {
 export const sortByDate = (a, b) => {
   return new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime();
 };
+
+export const isOnline = () => {
+  return window.navigator.onLine;
+};

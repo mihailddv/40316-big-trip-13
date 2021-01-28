@@ -25,6 +25,7 @@ export default class EventNew {
     this._eventEditComponent = new EventEditView(this._destinations, this._offers);
     this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._eventEditComponent.setDeleteClickHandler(this._handleDeleteClick);
+    this._eventEditComponent.setCardArrowHandler(this._handleDeleteClick);
 
     render(this._eventListContainer, this._eventEditComponent, RenderPosition.AFTERBEGIN);
 

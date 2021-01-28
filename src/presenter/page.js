@@ -90,6 +90,9 @@ export default class Page {
         this._api.updateEvent(update)
           .then((response) => {
             this._eventsModel.updateEvent(updateType, response);
+          })
+          .catch(() => {
+            this._eventPresenter[update.id].setViewState(PointPresenterViewState.ABORTING);
           });
         break;
       case UserAction.ADD_EVENT:
