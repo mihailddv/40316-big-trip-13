@@ -1,9 +1,9 @@
 import EventsModel from "../model/events.js";
 import {isOnline} from "../utils/common.js";
 
-const getSyncedTasks = (items) => {
+const getSyncedPoints = (items) => {
   return items.filter(({success}) => success)
-    .map(({payload}) => payload.task);
+    .map(({payload}) => payload.point);
 };
 
 const createStoreStructure = (items) => {
@@ -38,16 +38,16 @@ export default class Provider {
   getPoints() {
     if (isOnline()) {
       return this._api.getPoints()
-        .then((tasks) => {
-          const items = createStoreStructure(tasks.map(EventsModel.adaptToServer));
+        .then((points) => {
+          const items = createStoreStructure(points.map(EventsModel.adaptToServer));
           this._store.setItems(items);
-          return tasks;
+          return points;
         });
     }
 
-    const storeTasks = Object.values(this._store.getItems());
+    const storePoints = Object.values(this._store.getItems());
 
-    return Promise.resolve(storeTasks.map(EventsModel.adaptToClient));
+    return Promise.resolve(storePoints.map(EventsModel.adaptToClient));
   }
 
   getDestinations() {
@@ -65,66 +65,66 @@ export default class Provider {
   }
 
   getOffers() {
+    console.log(`getOffers`);
     if (isOnline()) {
       return this._api.getOffers()
         .then((offers) => {
+          console.log(`getOffers offers`, offers);
           const items = createOffersStoreStructure(offers);
           this._offersStore.setItems(items);
           return offers;
         });
     }
     const storeOffers = Object.values(this._offersStore.getItems());
+
     return Promise.resolve(storeOffers);
   }
 
-  updateEvent(task) {
+  updateEvent(point) {
     if (isOnline()) {
-      return this._api.updateEvent(task)
-        .then((updatedTask) => {
-          this._store.setItem(updatedTask.id, EventsModel.adaptToServer(updatedTask));
-          return updatedTask;
+      return this._api.updateEvent(point)
+        .then((updatedPoint) => {
+          this._store.setItem(updatedPoint.id, EventsModel.adaptToServer(updatedPoint));
+          return updatedPoint;
         });
     }
 
-    this._store.setItem(task.id, EventsModel.adaptToServer(Object.assign({}, task)));
+    this._store.setItem(point.id, EventsModel.adaptToServer(Object.assign({}, point)));
 
-    return Promise.resolve(task);
+    return Promise.resolve(point);
   }
 
-  addEvent(task) {
+  addEvent(point) {
     if (isOnline()) {
-      return this._api.addEvent(task)
-        .then((newTask) => {
-          this._store.setItem(newTask.id, EventsModel.adaptToServer(newTask));
-          return newTask;
+      return this._api.addEvent(point)
+        .then((newPoint) => {
+          this._store.setItem(newPoint.id, EventsModel.adaptToServer(newPoint));
+          return newPoint;
         });
     }
 
-    return Promise.reject(new Error(`Add task failed`));
+    return Promise.reject(new Error(`Add point failed`));
   }
 
-  deleteEvent(task) {
+  deleteEvent(point) {
     if (isOnline()) {
-      return this._api.deleteEvent(task)
-        .then(() => this._store.removeItem(task.id));
+      return this._api.deleteEvent(point)
+        .then(() => this._store.removeItem(point.id));
     }
 
-    return Promise.reject(new Error(`Delete task failed`));
+    return Promise.reject(new Error(`Delete point failed`));
   }
 
   sync() {
     if (isOnline()) {
-      const storeTasks = Object.values(this._store.getItems());
+      const storePoints = Object.values(this._store.getItems());
 
-      return this._api.sync(storeTasks)
+      return this._api.sync(storePoints)
         .then((response) => {
-          // Забираем из ответа синхронизированные задачи
-          const createdTasks = getSyncedTasks(response.created);
-          const updatedTasks = getSyncedTasks(response.updated);
+          const createdPoints = getSyncedPoints(response.created);
+          const updatedPoints = getSyncedPoints(response.updated);
 
-          // Добавляем синхронизированные задачи в хранилище.
-          // Хранилище должно быть актуальным в любой момент.
-          const items = createStoreStructure([...createdTasks, ...updatedTasks]);
+          const items = createStoreStructure([...createdPoints, ...updatedPoints]);
 
           this._store.setItems(items);
         });

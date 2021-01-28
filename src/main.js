@@ -23,9 +23,9 @@ import TabsView from './view/tabs';
 import Store from "./api/store.js";
 import Provider from "./api/provider.js";
 
-const AUTHORIZATION = `Basic i85i3nhSXuR5XW8uy`;
+const AUTHORIZATION = `Basic i85i3nhSXuR5XW8ui`;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
-const STORE_PREFIX = `taskmanager-localstorage`;
+const STORE_PREFIX = `trip-localstorage`;
 const STORE_VER = `v1`;
 const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
 
@@ -59,7 +59,7 @@ const handleSiteMenuClick = (menuItem) => {
       pagePresenter.init();
       remove(statisticsComponent);
       if (!isOnline()) {
-        toast(`You can't create new task offline`);
+        toast(`You can't create new point offline`);
         siteMenuComponent.setMenuItem(MenuItem.POINTS);
         break;
       }
@@ -105,16 +105,17 @@ apiWithProvider.getDestinations()
     destinationsModel.setDestinations(UpdateType.MINOR, {});
   });
 
-// apiWithProvider.getOffers()
-//   .then((response) => {
-//     return response.json();
-//   })
-//   .then((offers) => {
-//     offersModel.setOffers(UpdateType.MINOR, offers);
-//   })
-//   .catch(() => {
-//     offersModel.setOffers(UpdateType.MINOR, {});
-//   });
+apiWithProvider.getOffers()
+  .then((response) => {
+    return response.json();
+  })
+  .then((offers) => {
+    console.log(`offers`, offers);
+    offersModel.setOffers(UpdateType.MINOR, offers);
+  })
+  .catch(() => {
+    offersModel.setOffers(UpdateType.MINOR, {});
+  });
 
 window.addEventListener(`load`, () => {
   navigator.serviceWorker.register(`/sw.js`);

@@ -149,7 +149,7 @@ export default class Event {
 
   _handleEditClick() {
     if (!isOnline()) {
-      toast(`You can't edit task offline`);
+      toast(`You can't edit point offline`);
       return;
     }
 
@@ -158,7 +158,7 @@ export default class Event {
 
   _handleFormSubmit(update) {
     if (!isOnline()) {
-      toast(`You can't save task offline`);
+      toast(`You can't save point offline`);
       return;
     }
 
@@ -175,7 +175,7 @@ export default class Event {
 
   _handleDeleteClick(event) {
     if (!isOnline()) {
-      toast(`You can't delete task offline`);
+      toast(`You can't delete point offline`);
       return;
     }
 

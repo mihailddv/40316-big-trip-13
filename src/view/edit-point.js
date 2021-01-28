@@ -21,9 +21,11 @@ export const createEditPointTemplate = (data, destinations, offers) => {
     isDeleting
   } = data;
 
-  if (eventType && offers && offers.length && !eventType.type) {
-    eventType.type = offers[0].type;
-  }
+  console.log(`offers`, offers);
+
+  // if (eventType && offers && offers[0].type && !eventType.type) {
+  //   eventType.type = offers[0].type;
+  // }
 
   const createOffers = () => {
     const names = Object.values(offers).map((item) => item);
