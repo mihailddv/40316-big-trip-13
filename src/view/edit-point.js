@@ -351,8 +351,8 @@ export default class PointEdit extends SmartView {
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.setDeleteClickHandler(this._callback.deleteClick);
     this._setDatepicker();
-    this.setCardArrowHandler(this._callback.arrowClick);
-    this._cardArrowHandler();
+    // this.setCardArrowHandler(this._callback.arrowClick);
+    // this._cardArrowHandler();
   }
 
   _priceInputHandler(evt) {
